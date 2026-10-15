@@ -59,6 +59,12 @@ models:
           - accepted_values:
               arguments:
                 values: ['Fulfilled', 'Open', 'Partially fulfilled']
+      - name: order_priority
+        description: Label cut out of the source code (e.g. '1-URGENT' -> 'Urgent').
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Urgent', 'High', 'Medium', 'Not Specified', 'Low']
 
   - name: slv_lineitem
     description: Order lines with decoded flags and the revenue and delivery rules.

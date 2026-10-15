@@ -159,12 +159,12 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
-	column 'Late order rate 12m'
+	column 'Late line rate 12m'
 		dataType: double
 		formatString: 0.0%
 		lineageTag: 2581363f-f068-4c71-8505-87dee487ea4d
 		summarizeBy: none
-		sourceColumn: LATE_ORDER_RATE_12M
+		sourceColumn: LATE_LINE_RATE_12M
 
 		annotation SummarizationSetBy = User
 

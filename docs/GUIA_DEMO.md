@@ -59,7 +59,7 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 - `fct_account_health`: **una fila por cuenta**. Es la lista de trabajo del KAM. Contiene:
   - actividad: primer y último pedido, días sin pedir, intervalo habitual entre pedidos;
   - tendencia: revenue de los últimos 12 meses frente a los 12 anteriores;
-  - servicio: % de pedidos que llegaron tarde en los últimos 12 meses;
+  - servicio: % de **líneas** de pedido que llegaron tarde en los últimos 12 meses;
   - 3 señales, el nivel de riesgo, el **revenue en riesgo** y el **tier A/B/C** (para priorizar las cuentas grandes).
 - `fct_orders`: una fila por pedido. Sirve para ver la evolución mensual de una cuenta y bajar al detalle.
 - `dim_customer` (segmento, nación, región) y `dim_date`.
@@ -73,9 +73,22 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 **Detalles del dataset que tuve en cuenta:**
 - La **fecha de referencia** es el último pedido de los datos (1998-08-02), porque los datos no llegan a hoy.
 - Para el servicio solo cuento pedidos **ya entregados** en esa fecha.
+- **El servicio se mide por línea, no por pedido:** en TPC-H casi todos los pedidos tienen al menos
+  una línea tardía, así que el 80 % de las cuentas tenía un 100 % de pedidos tardíos. Con todos empatados
+  no se puede saber quién está en el "peor 25 %". Por líneas sí hay diferencias (la media es un 62 %).
+  El ranking se hace solo entre las cuentas que tienen entregas que medir.
 - **No uso devoluciones:** en TPC-H la marca de devolución solo es válida hasta 1995-06-17 (la "fecha actual" del estándar). Después todo sale como "no devuelto".
 - **Un tercio de los clientes nunca ha pedido** (en TPC-H, los que tienen clave múltiplo de 3). No son cuentas, así que no aparecen en `fct_account_health`.
 - **Los datos son sintéticos y uniformes,** así que los resultados salen bastante repartidos. Lo importante es el mecanismo, que funcionaría igual con datos reales.
+
+**Resultado** (99.996 cuentas): 9.701 High · 31.716 Medium · 45.245 Low · 13.334 Inactive.
+Las señales marcan: overdue 15.673 cuentas, declining 38.267, service issues 18.904.
+El revenue en riesgo es el 35 % del revenue de los últimos 12 meses.
+
+**Un fallo que encontré y corregí:** al principio la señal de servicio medía pedidos tardíos y
+**no marcaba ninguna cuenta** (por el empate explicado arriba). Los tests no lo detectaban porque
+la tabla era técnicamente correcta. Lo arreglé midiendo por líneas y añadí dos tests para que no vuelva
+a pasar: una alarma de negocio y un unit test (ver "Tests").
 
 ### 4. ¿Qué añadiría en producción?
 
@@ -97,15 +110,20 @@ Un único workflow de GitHub Actions ejecuta `dbt build` (crea los modelos y pas
 Así los KAM pueden confiar en la lista que reciben.
 **Mejora posible:** construir solo los modelos que han cambiado (*Slim CI*).
 
-## Tests (36 en total)
+## Tests (38 tests de datos + 1 unit test)
 
 - Claves únicas y no nulas en todas las tablas de Silver y Gold.
-- Valores permitidos: segmentos, estados, tier (A/B/C) y nivel de riesgo.
+- Valores permitidos: segmentos, estados, prioridades, tier (A/B/C) y nivel de riesgo.
 - Dos tests genéricos propios: `value_between` (por ejemplo, de 0 a 3 señales) y `unique_combination`.
 - Las facts solo apuntan a clientes y fechas que existen (tests de relación).
 - Dos tests de reconciliación:
   - el total de cada pedido coincide con la suma de sus líneas (regla de TPC-H);
   - `fct_orders` tiene las mismas líneas y el mismo revenue que Silver (la agregación no pierde ni duplica nada).
+- **Alarma de negocio:** cada señal de riesgo tiene que marcar entre el 1 % y el 60 % de las cuentas.
+  Una señal que no marca a nadie (o a casi todos) no ayuda al KAM a decidir a quién llamar.
+- **Unit test de `fct_account_health`:** 4 clientes inventados, uno por nivel de riesgo (Low, Inactive,
+  High y Medium), con el resultado calculado a mano. Comprueba las reglas sin depender de los datos reales,
+  y si falla, dbt no reconstruye la tabla.
 
 ## Queries para la demo
 
@@ -128,7 +146,7 @@ group by all order by 1, 2;
 
 -- 3. Detalle de una cuenta: evolución mensual de sus pedidos
 select d.year_month, count(*) as orders, sum(f.net_revenue) as revenue,
-       avg(iff(f.is_late, 1, 0)) as late_rate
+       sum(f.late_lines) / sum(f.order_lines) as late_line_rate
 from gold.fct_orders f
 join gold.dim_date d on f.order_date_key = d.date_key
 where f.customer_key = 1   -- cambiar por la cuenta que interese

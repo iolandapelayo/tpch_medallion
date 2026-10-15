@@ -34,9 +34,12 @@ accounts as (
         count_if(in_last_12m)                               as orders_last_12m,
         sum(iff(in_last_12m, net_revenue, 0))               as revenue_last_12m,
         sum(iff(in_prev_12m, net_revenue, 0))               as revenue_prev_12m,
-        -- service quality: only orders already fully delivered on the as-of date
-        avg(case when in_last_12m and delivered_date <= as_of_date
-                 then iff(is_late, 1, 0) end)               as late_order_rate_12m
+        -- service quality: share of late lines, only orders already fully delivered on the as-of date.
+        -- Measured per line, not per order: almost every TPC-H order has at least one late line,
+        -- so a per-order rate is 100% for most accounts and cannot tell them apart.
+        sum(case when in_last_12m and delivered_date <= as_of_date then late_lines end)
+            / nullif(sum(case when in_last_12m and delivered_date <= as_of_date then order_lines end), 0)
+                                                            as late_line_rate_12m
     from orders
     group by customer_key
 
@@ -64,9 +67,11 @@ flags as (
         -- 2. Declining: revenue of the last 12 months fell sharply vs the 12 before
         revenue_last_12m < (1 - {{ var('decline_threshold') }}) * revenue_prev_12m
                                                                         as is_declining,
-        -- 3. Service issues: among the 25% of accounts with the most late orders
-        late_order_rate_12m is not null
-            and percent_rank() over (order by late_order_rate_12m nulls first) >= 0.75
+        -- 3. Service issues: among the 25% of accounts with the most late lines,
+        --    ranked only against the accounts that have delivered orders to measure
+        late_line_rate_12m is not null
+            and percent_rank() over (partition by late_line_rate_12m is null
+                                     order by late_line_rate_12m) >= 0.75
                                                                         as has_service_issues
     from signals
 
@@ -99,7 +104,7 @@ select
     revenue_last_12m,
     revenue_prev_12m,
     revenue_change_pct,
-    late_order_rate_12m,
+    late_line_rate_12m,
     is_overdue,
     is_declining,
     has_service_issues,

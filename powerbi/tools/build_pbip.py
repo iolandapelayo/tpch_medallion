@@ -120,7 +120,7 @@ AH_COLS = [
     ("Revenue last 12m", "REVENUE_LAST_12M", "double", "#,0", False, {}),
     ("Revenue prev 12m", "REVENUE_PREV_12M", "double", "#,0", False, {}),
     ("Revenue change %", "REVENUE_CHANGE_PCT", "double", "0.0%", False, {}),
-    ("Late order rate 12m", "LATE_ORDER_RATE_12M", "double", "0.0%", False, {}),
+    ("Late line rate 12m", "LATE_LINE_RATE_12M", "double", "0.0%", False, {}),
     ("Overdue", "IS_OVERDUE", "boolean", None, False, {}),
     ("Declining", "IS_DECLINING", "boolean", None, False, {}),
     ("Service issues", "HAS_SERVICE_ISSUES", "boolean", None, False, {}),

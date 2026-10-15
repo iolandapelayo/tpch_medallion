@@ -22,7 +22,7 @@ On the as-of date (last order date in the data), each account gets three signals
 |---|---|
 | **Overdue** | No order for more than 2x the customer's usual time between orders |
 | **Declining** | Revenue of the last 12 months is more than 30% below the previous 12 months |
-| **Service issues** | Account is in the worst 25% by share of late orders in the last 12 months |
+| **Service issues** | Account is in the worst 25% by share of late order lines in the last 12 months |
 
 Risk level: **Inactive** (no order in 12 months), **High** (2-3 signals), **Medium** (1), **Low** (0).
 Thresholds are dbt variables in `dbt/dbt_project.yml`, so they can be tuned without touching SQL:
@@ -38,10 +38,10 @@ dbt/                  the dbt project
   requirements.txt    dbt-core + dbt-snowflake
   models/bronze/      _sources.yml + 8 models (one line each, using the bronze_ingest macro)
   models/silver/      8 models + tests (_silver.yml)
-  models/gold/        fct_account_health, fct_orders, dim_customer, dim_date + tests and exposure (_gold.yml)
+  models/gold/        fct_account_health, fct_orders, dim_customer, dim_date + tests, unit test and exposure (_gold.yml)
   macros/             bronze_ingest, clean_string, map_values, date_key, generate_schema_name
   macros/tests/       custom generic tests: value_between, unique_combination
-  tests/              2 reconciliation tests
+  tests/              2 reconciliation tests + 1 business alarm (each risk signal flags 1-60% of accounts)
 powerbi/              Bonus: mockup + Power BI Project (PBIP) on the GOLD layer - see powerbi/README.md
 docs/                 demo guide
 .github/workflows/    ci.yml (build + test on every PR and on every merge)
