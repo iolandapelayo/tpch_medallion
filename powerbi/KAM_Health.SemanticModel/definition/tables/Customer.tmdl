@@ -1,0 +1,97 @@
+table Customer
+	lineageTag: ab9083e0-014b-4bc2-90e6-a9ebced9cd64
+
+	column 'Customer key'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 18d55285-4515-4262-9b6c-967f68fc594b
+		summarizeBy: none
+		sourceColumn: CUSTOMER_KEY
+
+		annotation SummarizationSetBy = User
+
+	column Customer
+		dataType: string
+		lineageTag: 3c714c1b-27e6-48e0-8678-1cf1002f38d1
+		summarizeBy: none
+		sourceColumn: CUSTOMER_NAME
+
+		annotation SummarizationSetBy = User
+
+	column 'Market segment'
+		dataType: string
+		lineageTag: c3d06330-3d71-4aab-b268-884f2c2fc792
+		summarizeBy: none
+		sourceColumn: MARKET_SEGMENT
+
+		annotation SummarizationSetBy = User
+
+	column Nation
+		dataType: string
+		lineageTag: e73062cb-b1d5-4adf-9534-f9ddb860ac82
+		summarizeBy: none
+		sourceColumn: CUSTOMER_NATION
+
+		annotation SummarizationSetBy = User
+
+	column Region
+		dataType: string
+		lineageTag: b44ecb45-c781-406e-baf4-0a2fc4e01627
+		summarizeBy: none
+		sourceColumn: CUSTOMER_REGION
+
+		annotation SummarizationSetBy = User
+
+	column 'Account balance'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 12cdcf95-45eb-4a6c-aecb-61aabc82efc6
+		summarizeBy: none
+		sourceColumn: ACCOUNT_BALANCE
+
+		annotation SummarizationSetBy = User
+
+	column 'Market segment ES' = SWITCH(Customer[Market segment], "Automobile", "Automoción", "Building", "Construcción", "Furniture", "Mobiliario", "Household", "Hogar", "Machinery", "Maquinaria", Customer[Market segment])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 684cdf30-0a55-49c8-8551-02200a780108
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Market segment CA' = SWITCH(Customer[Market segment], "Automobile", "Automoció", "Building", "Construcció", "Furniture", "Mobiliari", "Household", "Llar", "Machinery", "Maquinària", Customer[Market segment])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: fa5a670d-61fb-4265-abf0-f5edec7d8009
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Region ES' = SWITCH(Customer[Region], "Africa", "África", "America", "América", "Asia", "Asia", "Europe", "Europa", "Middle East", "Oriente Medio", Customer[Region])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 3b600f65-767b-4d49-a586-5e88ceb55158
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Region CA' = SWITCH(Customer[Region], "Africa", "Àfrica", "America", "Amèrica", "Asia", "Àsia", "Europe", "Europa", "Middle East", "Orient Mitjà", Customer[Region])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 9ea0c8fe-af0c-4b51-8b6b-e3f9e349ddb2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
+				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
+				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
+				    Data = Gold{[Name = "DIM_CUSTOMER", Kind = "Table"]}[Data]
+				in
+				    Data
+

@@ -1,0 +1,258 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "worklist",
+  "position": {
+    "x": 16,
+    "y": 462,
+    "z": 16000,
+    "height": 246,
+    "width": 1248,
+    "tabOrder": 16000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Customer"
+                }
+              },
+              "queryRef": "Customer.Customer",
+              "nativeQueryRef": "Customer",
+              "displayName": "Cliente"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Account tier"
+                }
+              },
+              "queryRef": "Account Health.Account tier",
+              "nativeQueryRef": "Account tier",
+              "displayName": "Categoría"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Market segment ES"
+                }
+              },
+              "queryRef": "Customer.Market segment ES",
+              "nativeQueryRef": "Market segment ES",
+              "displayName": "Segmento"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Region ES"
+                }
+              },
+              "queryRef": "Customer.Region ES",
+              "nativeQueryRef": "Region ES",
+              "displayName": "Región"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Risk level ES"
+                }
+              },
+              "queryRef": "Account Health.Risk level ES",
+              "nativeQueryRef": "Risk level ES",
+              "displayName": "Nivel de riesgo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Revenue at risk"
+                }
+              },
+              "queryRef": "Account Health.Revenue at risk",
+              "nativeQueryRef": "Revenue at risk",
+              "displayName": "Ingresos en riesgo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Revenue change %"
+                }
+              },
+              "queryRef": "Account Health.Revenue change %",
+              "nativeQueryRef": "Revenue change %",
+              "displayName": "Variación ingresos %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Days since last order"
+                }
+              },
+              "queryRef": "Account Health.Days since last order",
+              "nativeQueryRef": "Days since last order",
+              "displayName": "Días sin pedir"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Usual days between orders"
+                }
+              },
+              "queryRef": "Account Health.Usual days between orders",
+              "nativeQueryRef": "Usual days between orders",
+              "displayName": "Días habituales entre pedidos"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Overdue ES"
+                }
+              },
+              "queryRef": "Account Health.Overdue ES",
+              "nativeQueryRef": "Overdue ES",
+              "displayName": "Retrasada"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Declining ES"
+                }
+              },
+              "queryRef": "Account Health.Declining ES",
+              "nativeQueryRef": "Declining ES",
+              "displayName": "En caída"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Service issues ES"
+                }
+              },
+              "queryRef": "Account Health.Service issues ES",
+              "nativeQueryRef": "Service issues ES",
+              "displayName": "Problemas de servicio"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Account Health"
+                  }
+                },
+                "Property": "Revenue at risk"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Lista de la semana - cuentas ordenadas por ingresos en riesgo'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

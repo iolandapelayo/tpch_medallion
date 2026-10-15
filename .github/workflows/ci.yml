@@ -1,0 +1,38 @@
+# CI: every pull request is built and tested in CI_BRONZE / CI_SILVER / CI_GOLD.
+# CD: every merge to main rebuilds and tests the real BRONZE / SILVER / GOLD.
+name: dbt
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: dbt-${{ github.event_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      DBT_TARGET: ${{ github.event_name == 'pull_request' && 'ci' || 'prod' }}
+    defaults:
+      run:
+        working-directory: dbt   # the dbt project lives in the dbt/ folder
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Write private key
+        env:
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+        run: printf '%s\n' "$SNOWFLAKE_PRIVATE_KEY" > rsa_key.p8
+
+      - name: Build and test all layers
+        run: dbt build --target $DBT_TARGET

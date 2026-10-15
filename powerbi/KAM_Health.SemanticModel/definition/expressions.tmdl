@@ -1,0 +1,6 @@
+/// Snowflake account URL, e.g. abcdefg-xy12345.snowflakecomputing.com
+expression SnowflakeServer = "rqimbac-jl36167.snowflakecomputing.com" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: adfc6527-8e5f-4c5a-82e3-930282bf01c5
+
+	annotation PBI_ResultType = Text
+

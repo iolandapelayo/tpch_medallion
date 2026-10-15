@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: tpch
+    description: >
+      TPC-H benchmark data (scale factor 1) shared by Snowflake. A wholesale supplier:
+      customers place orders made of line items; each line item is a part bought from a supplier.
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+    tables:
+      - name: region
+      - name: nation
+      - name: customer
+      - name: supplier
+      - name: part
+      - name: partsupp
+      - name: orders
+      - name: lineitem

@@ -1,0 +1,91 @@
+table Date
+	lineageTag: 6dbbe956-c78e-4e4a-94b0-9f8fb4e97311
+
+	column 'Date key'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: 14072e9a-fe40-4905-9c59-4fb084c67371
+		summarizeBy: none
+		sourceColumn: DATE_KEY
+
+		annotation SummarizationSetBy = User
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 2e9e454e-bbe4-47f8-ab2a-1294a394457a
+		summarizeBy: none
+		sourceColumn: FULL_DATE
+
+		variation Variación
+			isDefault
+			relationship: 8b7a1412-3414-4a75-aa0f-070094ac754e
+			defaultHierarchy: LocalDateTable_02a3d49e-a377-4ce8-9457-0e765480fa99.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: double
+		formatString: 0
+		lineageTag: 192506b5-2be7-4953-9992-daae1b01096e
+		summarizeBy: none
+		sourceColumn: YEAR
+
+		annotation SummarizationSetBy = User
+
+	column Quarter
+		dataType: double
+		formatString: 0
+		lineageTag: f9d571f9-9240-438a-983b-bdb7d607c47b
+		summarizeBy: none
+		sourceColumn: QUARTER
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: double
+		formatString: 0
+		lineageTag: 98fdc27e-ecbb-4754-9b74-444009607ee9
+		summarizeBy: none
+		sourceColumn: MONTH
+
+		annotation SummarizationSetBy = User
+
+	column 'Month name'
+		dataType: string
+		lineageTag: a0ab407c-b8ea-46a0-b3c7-afecdadd7622
+		summarizeBy: none
+		sourceColumn: MONTH_NAME
+
+		annotation SummarizationSetBy = User
+
+	column 'Year month'
+		dataType: string
+		lineageTag: 9d062dd0-073c-4b4b-916c-c1ea7f334d38
+		summarizeBy: none
+		sourceColumn: YEAR_MONTH
+
+		annotation SummarizationSetBy = User
+
+	column 'Day name'
+		dataType: string
+		lineageTag: ed0cf705-ffde-45bd-bc0d-eafe74549710
+		summarizeBy: none
+		sourceColumn: DAY_NAME
+
+		annotation SummarizationSetBy = User
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
+				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
+				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
+				    Data = Gold{[Name = "DIM_DATE", Kind = "Table"]}[Data]
+				in
+				    Data
+

@@ -1,0 +1,333 @@
+table 'Account Health'
+	lineageTag: ce0dcc0d-a388-46d8-8447-efb756757161
+
+	measure Accounts = COUNTROWS('Account Health')
+		formatString: #,0
+		lineageTag: d8bef22e-1964-4242-b0dd-35b83ea3b0f9
+
+	measure 'Active accounts' = CALCULATE([Accounts], 'Account Health'[Risk level] <> "Inactive")
+		formatString: #,0
+		lineageTag: 6eab78af-38ad-41d2-ac4f-3647890efda0
+
+	measure 'High-risk accounts' = CALCULATE([Accounts], 'Account Health'[Risk level] = "High")
+		formatString: #,0
+		lineageTag: 8ba110ba-4d4e-4ea6-97d7-0f66e4506924
+
+	measure 'Total revenue at risk' = SUM('Account Health'[Revenue at risk])
+		formatString: #,0
+		lineageTag: 96dabe52-7bd2-4d9c-afc4-8b1781483f1f
+
+	measure '% of revenue at risk' = DIVIDE([Total revenue at risk], SUM('Account Health'[Revenue last 12m]))
+		formatString: 0.0%
+		lineageTag: b01af25d-612c-465f-b8b3-9b1fb2aa1682
+
+	column 'Customer key'
+		dataType: double
+		isHidden
+		formatString: 0
+		lineageTag: b528393e-66d5-472e-b17d-bf725e5f0671
+		summarizeBy: none
+		sourceColumn: CUSTOMER_KEY
+
+		annotation SummarizationSetBy = User
+
+	column 'As of date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: d86e2f02-791e-469a-b051-99e7312594ba
+		summarizeBy: none
+		sourceColumn: AS_OF_DATE
+
+		variation Variación
+			isDefault
+			relationship: 57e5a30f-44b3-4f44-b813-ed63d8bf80a1
+			defaultHierarchy: LocalDateTable_dea29f62-ef7b-4de1-8066-aaab42f5319f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Account tier'
+		dataType: string
+		lineageTag: db3f7115-d3f6-4af8-9863-e284273aa182
+		summarizeBy: none
+		sourceColumn: ACCOUNT_TIER
+
+		annotation SummarizationSetBy = User
+
+	column 'First order date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 33206bb7-3538-4da3-adb0-0b0340b775ec
+		summarizeBy: none
+		sourceColumn: FIRST_ORDER_DATE
+
+		variation Variación
+			isDefault
+			relationship: 52b83356-18ae-4384-8cf6-76af4e2a5ba6
+			defaultHierarchy: LocalDateTable_5beb800d-977f-4237-9885-c3ab2e824c8c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Last order date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 21d345b1-bbbc-4d8f-a855-8c823ec879db
+		summarizeBy: none
+		sourceColumn: LAST_ORDER_DATE
+
+		variation Variación
+			isDefault
+			relationship: 5b2beef3-c7c3-4814-bcb7-35910f740731
+			defaultHierarchy: LocalDateTable_55573fd0-45c6-492e-9b2e-ac1ccb4e274a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Days since last order'
+		dataType: double
+		formatString: #,0
+		lineageTag: c05acea3-7f61-43e5-bf0d-9426431b48b3
+		summarizeBy: none
+		sourceColumn: DAYS_SINCE_LAST_ORDER
+
+		annotation SummarizationSetBy = User
+
+	column 'Usual days between orders'
+		dataType: double
+		formatString: #,0
+		lineageTag: 34d9d42e-4350-4abc-8e09-72cd24fb1822
+		summarizeBy: none
+		sourceColumn: AVG_DAYS_BETWEEN_ORDERS
+
+		annotation SummarizationSetBy = User
+
+	column 'Lifetime orders'
+		dataType: double
+		formatString: #,0
+		lineageTag: c2f37cda-887d-4246-94da-b5697b326e78
+		summarizeBy: none
+		sourceColumn: LIFETIME_ORDERS
+
+		annotation SummarizationSetBy = User
+
+	column 'Lifetime revenue'
+		dataType: double
+		formatString: #,0
+		lineageTag: 05e08e10-9d40-4732-928e-db74cd8bf18c
+		summarizeBy: none
+		sourceColumn: LIFETIME_REVENUE
+
+		annotation SummarizationSetBy = User
+
+	column 'Orders last 12m'
+		dataType: double
+		formatString: #,0
+		lineageTag: 7452237e-4802-4b38-a75a-51ed2482616d
+		summarizeBy: none
+		sourceColumn: ORDERS_LAST_12M
+
+		annotation SummarizationSetBy = User
+
+	column 'Revenue last 12m'
+		dataType: double
+		formatString: #,0
+		lineageTag: 14330251-07d5-4414-8095-954fa75c89a1
+		summarizeBy: none
+		sourceColumn: REVENUE_LAST_12M
+
+		annotation SummarizationSetBy = User
+
+	column 'Revenue prev 12m'
+		dataType: double
+		formatString: #,0
+		lineageTag: a422e9b2-b8f7-46a6-b84a-893e75a1fe6f
+		summarizeBy: none
+		sourceColumn: REVENUE_PREV_12M
+
+		annotation SummarizationSetBy = User
+
+	column 'Revenue change %'
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 43457f45-92da-4bac-a4c0-4e7049e01960
+		summarizeBy: none
+		sourceColumn: REVENUE_CHANGE_PCT
+
+		annotation SummarizationSetBy = User
+
+	column 'Late order rate 12m'
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 2581363f-f068-4c71-8505-87dee487ea4d
+		summarizeBy: none
+		sourceColumn: LATE_ORDER_RATE_12M
+
+		annotation SummarizationSetBy = User
+
+	column Overdue
+		dataType: boolean
+		lineageTag: 0296b921-67b2-4d0a-ae44-e2ca43434b2b
+		summarizeBy: none
+		sourceColumn: IS_OVERDUE
+
+		annotation SummarizationSetBy = User
+
+	column Declining
+		dataType: boolean
+		lineageTag: c39e6cb5-0fdb-4bc8-a976-465f629d9c6b
+		summarizeBy: none
+		sourceColumn: IS_DECLINING
+
+		annotation SummarizationSetBy = User
+
+	column 'Service issues'
+		dataType: boolean
+		lineageTag: c1b25886-8480-4ec2-bcb4-4aae85f54093
+		summarizeBy: none
+		sourceColumn: HAS_SERVICE_ISSUES
+
+		annotation SummarizationSetBy = User
+
+	column 'Risk signals'
+		dataType: double
+		formatString: 0
+		lineageTag: ea1b8b45-a540-40d1-a38c-b3c14d413714
+		summarizeBy: none
+		sourceColumn: RISK_SIGNALS
+
+		annotation SummarizationSetBy = User
+
+	column 'Risk level'
+		dataType: string
+		lineageTag: bbc658e7-57b1-4303-aa7a-b9afda79ed09
+		summarizeBy: none
+		sourceColumn: RISK_LEVEL
+		sortByColumn: 'Risk order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Risk order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ad6a062a-6f78-4b2c-a670-fff182e2be4d
+		summarizeBy: none
+		sourceColumn: RISK_ORDER
+
+		annotation SummarizationSetBy = User
+
+	column 'Revenue at risk'
+		dataType: double
+		formatString: #,0
+		lineageTag: 7bba4142-1d13-47fc-a7d0-fa9c2343ce62
+		summarizeBy: none
+		sourceColumn: REVENUE_AT_RISK
+
+		annotation SummarizationSetBy = User
+
+	column 'Risk level ES' = SWITCH('Account Health'[Risk level], "High", "Alto", "Medium", "Medio", "Low", "Bajo", "Inactive", "Inactivo", 'Account Health'[Risk level])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 6b5011e5-ec09-4f07-a094-8ef9d57ca375
+		summarizeBy: none
+		sortByColumn: 'Risk order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Risk level CA' = SWITCH('Account Health'[Risk level], "High", "Alt", "Medium", "Mitjà", "Low", "Baix", "Inactive", "Inactiu", 'Account Health'[Risk level])
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 5b4efd59-ec3f-4b87-af74-53b2cd8e8005
+		summarizeBy: none
+		sortByColumn: 'Risk order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Overdue EN' = IF('Account Health'[Overdue], "Yes", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 648a0841-b22d-4506-8e0b-5647f1828e9e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Overdue ES' = IF('Account Health'[Overdue], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 75c474f1-bbc7-48de-8186-11a83ae20564
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Overdue CA' = IF('Account Health'[Overdue], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 9c426b2b-9158-4c9d-a065-b3f0223db73b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Declining EN' = IF('Account Health'[Declining], "Yes", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 83a5d8ef-4033-4ce2-ab2d-1231376332d3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Declining ES' = IF('Account Health'[Declining], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: ac035bef-caa1-485d-9e81-e42bcdcf5cfb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Declining CA' = IF('Account Health'[Declining], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: a0b11e3a-0585-40ec-a79a-7582631c18dd
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Service issues EN' = IF('Account Health'[Service issues], "Yes", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: a87bd06e-fe2c-4ab5-914c-0fe521f5856b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Service issues ES' = IF('Account Health'[Service issues], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 2cec10d4-4ca2-4dc9-9e73-5a651b3e5c61
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Service issues CA' = IF('Account Health'[Service issues], "Sí", "No")
+		dataType: string
+		displayFolder: Translations
+		lineageTag: 413c4c44-fb9e-4998-ab34-1766d1daafcb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	partition 'Account Health' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
+				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
+				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
+				    Data = Gold{[Name = "FCT_ACCOUNT_HEALTH", Kind = "Table"]}[Data],
+				    WithOrder = Table.AddColumn(Data, "RISK_ORDER", each if [RISK_LEVEL] = "High" then 1 else if [RISK_LEVEL] = "Medium" then 2 else if [RISK_LEVEL] = "Low" then 3 else 4, Int64.Type)
+				in
+				    WithOrder
+

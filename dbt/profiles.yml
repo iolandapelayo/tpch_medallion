@@ -1,0 +1,26 @@
+# No secrets here: the account comes from an environment variable and the
+# private key file (rsa_key.p8) lives next to this file and is git-ignored.
+tpch_medallion:
+  target: prod
+  outputs:
+    prod:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: DBT_USER
+      private_key_path: rsa_key.p8
+      role: TRANSFORMER
+      warehouse: TPCH_WH
+      database: TPCH_MEDALLION
+      schema: PUBLIC
+      threads: 8
+
+    ci:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: DBT_USER
+      private_key_path: rsa_key.p8
+      role: TRANSFORMER
+      warehouse: TPCH_WH
+      database: TPCH_MEDALLION
+      schema: PUBLIC
+      threads: 8

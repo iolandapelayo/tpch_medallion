@@ -1,0 +1,33 @@
+{
+  "name": "Propelling KAM Health",
+  "dataColors": [
+    "#D64545",
+    "#F2B84B",
+    "#176366",
+    "#AAA4A4",
+    "#2D3540",
+    "#6BD9DE",
+    "#AAE9EC",
+    "#38414F"
+  ],
+  "foreground": "#292626",
+  "background": "#FFFFFF",
+  "tableAccent": "#6BD9DE",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "border": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#DEDADA"
+              }
+            },
+            "radius": 12
+          }
+        ]
+      }
+    }
+  }
+}

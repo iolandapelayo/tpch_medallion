@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["SnowflakeServer","Account Health","Customer","Orders","Date"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'Account Health'
+ref table Customer
+ref table Orders
+ref table Date
+ref table DateTableTemplate_dcf4a187-e178-4408-9a19-0efb396b7a22
+ref table LocalDateTable_dea29f62-ef7b-4de1-8066-aaab42f5319f
+ref table LocalDateTable_5beb800d-977f-4237-9885-c3ab2e824c8c
+ref table LocalDateTable_55573fd0-45c6-492e-9b2e-ac1ccb4e274a
+ref table LocalDateTable_06a56f55-7586-43e2-b39d-c6758bd8a1fe
+ref table LocalDateTable_4b719eb7-c4ac-4604-b98f-ea019abea2d5
+ref table LocalDateTable_02a3d49e-a377-4ce8-9457-0e765480fa99
+
+ref cultureInfo en-US
+

@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: slv_region
+    description: Regions with readable names.
+    columns:
+      - name: region_id
+        data_tests: [unique, not_null]
+
+  - name: slv_nation
+    description: Nations with readable names.
+    columns:
+      - name: nation_id
+        data_tests: [unique, not_null]
+
+  - name: slv_customer
+    description: Customers with clean names and segment.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+      - name: market_segment
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Automobile', 'Building', 'Furniture', 'Household', 'Machinery']
+
+  - name: slv_supplier
+    description: Suppliers with the customer-complaints flag (TPC-H Q16 rule).
+    columns:
+      - name: supplier_id
+        data_tests: [unique, not_null]
+
+  - name: slv_part
+    description: Parts with their type and container codes split into separate attributes.
+    columns:
+      - name: part_id
+        data_tests: [unique, not_null]
+
+  - name: slv_partsupp
+    description: Cost each supplier charges for each part.
+    data_tests:
+      - unique_combination:
+          arguments:
+            combination_of_columns: [part_id, supplier_id]
+    columns:
+      - name: supply_cost
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+
+  - name: slv_orders
+    description: Order headers with decoded status and priority.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Fulfilled', 'Open', 'Partially fulfilled']
+
+  - name: slv_lineitem
+    description: Order lines with decoded flags and the revenue and delivery rules.
+    data_tests:
+      - unique_combination:
+          arguments:
+            combination_of_columns: [order_id, line_number]
+    columns:
+      - name: discount_rate
+        description: Discount applied to the line (0 - 0.10).
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 0.10
+      - name: return_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Returned', 'Accepted', 'Not returned']
+      - name: net_amount
+        description: Revenue after discount = extended price x (1 - discount). Main revenue KPI.
+      - name: billed_amount
+        description: Amount invoiced = net amount x (1 + tax).
+      - name: is_late_delivery
+        description: True when the goods arrived after the committed date.

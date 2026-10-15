@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Calendar, one row per day.
+    columns:
+      - name: date_key
+        description: YYYYMMDD.
+        data_tests: [unique, not_null]
+
+  - name: dim_customer
+    description: Customers (accounts) with segment, nation and region in one table.
+    columns:
+      - name: customer_key
+        data_tests: [unique, not_null]
+
+  - name: fct_orders
+    description: One row per order with its revenue and delivery outcome. Used for trends and drill-down.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: customer_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+      - name: order_date_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: net_revenue
+        description: Revenue after discount.
+      - name: delivered_date
+        description: Date the last line of the order was received.
+      - name: is_late
+        description: At least one line arrived after the committed date.
+
+  - name: fct_account_health
+    description: >
+      One row per customer that has ever ordered: activity, revenue trend and service
+      quality on the as-of date, three risk signals and the resulting risk level.
+      The Key Account Manager's weekly worklist.
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+      - name: as_of_date
+        description: Reference date of the snapshot (last order date in the data).
+      - name: account_tier
+        description: A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['A', 'B', 'C']
+      - name: revenue_change_pct
+        description: Revenue of the last 12 months vs the previous 12 months.
+      - name: is_overdue
+        description: No order for more than overdue_factor x the customer's usual time between orders.
+      - name: is_declining
+        description: Last-12-month revenue fell more than decline_threshold.
+      - name: has_service_issues
+        description: Account is in the worst 25% by share of late orders in the last 12 months.
+      - name: risk_signals
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 3
+      - name: risk_level
+        description: Inactive (no order in 12 months), High (2-3 signals), Medium (1), Low (0).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Inactive', 'High', 'Medium', 'Low']
+      - name: revenue_at_risk
+        description: Last-12-month revenue of active accounts with at least one risk signal.
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+
+exposures:
+  - name: key_account_health_cockpit
+    label: Key Account Health Cockpit
+    type: dashboard
+    description: >
+      Weekly worklist for Key Account Managers: which accounts are at risk, why,
+      and how much revenue is at stake.
+    depends_on:
+      - ref('fct_account_health')
+      - ref('fct_orders')
+      - ref('dim_customer')
+      - ref('dim_date')
+    owner:
+      name: Key Account Management

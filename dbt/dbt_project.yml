@@ -1,0 +1,20 @@
+name: tpch_medallion
+version: "1.0.0"
+config-version: 2
+
+profile: tpch_medallion
+
+# Business thresholds of the account-health score (Key Account Managers can tune them)
+vars:
+  overdue_factor: 2         # overdue = no order for more than 2x the customer's usual interval
+  decline_threshold: 0.3    # declining = last-12-month revenue down more than 30%
+
+models:
+  tpch_medallion:
+    +materialized: table
+    bronze:
+      +schema: bronze
+    silver:
+      +schema: silver
+    gold:
+      +schema: gold

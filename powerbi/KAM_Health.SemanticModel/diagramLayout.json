@@ -1,0 +1,74 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": 148.11884566691981
+          },
+          "nodeIndex": "Account Health",
+          "nodeLineageTag": "ce0dcc0d-a388-46d8-8447-efb756757161",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.20225510460892,
+            "y": 71.8866875786186
+          },
+          "nodeIndex": "Customer",
+          "nodeLineageTag": "ab9083e0-014b-4bc2-90e6-a9ebced9cd64",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 902.62216291713662,
+            "y": -50
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "6dbbe956-c78e-4e4a-94b0-9f8fb4e97311",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 618.41040181545577,
+            "y": -5.6213022308677409
+          },
+          "nodeIndex": "Orders",
+          "nodeLineageTag": "8ff5703b-48da-4288-a710-e30688029804",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

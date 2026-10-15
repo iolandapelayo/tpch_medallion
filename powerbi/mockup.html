@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key Account Health Cockpit - mockup</title>
+<style>
+  :root {
+    --bg: #EDEBEB; --card: #FFFFFF; --ink: #292626; --muted: #6B7280; --line: #E5E7EB;
+    --high: #D64545; --inactive: #AAA4A4; --low: #176366; --medium: #F2B84B; --brand: #2D3540;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #D1D5DB; font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); }
+  .note { max-width: 1280px; margin: 16px auto 8px; font-size: 13px; color: #374151; }
+  /* 1280 x 720 = Power BI 16:9 page; every block is placed with the same x/y/w/h used in the PBIP */
+  .page { position: relative; width: 1280px; height: 720px; margin: 0 auto 24px; background: var(--bg); overflow: hidden; }
+  .box { position: absolute; background: var(--card); border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,.08); padding: 10px 12px; }
+  .title { background: #2D3540; box-shadow: none; padding: 4px 14px; }
+  .title h1 { margin: 4px 0 0; font-size: 19px; color: #FFFFFF; }
+  .title p { margin: 1px 0 0; font-size: 11px; color: #AAE9EC; }
+  .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .slicer .field { border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; font-size: 12px; display: flex; justify-content: space-between; }
+  .kpi .value { font-size: 30px; font-weight: 600; margin-top: 6px; }
+  .kpi.alert .value { color: var(--high); }
+  h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--line); padding: 4px 6px; }
+  td { padding: 4px 6px; border-bottom: 1px solid #F3F4F6; }
+  td.num, th.num { text-align: right; }
+  .pill { padding: 1px 8px; border-radius: 10px; color: #fff; font-size: 11px; }
+  .legend { display: flex; gap: 10px; font-size: 11px; color: var(--muted); }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+</style>
+</head>
+<body>
+<p class="note"><b>Mockup</b> of the Power BI page (1280 x 720). Numbers are illustrative; the real report reads the GOLD schema in Snowflake.</p>
+
+<div class="page">
+  <!-- Title -->
+  <div class="box title" style="left:16px; top:4px; width:1248px; height:52px;">
+    <h1>Key Account Health Cockpit</h1>
+    <p>Which accounts are cooling down, why, and how much revenue is at stake - TPC-H SF1, as of 1998-08-02</p>
+  </div>
+
+  <!-- Slicers -->
+  <div class="box slicer" style="left:16px;  top:64px; width:300px; height:56px;"><div class="label">Account tier</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:332px; top:64px; width:300px; height:56px;"><div class="label">Risk level</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:648px; top:64px; width:300px; height:56px;"><div class="label">Market segment</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:964px; top:64px; width:300px; height:56px;"><div class="label">Region</div><div class="field">All <span>▾</span></div></div>
+
+  <!-- KPI cards -->
+  <div class="box kpi"       style="left:16px;  top:132px; width:300px; height:96px;"><div class="label">Active accounts</div><div class="value">94.8K</div></div>
+  <div class="box kpi alert" style="left:332px; top:132px; width:300px; height:96px;"><div class="label">High-risk accounts</div><div class="value">7,412</div></div>
+  <div class="box kpi alert" style="left:648px; top:132px; width:300px; height:96px;"><div class="label">Revenue at risk</div><div class="value">1.93bn</div></div>
+  <div class="box kpi"       style="left:964px; top:132px; width:300px; height:96px;"><div class="label">% of revenue at risk</div><div class="value">41.7%</div></div>
+
+  <!-- Stacked bar: accounts by tier and risk level -->
+  <div class="box" style="left:16px; top:240px; width:404px; height:210px;">
+    <h3>Accounts by tier and risk level</h3>
+    <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--inactive)"></i>Inactive</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--medium)"></i>Medium</span></div>
+    <svg width="380" height="150" viewBox="0 0 380 150" font-size="11" fill="#6B7280">
+      <text x="0" y="32">A</text><text x="0" y="77">B</text><text x="0" y="122">C</text>
+      <g transform="translate(18,18)">
+        <rect width="40" height="22" fill="#D64545"/><rect x="40" width="10" height="22" fill="#AAA4A4"/><rect x="50" width="150" height="22" fill="#176366"/><rect x="200" width="70" height="22" fill="#F2B84B"/>
+      </g>
+      <g transform="translate(18,63)">
+        <rect width="55" height="22" fill="#D64545"/><rect x="55" width="20" height="22" fill="#AAA4A4"/><rect x="75" width="200" height="22" fill="#176366"/><rect x="275" width="80" height="22" fill="#F2B84B"/>
+      </g>
+      <g transform="translate(18,108)">
+        <rect width="60" height="22" fill="#D64545"/><rect x="60" width="45" height="22" fill="#AAA4A4"/><rect x="105" width="170" height="22" fill="#176366"/><rect x="275" width="85" height="22" fill="#F2B84B"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Bar: revenue at risk by region -->
+  <div class="box" style="left:436px; top:240px; width:404px; height:210px;">
+    <h3>Revenue at risk by region</h3>
+    <svg width="380" height="165" viewBox="0 0 380 165" font-size="11" fill="#6B7280">
+      <text x="0" y="22">America</text><rect x="62" y="10" width="290" height="20" fill="#2D3540"/>
+      <text x="0" y="54">Asia</text><rect x="62" y="42" width="276" height="20" fill="#2D3540"/>
+      <text x="0" y="86">Europe</text><rect x="62" y="74" width="270" height="20" fill="#2D3540"/>
+      <text x="0" y="118">Africa</text><rect x="62" y="106" width="262" height="20" fill="#2D3540"/>
+      <text x="0" y="150">Middle East</text><rect x="62" y="138" width="255" height="20" fill="#2D3540"/>
+    </svg>
+  </div>
+
+  <!-- Line: monthly revenue -->
+  <div class="box" style="left:856px; top:240px; width:408px; height:210px;">
+    <h3>Monthly revenue (click an account in the table to see its history)</h3>
+    <svg width="384" height="160" viewBox="0 0 384 160" font-size="10" fill="#6B7280">
+      <line x1="0" y1="140" x2="384" y2="140" stroke="#E5E7EB"/>
+      <polyline fill="none" stroke="#176366" stroke-width="2"
+        points="0,60 20,55 40,62 60,52 80,58 100,50 120,57 140,53 160,61 180,49 200,56 220,54 240,59 260,51 280,57 300,55 320,60 340,52 360,58 380,120"/>
+      <text x="0" y="155">1992</text><text x="170" y="155">1995</text><text x="350" y="155">1998</text>
+    </svg>
+  </div>
+
+  <!-- Worklist table -->
+  <div class="box" style="left:16px; top:462px; width:1248px; height:246px;">
+    <h3>This week's worklist - accounts ordered by revenue at risk</h3>
+    <table>
+      <thead><tr>
+        <th>Customer</th><th>Tier</th><th>Segment</th><th>Region</th><th>Risk level</th>
+        <th class="num">Revenue at risk</th><th class="num">Revenue change %</th><th class="num">Days since last order</th><th class="num">Usual days between orders</th>
+        <th>Overdue</th><th>Declining</th><th>Service issues</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Customer#000143500</td><td>A</td><td>Building</td><td>Europe</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">612,904</td><td class="num">-48.2%</td><td class="num">402</td><td class="num">131</td><td>True</td><td>True</td><td>False</td></tr>
+        <tr><td>Customer#000095257</td><td>A</td><td>Machinery</td><td>Asia</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">588,117</td><td class="num">-35.0%</td><td class="num">96</td><td class="num">88</td><td>False</td><td>True</td><td>True</td></tr>
+        <tr><td>Customer#000087115</td><td>A</td><td>Household</td><td>America</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">571,340</td><td class="num">4.1%</td><td class="num">310</td><td class="num">120</td><td>True</td><td>False</td><td>False</td></tr>
+        <tr><td>Customer#000136777</td><td>A</td><td>Automobile</td><td>Africa</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">559,006</td><td class="num">-12.9%</td><td class="num">41</td><td class="num">102</td><td>False</td><td>False</td><td>True</td></tr>
+        <tr><td>Customer#000044485</td><td>B</td><td>Furniture</td><td>Middle East</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">498,775</td><td class="num">-52.6%</td><td class="num">287</td><td class="num">140</td><td>True</td><td>True</td><td>False</td></tr>
+        <tr><td>Customer#000060775</td><td>B</td><td>Building</td><td>Europe</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">471,220</td><td class="num">-31.4%</td><td class="num">77</td><td class="num">95</td><td>False</td><td>True</td><td>False</td></tr>
+        <tr><td>Customer#000127003</td><td>B</td><td>Machinery</td><td>Asia</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">455,893</td><td class="num">8.7%</td><td class="num">64</td><td class="num">110</td><td>False</td><td>False</td><td>True</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

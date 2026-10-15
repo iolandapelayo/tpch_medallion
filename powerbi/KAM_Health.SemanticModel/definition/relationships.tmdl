@@ -1,0 +1,43 @@
+relationship c7235de6-029a-4a0c-aa96-28a864a945c8
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Account Health'.'Customer key'
+	toColumn: Customer.'Customer key'
+
+relationship a8223118-d789-4be6-aa3f-ea42038d0397
+	fromColumn: Orders.'Customer key'
+	toColumn: Customer.'Customer key'
+
+relationship fc6e911b-6032-4c10-a91f-f7dee5ee5d29
+	fromColumn: Orders.'Order date key'
+	toColumn: Date.'Date key'
+
+relationship 57e5a30f-44b3-4f44-b813-ed63d8bf80a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Account Health'.'As of date'
+	toColumn: LocalDateTable_dea29f62-ef7b-4de1-8066-aaab42f5319f.Date
+
+relationship 52b83356-18ae-4384-8cf6-76af4e2a5ba6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Account Health'.'First order date'
+	toColumn: LocalDateTable_5beb800d-977f-4237-9885-c3ab2e824c8c.Date
+
+relationship 5b2beef3-c7c3-4814-bcb7-35910f740731
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Account Health'.'Last order date'
+	toColumn: LocalDateTable_55573fd0-45c6-492e-9b2e-ac1ccb4e274a.Date
+
+relationship eec59f29-ea09-4423-96df-477764231041
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders.'Order date'
+	toColumn: LocalDateTable_06a56f55-7586-43e2-b39d-c6758bd8a1fe.Date
+
+relationship 4b51d1eb-1d27-41f4-9441-697c61436979
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Orders.'Delivered date'
+	toColumn: LocalDateTable_4b719eb7-c4ac-4604-b98f-ea019abea2d5.Date
+
+relationship 8b7a1412-3414-4a75-aa0f-070094ac754e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_02a3d49e-a377-4ce8-9457-0e765480fa99.Date
+
