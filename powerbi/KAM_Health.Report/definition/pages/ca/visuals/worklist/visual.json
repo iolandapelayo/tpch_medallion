@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "worklist",
   "position": {
-    "x": 16,
-    "y": 462,
-    "z": 16000,
-    "height": 246,
-    "width": 1248,
-    "tabOrder": 16000
+    "x": 784,
+    "y": 392,
+    "z": 25000,
+    "width": 472,
+    "height": 238,
+    "tabOrder": 25000
   },
   "visual": {
     "visualType": "tableEx",
@@ -50,36 +50,6 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Market segment CA"
-                }
-              },
-              "queryRef": "Customer.Market segment CA",
-              "nativeQueryRef": "Market segment CA",
-              "displayName": "Segment"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Region CA"
-                }
-              },
-              "queryRef": "Customer.Region CA",
-              "nativeQueryRef": "Region CA",
-              "displayName": "Regió"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
                       "Entity": "Account Health"
                     }
                   },
@@ -88,7 +58,7 @@
               },
               "queryRef": "Account Health.Risk level CA",
               "nativeQueryRef": "Risk level CA",
-              "displayName": "Nivell de risc"
+              "displayName": "Risc"
             },
             {
               "field": {
@@ -118,7 +88,7 @@
               },
               "queryRef": "Account Health.Revenue change %",
               "nativeQueryRef": "Revenue change %",
-              "displayName": "Variació ingressos %"
+              "displayName": "Variació 12m"
             },
             {
               "field": {
@@ -128,72 +98,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Days since last order"
+                  "Property": "Signals CA"
                 }
               },
-              "queryRef": "Account Health.Days since last order",
-              "nativeQueryRef": "Days since last order",
-              "displayName": "Dies sense comanda"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Usual days between orders"
-                }
-              },
-              "queryRef": "Account Health.Usual days between orders",
-              "nativeQueryRef": "Usual days between orders",
-              "displayName": "Dies habituals entre comandes"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Overdue CA"
-                }
-              },
-              "queryRef": "Account Health.Overdue CA",
-              "nativeQueryRef": "Overdue CA",
-              "displayName": "Endarrerit"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Declining CA"
-                }
-              },
-              "queryRef": "Account Health.Declining CA",
-              "nativeQueryRef": "Declining CA",
-              "displayName": "En caiguda"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Service issues CA"
-                }
-              },
-              "queryRef": "Account Health.Service issues CA",
-              "nativeQueryRef": "Service issues CA",
-              "displayName": "Problemes de servei"
+              "queryRef": "Account Health.Signals CA",
+              "nativeQueryRef": "Signals CA",
+              "displayName": "Per què"
             }
           ]
         }
@@ -213,7 +123,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -224,6 +135,105 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0E3A5B'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
                 }
               }
             }
@@ -245,7 +255,27 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Llista de la setmana - comptes ordenats per ingressos en risc'"
+                  "Value": "'Llista de la setmana'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ordenada per ingressos en risc'"
                 }
               }
             }

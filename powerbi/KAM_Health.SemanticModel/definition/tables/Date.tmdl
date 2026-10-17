@@ -1,8 +1,9 @@
 table Date
+	dataCategory: Time
 	lineageTag: 6dbbe956-c78e-4e4a-94b0-9f8fb4e97311
 
 	column 'Date key'
-		dataType: double
+		dataType: int64
 		isHidden
 		formatString: 0
 		lineageTag: 14072e9a-fe40-4905-9c59-4fb084c67371
@@ -13,22 +14,18 @@ table Date
 
 	column Date
 		dataType: dateTime
+		isKey
 		formatString: yyyy-mm-dd
 		lineageTag: 2e9e454e-bbe4-47f8-ab2a-1294a394457a
 		summarizeBy: none
 		sourceColumn: FULL_DATE
-
-		variation Variación
-			isDefault
-			relationship: 8b7a1412-3414-4a75-aa0f-070094ac754e
-			defaultHierarchy: LocalDateTable_02a3d49e-a377-4ce8-9457-0e765480fa99.'Date Hierarchy'
 
 		annotation SummarizationSetBy = User
 
 		annotation UnderlyingDateTimeDataType = Date
 
 	column Year
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: 192506b5-2be7-4953-9992-daae1b01096e
 		summarizeBy: none
@@ -37,7 +34,7 @@ table Date
 		annotation SummarizationSetBy = User
 
 	column Quarter
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: f9d571f9-9240-438a-983b-bdb7d607c47b
 		summarizeBy: none
@@ -46,7 +43,7 @@ table Date
 		annotation SummarizationSetBy = User
 
 	column Month
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: 98fdc27e-ecbb-4754-9b74-444009607ee9
 		summarizeBy: none
@@ -78,6 +75,15 @@ table Date
 
 		annotation SummarizationSetBy = User
 
+	/// First day of the month: a real date, so charts get a continuous axis with whole labels.
+	column 'Month start'
+		dataType: dateTime
+		formatString: mmm yyyy
+		summarizeBy: none
+		sourceColumn: MONTH_START
+
+		annotation SummarizationSetBy = User
+
 	partition Date = m
 		mode: import
 		source =
@@ -85,7 +91,9 @@ table Date
 				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
-				    Data = Gold{[Name = "DIM_DATE", Kind = "Table"]}[Data]
+				    Data = Gold{[Name = "DIM_DATE", Kind = "Table"]}[Data],
+				    Typed = Table.TransformColumnTypes(Data, {{"DATE_KEY", Int64.Type}, {"YEAR", Int64.Type}, {"QUARTER", Int64.Type}, {"MONTH", Int64.Type}}),
+				    WithMonth = Table.AddColumn(Typed, "MONTH_START", each Date.StartOfMonth(Date.From([FULL_DATE])), type date)
 				in
-				    Data
+				    WithMonth
 

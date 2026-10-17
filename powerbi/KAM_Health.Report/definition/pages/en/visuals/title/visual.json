@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "title",
   "position": {
-    "x": 16,
-    "y": 4,
-    "z": 1000,
-    "width": 1248,
-    "height": 58,
-    "tabOrder": 1000
+    "x": 8,
+    "y": 8,
+    "z": 2000,
+    "width": 1264,
+    "height": 86,
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "textbox",
@@ -21,9 +21,10 @@
                   {
                     "value": "Key Account Health Cockpit",
                     "textStyle": {
-                      "fontWeight": "bold",
-                      "fontSize": "14pt",
-                      "color": "#FFFFFF"
+                      "fontFamily": "Roboto, 'Segoe UI Semibold', sans-serif",
+                      "fontSize": "20pt",
+                      "color": "#0E3A5B",
+                      "fontWeight": "bold"
                     }
                   }
                 ]
@@ -33,8 +34,9 @@
                   {
                     "value": "Which accounts are cooling down, why, and how much revenue is at stake - TPC-H SF1, as of 1998-08-02",
                     "textStyle": {
-                      "fontSize": "8pt",
-                      "color": "#AAE9EC"
+                      "fontFamily": "Inter, 'Segoe UI', sans-serif",
+                      "fontSize": "10pt",
+                      "color": "#2B7BB9"
                     }
                   }
                 ]
@@ -60,7 +62,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#2D3540'"
+                      "Value": "'#FFFFFF'"
                     }
                   }
                 }
@@ -82,7 +84,52 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "26D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "560D"
                 }
               }
             }

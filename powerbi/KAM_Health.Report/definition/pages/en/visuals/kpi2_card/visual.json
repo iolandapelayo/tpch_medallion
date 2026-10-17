@@ -1,0 +1,70 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "kpi2_card",
+  "position": {
+    "x": 24,
+    "y": 312,
+    "z": 14000,
+    "width": 276,
+    "height": 190,
+    "tabOrder": 14000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "⚠  ",
+                    "textStyle": {
+                      "fontFamily": "Inter, 'Segoe UI', sans-serif",
+                      "fontSize": "13pt",
+                      "color": "#2B7BB9",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "High-risk accounts",
+                    "textStyle": {
+                      "fontFamily": "Roboto, 'Segoe UI Semibold', sans-serif",
+                      "fontSize": "12pt",
+                      "color": "#0E3A5B",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

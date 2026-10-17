@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "worklist",
   "position": {
-    "x": 16,
-    "y": 462,
-    "z": 16000,
-    "height": 246,
-    "width": 1248,
-    "tabOrder": 16000
+    "x": 784,
+    "y": 392,
+    "z": 25000,
+    "width": 472,
+    "height": 238,
+    "tabOrder": 25000
   },
   "visual": {
     "visualType": "tableEx",
@@ -50,36 +50,6 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Market segment ES"
-                }
-              },
-              "queryRef": "Customer.Market segment ES",
-              "nativeQueryRef": "Market segment ES",
-              "displayName": "Segmento"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Region ES"
-                }
-              },
-              "queryRef": "Customer.Region ES",
-              "nativeQueryRef": "Region ES",
-              "displayName": "Región"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
                       "Entity": "Account Health"
                     }
                   },
@@ -88,7 +58,7 @@
               },
               "queryRef": "Account Health.Risk level ES",
               "nativeQueryRef": "Risk level ES",
-              "displayName": "Nivel de riesgo"
+              "displayName": "Riesgo"
             },
             {
               "field": {
@@ -118,7 +88,7 @@
               },
               "queryRef": "Account Health.Revenue change %",
               "nativeQueryRef": "Revenue change %",
-              "displayName": "Variación ingresos %"
+              "displayName": "Variación 12m"
             },
             {
               "field": {
@@ -128,72 +98,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Days since last order"
+                  "Property": "Signals ES"
                 }
               },
-              "queryRef": "Account Health.Days since last order",
-              "nativeQueryRef": "Days since last order",
-              "displayName": "Días sin pedir"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Usual days between orders"
-                }
-              },
-              "queryRef": "Account Health.Usual days between orders",
-              "nativeQueryRef": "Usual days between orders",
-              "displayName": "Días habituales entre pedidos"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Overdue ES"
-                }
-              },
-              "queryRef": "Account Health.Overdue ES",
-              "nativeQueryRef": "Overdue ES",
-              "displayName": "Retrasada"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Declining ES"
-                }
-              },
-              "queryRef": "Account Health.Declining ES",
-              "nativeQueryRef": "Declining ES",
-              "displayName": "En caída"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Service issues ES"
-                }
-              },
-              "queryRef": "Account Health.Service issues ES",
-              "nativeQueryRef": "Service issues ES",
-              "displayName": "Problemas de servicio"
+              "queryRef": "Account Health.Signals ES",
+              "nativeQueryRef": "Signals ES",
+              "displayName": "Por qué"
             }
           ]
         }
@@ -213,7 +123,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -224,6 +135,105 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0E3A5B'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
                 }
               }
             }
@@ -245,7 +255,27 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Lista de la semana - cuentas ordenadas por ingresos en riesgo'"
+                  "Value": "'Lista de la semana'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ordenada por ingresos en riesgo'"
                 }
               }
             }

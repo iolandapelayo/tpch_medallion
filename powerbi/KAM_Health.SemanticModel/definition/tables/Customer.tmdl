@@ -2,7 +2,7 @@ table Customer
 	lineageTag: ab9083e0-014b-4bc2-90e6-a9ebced9cd64
 
 	column 'Customer key'
-		dataType: double
+		dataType: int64
 		isHidden
 		formatString: 0
 		lineageTag: 18d55285-4515-4262-9b6c-967f68fc594b
@@ -91,7 +91,8 @@ table Customer
 				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
-				    Data = Gold{[Name = "DIM_CUSTOMER", Kind = "Table"]}[Data]
+				    Data = Gold{[Name = "DIM_CUSTOMER", Kind = "Table"]}[Data],
+				    Typed = Table.TransformColumnTypes(Data, {{"CUSTOMER_KEY", Int64.Type}})
 				in
-				    Data
+				    Typed
 

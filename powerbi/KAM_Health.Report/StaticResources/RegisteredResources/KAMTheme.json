@@ -1,30 +1,99 @@
 {
   "name": "Propelling KAM Health",
   "dataColors": [
-    "#D64545",
-    "#F2B84B",
-    "#176366",
-    "#AAA4A4",
-    "#2D3540",
-    "#6BD9DE",
+    "#0E3A5B",
+    "#8FA3B3",
+    "#B8C6D1",
+    "#DDE5EB",
+    "#1B5F8C",
+    "#4FA9D6",
     "#AAE9EC",
-    "#38414F"
+    "#2D3540"
   ],
   "foreground": "#292626",
   "background": "#FFFFFF",
-  "tableAccent": "#6BD9DE",
+  "tableAccent": "#2B7BB9",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
+      "fontSize": 26,
+      "color": "#0E3A5B"
+    },
+    "title": {
+      "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
+      "fontSize": 12,
+      "color": "#0E3A5B"
+    },
+    "header": {
+      "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
+      "fontSize": 10,
+      "color": "#0E3A5B"
+    },
+    "label": {
+      "fontFace": "Inter, 'Segoe UI', sans-serif",
+      "fontSize": 9,
+      "color": "#292626"
+    }
+  },
   "visualStyles": {
     "*": {
       "*": {
+        "background": [
+          {
+            "show": true,
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "transparency": 0
+          }
+        ],
         "border": [
           {
             "show": true,
             "color": {
               "solid": {
-                "color": "#DEDADA"
+                "color": "#FFFFFF"
               }
             },
-            "radius": 12
+            "radius": 22
+          }
+        ],
+        "dropShadow": [
+          {
+            "show": false
+          }
+        ],
+        "padding": [
+          {
+            "top": 12,
+            "bottom": 10,
+            "left": 14,
+            "right": 14
+          }
+        ],
+        "title": [
+          {
+            "fontFamily": "Roboto, 'Segoe UI Semibold', sans-serif",
+            "fontSize": 12,
+            "fontColor": {
+              "solid": {
+                "color": "#0E3A5B"
+              }
+            },
+            "bold": true
+          }
+        ],
+        "subTitle": [
+          {
+            "fontFamily": "Inter, 'Segoe UI', sans-serif",
+            "fontSize": 8,
+            "fontColor": {
+              "solid": {
+                "color": "#7A7575"
+              }
+            }
           }
         ]
       }

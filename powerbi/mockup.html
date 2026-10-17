@@ -4,116 +4,150 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Key Account Health Cockpit - mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 <style>
+  /* Propelling Tech: logo turquoise #6BD9DE; charts use blues from navy to that turquoise (darkest = highest risk) */
   :root {
-    --bg: #EDEBEB; --card: #FFFFFF; --ink: #292626; --muted: #6B7280; --line: #E5E7EB;
-    --high: #D64545; --inactive: #AAA4A4; --low: #176366; --medium: #F2B84B; --brand: #2D3540;
+    --navy: #0E3A5B; --blue: #2B7BB9; --turq: #6BD9DE; --pale: #C9D6DF;
+    --frame: #DEDADA; --card: #FFFFFF; --ink: #292626; --muted: #7A7575; --line: #E7ECEF;
+    --high: var(--navy); --medium: #8FA3B3; --low: #B8C6D1; --inactive: #DDE5EB;
+    --text: Inter, "Segoe UI", sans-serif; --head: Roboto, "Segoe UI Semibold", sans-serif;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: #D1D5DB; font-family: "Segoe UI", system-ui, sans-serif; color: var(--ink); }
+  body { margin: 0; background: #F4F4F4; font-family: var(--text); color: var(--ink); }
   .note { max-width: 1280px; margin: 16px auto 8px; font-size: 13px; color: #374151; }
-  /* 1280 x 720 = Power BI 16:9 page; every block is placed with the same x/y/w/h used in the PBIP */
-  .page { position: relative; width: 1280px; height: 720px; margin: 0 auto 24px; background: var(--bg); overflow: hidden; }
-  .box { position: absolute; background: var(--card); border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,.08); padding: 10px 12px; }
-  .title { background: #2D3540; box-shadow: none; padding: 4px 14px; }
-  .title h1 { margin: 4px 0 0; font-size: 19px; color: #FFFFFF; }
-  .title p { margin: 1px 0 0; font-size: 11px; color: #AAE9EC; }
-  .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .slicer .field { border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; font-size: 12px; display: flex; justify-content: space-between; }
-  .kpi .value { font-size: 30px; font-weight: 600; margin-top: 6px; }
-  .kpi.alert .value { color: var(--high); }
-  h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; }
-  table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-  th { text-align: left; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--line); padding: 4px 6px; }
-  td { padding: 4px 6px; border-bottom: 1px solid #F3F4F6; }
+  /* 1280 x 720 = Power BI 16:9 page; every block uses the same x/y/w/h as tools/build_pbip.py */
+  .page { position: relative; width: 1280px; height: 720px; margin: 0 auto 24px; background: #FFFFFF; overflow: hidden; }
+  .box { position: absolute; background: var(--card); border-radius: 22px; padding: 12px 14px; }
+  .frame { background: var(--frame); border-radius: 28px; padding: 0; }
+  .band { border-radius: 28px; padding: 16px 26px; }
+  .band h1 { margin: 0; font: 700 26px/1.2 var(--head); color: var(--navy); }
+  .band p { margin: 4px 0 0; font-size: 13px; color: var(--blue); }
+  .slicer { border: 1px solid var(--pale); border-radius: 10px; padding: 4px 8px; }
+  .slicer .label { font-size: 10.5px; font-weight: 600; color: var(--blue); margin-bottom: 3px; }
+  .slicer .field { font-size: 12px; display: flex; justify-content: space-between; color: var(--ink); }
+  .flag { position: absolute; width: 30px; height: 20px; border-radius: 2px; font: 600 9px/20px var(--text);
+          text-align: center; color: #fff; background: var(--navy); }
+  .flag.active { outline: 2px solid var(--turq); }
+  .kpi-head { font: 700 16px var(--head); color: var(--navy); }
+  .kpi-head .icon { color: var(--blue); margin-right: 8px; }
+  .kpi-value { position: absolute; font: 700 32px var(--head); color: var(--navy); }
+  .kpi-spark { position: absolute; }
+  .kpi-sub { position: absolute; }
+  .kpi-sub b { display: block; font: 700 18px var(--head); color: var(--blue); }
+  .kpi-sub span { font-size: 10.5px; color: var(--muted); }
+  h3 { margin: 0; font: 700 16px var(--head); color: var(--navy); }
+  .sub { margin: 2px 0 6px; font-size: 10.5px; color: var(--muted); }
+  .legend { display: flex; gap: 12px; font-size: 11px; color: var(--muted); margin: 6px 0 4px; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  td, th { white-space: nowrap; }
+  td:last-child { white-space: normal; }
+  th { text-align: left; color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--line); padding: 4px; }
+  td { padding: 4px; border-bottom: 1px solid var(--line); }
   td.num, th.num { text-align: right; }
-  .pill { padding: 1px 8px; border-radius: 10px; color: #fff; font-size: 11px; }
-  .legend { display: flex; gap: 10px; font-size: 11px; color: var(--muted); }
-  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+  .story { font-size: 11px; line-height: 1.45; color: var(--navy); padding: 8px 16px; }
 </style>
 </head>
 <body>
-<p class="note"><b>Mockup</b> of the Power BI page (1280 x 720). Numbers are illustrative; the real report reads the GOLD schema in Snowflake.</p>
+<p class="note"><b>Mockup</b> of the Power BI page (1280 x 720), matching the current report design. Numbers are illustrative; the real report reads the GOLD schema in Snowflake.</p>
 
 <div class="page">
-  <!-- Title -->
-  <div class="box title" style="left:16px; top:4px; width:1248px; height:52px;">
+  <!-- Grey rounded frame and white header band -->
+  <div class="box frame" style="left:8px; top:8px; width:1264px; height:704px;"></div>
+  <div class="box band" style="left:8px; top:8px; width:1264px; height:86px;">
     <h1>Key Account Health Cockpit</h1>
     <p>Which accounts are cooling down, why, and how much revenue is at stake - TPC-H SF1, as of 1998-08-02</p>
   </div>
 
-  <!-- Slicers -->
-  <div class="box slicer" style="left:16px;  top:64px; width:300px; height:56px;"><div class="label">Account tier</div><div class="field">All <span>▾</span></div></div>
-  <div class="box slicer" style="left:332px; top:64px; width:300px; height:56px;"><div class="label">Risk level</div><div class="field">All <span>▾</span></div></div>
-  <div class="box slicer" style="left:648px; top:64px; width:300px; height:56px;"><div class="label">Market segment</div><div class="field">All <span>▾</span></div></div>
-  <div class="box slicer" style="left:964px; top:64px; width:300px; height:56px;"><div class="label">Region</div><div class="field">All <span>▾</span></div></div>
+  <!-- Filter pills (short labels, so they are never cut with "...") -->
+  <div class="box slicer" style="left:704px; top:24px; width:104px; height:54px;"><div class="label">Tier</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:816px; top:24px; width:104px; height:54px;"><div class="label">Risk</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:928px; top:24px; width:104px; height:54px;"><div class="label">Segment</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:1040px; top:24px; width:104px; height:54px;"><div class="label">Region</div><div class="field">All <span>▾</span></div></div>
 
-  <!-- KPI cards -->
-  <div class="box kpi"       style="left:16px;  top:132px; width:300px; height:96px;"><div class="label">Active accounts</div><div class="value">94.8K</div></div>
-  <div class="box kpi alert" style="left:332px; top:132px; width:300px; height:96px;"><div class="label">High-risk accounts</div><div class="value">7,412</div></div>
-  <div class="box kpi alert" style="left:648px; top:132px; width:300px; height:96px;"><div class="label">Revenue at risk</div><div class="value">1.93bn</div></div>
-  <div class="box kpi"       style="left:964px; top:132px; width:300px; height:96px;"><div class="label">% of revenue at risk</div><div class="value">41.7%</div></div>
+  <!-- Language flags (the active one has a turquoise outline) -->
+  <div class="flag active" style="left:1158px; top:38px;">EN</div>
+  <div class="flag" style="left:1194px; top:38px; background:#C60B1E;">ES</div>
+  <div class="flag" style="left:1230px; top:38px; background:#E8B92E; color:#B5121B;">CA</div>
 
-  <!-- Stacked bar: accounts by tier and risk level -->
-  <div class="box" style="left:16px; top:240px; width:404px; height:210px;">
+  <!-- KPI cards: icon + label, big number, sparkline, comparison line -->
+  <div class="box" style="left:24px; top:110px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon">◎</span>Active accounts</div></div>
+  <div class="kpi-value" style="left:38px; top:160px;">86,662</div>
+  <svg class="kpi-spark" style="left:200px; top:156px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,30 L11,26 L22,32 L33,24 L44,28 L55,22 L66,27 L77,25 L88,46 L88,64 L0,64Z" fill="#2B7BB9" opacity=".25"/><polyline points="0,30 11,26 22,32 33,24 44,28 55,22 66,27 77,25 88,46" fill="none" stroke="#2B7BB9" stroke-width="2"/></svg>
+  <div class="kpi-sub" style="left:38px; top:230px;"><b>▼ -6.4%</b><span>12m revenue vs previous 12m</span></div>
+
+  <div class="box" style="left:24px; top:312px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon">⚠</span>High-risk accounts</div></div>
+  <div class="kpi-value" style="left:38px; top:362px;">9,701</div>
+  <svg class="kpi-spark" style="left:200px; top:358px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,22 L11,24 L22,20 L33,26 L44,25 L55,30 L66,36 L77,44 L88,52 L88,64 L0,64Z" fill="#2B7BB9" opacity=".25"/><polyline points="0,22 11,24 22,20 33,26 44,25 55,30 66,36 77,44 88,52" fill="none" stroke="#2B7BB9" stroke-width="2"/></svg>
+  <div class="kpi-sub" style="left:38px; top:432px;"><b>▼ -41.8%</b><span>12m revenue vs previous 12m</span></div>
+
+  <div class="box" style="left:24px; top:514px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon">◆</span>Revenue at risk</div></div>
+  <div class="kpi-value" style="left:38px; top:564px;">1.23bn</div>
+  <svg class="kpi-spark" style="left:200px; top:560px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,26 L11,24 L22,28 L33,23 L44,27 L55,26 L66,31 L77,35 L88,40 L88,64 L0,64Z" fill="#2B7BB9" opacity=".25"/><polyline points="0,26 11,24 22,28 33,23 44,27 55,26 66,31 77,35 88,40" fill="none" stroke="#2B7BB9" stroke-width="2"/></svg>
+  <div class="kpi-sub" style="left:38px; top:634px;"><b>38.5%</b><span>of last-12-month revenue</span></div>
+
+  <!-- Stacked bar: accounts by tier and risk level (navy = highest risk) -->
+  <div class="box" style="left:316px; top:110px; width:452px; height:268px;">
     <h3>Accounts by tier and risk level</h3>
-    <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--inactive)"></i>Inactive</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--medium)"></i>Medium</span></div>
-    <svg width="380" height="150" viewBox="0 0 380 150" font-size="11" fill="#6B7280">
-      <text x="0" y="32">A</text><text x="0" y="77">B</text><text x="0" y="122">C</text>
-      <g transform="translate(18,18)">
-        <rect width="40" height="22" fill="#D64545"/><rect x="40" width="10" height="22" fill="#AAA4A4"/><rect x="50" width="150" height="22" fill="#176366"/><rect x="200" width="70" height="22" fill="#F2B84B"/>
-      </g>
-      <g transform="translate(18,63)">
-        <rect width="55" height="22" fill="#D64545"/><rect x="55" width="20" height="22" fill="#AAA4A4"/><rect x="75" width="200" height="22" fill="#176366"/><rect x="275" width="80" height="22" fill="#F2B84B"/>
-      </g>
-      <g transform="translate(18,108)">
-        <rect width="60" height="22" fill="#D64545"/><rect x="60" width="45" height="22" fill="#AAA4A4"/><rect x="105" width="170" height="22" fill="#176366"/><rect x="275" width="85" height="22" fill="#F2B84B"/>
-      </g>
+    <div class="sub">High risk highlighted; other levels in grey</div>
+    <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--medium)"></i>Medium</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--inactive)"></i>Inactive</span></div>
+    <svg width="424" height="190" viewBox="0 0 424 190" font-size="11" fill="#7A7575">
+      <text x="0" y="38">A</text><text x="0" y="98">B</text><text x="0" y="158">C</text>
+      <g transform="translate(18,20)"><rect width="30" height="30" fill="#0E3A5B"/><rect x="30" width="95" height="30" fill="#8FA3B3"/><rect x="125" width="140" height="30" fill="#B8C6D1"/><rect x="265" width="20" height="30" fill="#DDE5EB"/></g>
+      <g transform="translate(18,80)"><rect width="45" height="30" fill="#0E3A5B"/><rect x="45" width="135" height="30" fill="#8FA3B3"/><rect x="180" width="175" height="30" fill="#B8C6D1"/><rect x="355" width="40" height="30" fill="#DDE5EB"/></g>
+      <g transform="translate(18,140)"><rect width="55" height="30" fill="#0E3A5B"/><rect x="55" width="150" height="30" fill="#8FA3B3"/><rect x="205" width="130" height="30" fill="#B8C6D1"/><rect x="335" width="70" height="30" fill="#DDE5EB"/></g>
     </svg>
   </div>
 
-  <!-- Bar: revenue at risk by region -->
-  <div class="box" style="left:436px; top:240px; width:404px; height:210px;">
+  <!-- Bar: revenue at risk by region (the top region highlighted, like the reference "Top 5") -->
+  <div class="box" style="left:316px; top:392px; width:452px; height:238px;">
     <h3>Revenue at risk by region</h3>
-    <svg width="380" height="165" viewBox="0 0 380 165" font-size="11" fill="#6B7280">
-      <text x="0" y="22">America</text><rect x="62" y="10" width="290" height="20" fill="#2D3540"/>
-      <text x="0" y="54">Asia</text><rect x="62" y="42" width="276" height="20" fill="#2D3540"/>
-      <text x="0" y="86">Europe</text><rect x="62" y="74" width="270" height="20" fill="#2D3540"/>
-      <text x="0" y="118">Africa</text><rect x="62" y="106" width="262" height="20" fill="#2D3540"/>
-      <text x="0" y="150">Middle East</text><rect x="62" y="138" width="255" height="20" fill="#2D3540"/>
+    <div class="sub">The region with the most revenue at risk is highlighted</div>
+    <svg width="424" height="170" viewBox="0 0 424 170" font-size="11" fill="#7A7575">
+      <text x="0" y="22">America</text><rect x="74" y="8" width="280" height="22" rx="2" fill="#2B7BB9"/><text x="360" y="23" fill="#292626">262M</text>
+      <text x="0" y="55">Asia</text><rect x="74" y="41" width="270" height="22" rx="2" fill="#C9D6DF"/><text x="350" y="56" fill="#292626">253M</text>
+      <text x="0" y="88">Europe</text><rect x="74" y="74" width="262" height="22" rx="2" fill="#C9D6DF"/><text x="342" y="89" fill="#292626">246M</text>
+      <text x="0" y="121">Africa</text><rect x="74" y="107" width="255" height="22" rx="2" fill="#C9D6DF"/><text x="335" y="122" fill="#292626">239M</text>
+      <text x="0" y="154">Middle East</text><rect x="74" y="140" width="248" height="22" rx="2" fill="#C9D6DF"/><text x="328" y="155" fill="#292626">232M</text>
     </svg>
   </div>
 
-  <!-- Line: monthly revenue -->
-  <div class="box" style="left:856px; top:240px; width:408px; height:210px;">
-    <h3>Monthly revenue (click an account in the table to see its history)</h3>
-    <svg width="384" height="160" viewBox="0 0 384 160" font-size="10" fill="#6B7280">
-      <line x1="0" y1="140" x2="384" y2="140" stroke="#E5E7EB"/>
-      <polyline fill="none" stroke="#176366" stroke-width="2"
-        points="0,60 20,55 40,62 60,52 80,58 100,50 120,57 140,53 160,61 180,49 200,56 220,54 240,59 260,51 280,57 300,55 320,60 340,52 360,58 380,120"/>
-      <text x="0" y="155">1992</text><text x="170" y="155">1995</text><text x="350" y="155">1998</text>
+  <!-- Lines: monthly revenue by risk level, continuous date axis with whole years -->
+  <div class="box" style="left:784px; top:110px; width:472px; height:268px;">
+    <h3>Monthly revenue by risk level, 1998</h3>
+    <div class="sub">Data until 2 Aug 1998 · click an account to see its months</div>
+    <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--medium)"></i>Medium</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--inactive)"></i>Inactive</span></div>
+    <svg width="444" height="160" viewBox="0 0 444 160" font-size="10" fill="#7A7575">
+      <line x1="0" y1="138" x2="444" y2="138" stroke="#E7ECEF"/>
+      <polyline fill="none" stroke="#B8C6D1" stroke-width="2" points="0,38 40,42 81,36 121,40 161,37 202,41 242,39 283,120"/>
+      <polyline fill="none" stroke="#8FA3B3" stroke-width="2" points="0,64 40,66 81,62 121,67 161,65 202,69 242,68 283,126"/>
+      <polyline fill="none" stroke="#0E3A5B" stroke-width="2" points="0,104 40,106 81,108 121,109 161,112 202,113 242,116 283,134"/>
+      <polyline fill="none" stroke="#DDE5EB" stroke-width="2" points="0,132 40,134 81,135 121,136 161,137 202,137 242,138 283,138"/>
+      <text x="0" y="154">Jan</text><text x="32" y="154">Feb</text><text x="73" y="154">Mar</text><text x="113" y="154">Apr</text><text x="153" y="154">May</text><text x="194" y="154">Jun</text><text x="234" y="154">Jul</text><text x="275" y="154">Aug</text><text x="315" y="154">Sep</text><text x="355" y="154">Oct</text><text x="396" y="154">Nov</text><text x="424" y="154">Dec</text>
     </svg>
   </div>
 
-  <!-- Worklist table -->
-  <div class="box" style="left:16px; top:462px; width:1248px; height:246px;">
-    <h3>This week's worklist - accounts ordered by revenue at risk</h3>
+  <!-- Worklist: compact table with a "Why" column -->
+  <div class="box" style="left:784px; top:392px; width:472px; height:238px;">
+    <h3>Worklist for this week</h3>
+    <div class="sub">Ordered by revenue at risk</div>
     <table>
-      <thead><tr>
-        <th>Customer</th><th>Tier</th><th>Segment</th><th>Region</th><th>Risk level</th>
-        <th class="num">Revenue at risk</th><th class="num">Revenue change %</th><th class="num">Days since last order</th><th class="num">Usual days between orders</th>
-        <th>Overdue</th><th>Declining</th><th>Service issues</th>
-      </tr></thead>
+      <thead><tr><th>Customer</th><th>Tier</th><th>Risk</th><th class="num">Revenue at risk</th><th class="num">Change 12m</th><th>Why</th></tr></thead>
       <tbody>
-        <tr><td>Customer#000143500</td><td>A</td><td>Building</td><td>Europe</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">612,904</td><td class="num">-48.2%</td><td class="num">402</td><td class="num">131</td><td>True</td><td>True</td><td>False</td></tr>
-        <tr><td>Customer#000095257</td><td>A</td><td>Machinery</td><td>Asia</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">588,117</td><td class="num">-35.0%</td><td class="num">96</td><td class="num">88</td><td>False</td><td>True</td><td>True</td></tr>
-        <tr><td>Customer#000087115</td><td>A</td><td>Household</td><td>America</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">571,340</td><td class="num">4.1%</td><td class="num">310</td><td class="num">120</td><td>True</td><td>False</td><td>False</td></tr>
-        <tr><td>Customer#000136777</td><td>A</td><td>Automobile</td><td>Africa</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">559,006</td><td class="num">-12.9%</td><td class="num">41</td><td class="num">102</td><td>False</td><td>False</td><td>True</td></tr>
-        <tr><td>Customer#000044485</td><td>B</td><td>Furniture</td><td>Middle East</td><td><span class="pill" style="background:var(--high)">High</span></td><td class="num">498,775</td><td class="num">-52.6%</td><td class="num">287</td><td class="num">140</td><td>True</td><td>True</td><td>False</td></tr>
-        <tr><td>Customer#000060775</td><td>B</td><td>Building</td><td>Europe</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">471,220</td><td class="num">-31.4%</td><td class="num">77</td><td class="num">95</td><td>False</td><td>True</td><td>False</td></tr>
-        <tr><td>Customer#000127003</td><td>B</td><td>Machinery</td><td>Asia</td><td><span class="pill" style="background:var(--medium)">Medium</span></td><td class="num">455,893</td><td class="num">8.7%</td><td class="num">64</td><td class="num">110</td><td>False</td><td>False</td><td>True</td></tr>
+        <tr><td>Customer#000143500</td><td>A</td><td>High</td><td class="num">612,904</td><td class="num">-48.2%</td><td>Overdue · Declining</td></tr>
+        <tr><td>Customer#000095257</td><td>A</td><td>High</td><td class="num">588,117</td><td class="num">-35.0%</td><td>Declining · Service</td></tr>
+        <tr><td>Customer#000087115</td><td>A</td><td>Medium</td><td class="num">571,340</td><td class="num">4.1%</td><td>Overdue</td></tr>
+        <tr><td>Customer#000136777</td><td>A</td><td>Medium</td><td class="num">559,006</td><td class="num">-12.9%</td><td>Service</td></tr>
+        <tr><td>Customer#000044485</td><td>B</td><td>High</td><td class="num">498,775</td><td class="num">-52.6%</td><td>Overdue · Declining</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- How to read it -->
+  <div class="box story" style="left:316px; top:644px; width:940px; height:56px;">
+    How to read it: every account gets three warning signals - overdue (much later than its usual ordering rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late deliveries). Two or more signals = High risk. Start with Tier A accounts in navy: they hold most of the revenue at stake.
   </div>
 </div>
 </body>

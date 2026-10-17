@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "tierRisk",
   "position": {
-    "x": 16,
-    "y": 240,
-    "z": 13000,
-    "height": 210,
-    "width": 404,
-    "tabOrder": 13000
+    "x": 316,
+    "y": 110,
+    "z": 22000,
+    "width": 452,
+    "height": 268,
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "barChart",
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Account tier",
               "nativeQueryRef": "Account tier",
-              "active": true,
               "displayName": "Categoria del compte"
             }
           ]
@@ -87,8 +86,57 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -105,6 +153,26 @@
               "expr": {
                 "Literal": {
                   "Value": "'Comptes per categoria i nivell de risc'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Risc alt destacat; la resta, en gris'"
                 }
               }
             }

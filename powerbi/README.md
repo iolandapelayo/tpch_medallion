@@ -23,12 +23,12 @@ Prompt given to Claude:
 > which accounts are at risk, why, and how much revenue is at stake. Return a static HTML mockup
 > with illustrative numbers where every block has an absolute position in pixels.
 
-Result: [`mockup.html`](mockup.html). From top to bottom:
-- title;
-- 4 slicers: tier, risk level, segment and region;
-- 4 KPI cards: active accounts, high-risk accounts, revenue at risk and % of revenue at risk;
-- 3 charts: accounts by tier and risk level, revenue at risk by region, and monthly revenue;
-- the worklist table, ordered by revenue at risk.
+Result: [`mockup.html`](mockup.html). The mockup was later restyled together with the report, following two reference dashboards. It now shows:
+- a white header band with the title, 4 filter pills (tier, risk, segment and region) and the language flags;
+- 3 KPI cards on the left (active accounts, high-risk accounts and revenue at risk). Each card has a sparkline and a comparison line;
+- in the centre: accounts by tier and risk level, and revenue at risk by region, with the top region highlighted;
+- on the right: monthly revenue by risk level, and a compact worklist with a "Why" column;
+- a "how to read it" card at the bottom.
 
 ## Step 2 - Power BI Project generated from the mockup
 
@@ -42,12 +42,17 @@ Prompt given to Claude:
 What was generated:
 - **Model:**
   - Tables: `Account Health`, `Customer`, `Orders` and `Date`.
-  - Measures: Accounts, Active accounts, High-risk accounts, Total revenue at risk, % of revenue at risk, Revenue and Late orders %.
+  - Main measures: Accounts, Active accounts, High-risk accounts, Total revenue at risk, % of revenue at risk, Revenue and Late line rate.
+  - Helper measures for the cards: 12-month revenue change, sparkline revenue, and the bar colour of the top region.
   - Relationship between `Account Health` and `Customer` in both directions. This way a risk or tier slicer also filters the orders behind the monthly revenue line.
-- **Report:** 15 visuals placed at the mockup's coordinates. Clicking an account in the worklist shows that account's monthly revenue in the line chart.
-- **Theme colours:** Propelling Tech brand colours, taken from careers.propellingtech.com:
-  - slate `#2D3540`, turquoise `#6BD9DE` and teal `#176366`;
-  - risk levels: red (High), amber (Medium), teal (Low) and grey (Inactive).
+- **Report:** visuals placed at the mockup's coordinates. Clicking an account in the worklist shows that account's monthly revenue in the line chart.
+- **Look:** a grey rounded frame, white cards with large rounded corners, and Inter / Roboto fonts (with Segoe UI as fallback). All of it is taken from careers.propellingtech.com.
+- **Colours and decluttering:** the charts follow the rule "everything in grey except what we want to highlight". The blues match the turquoise of the Propelling logo (`#6BD9DE`).
+  - Risk level: only High is coloured (navy `#0E3A5B`). Medium, Low and Inactive are blue-tinted greys (`#8FA3B3`, `#B8C6D1` and `#DDE5EB`), from dark to light, so the order is still readable.
+  - Revenue at risk by region: only the top region is in blue (`#2B7BB9`); the rest are grey.
+  - Legends are kept only where the title and the axis do not say what each colour is.
+  - Data labels are shown only on the region chart, which has no value axis.
+  - The monthly line starts its Y axis at zero, so that changes are not exaggerated.
 - **Languages (English, Spanish, Catalan):**
   - Each language has its own page.
   - The three flags at the top right switch between pages: Ctrl+click in Desktop, a normal click in the service.

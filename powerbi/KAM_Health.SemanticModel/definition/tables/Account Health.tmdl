@@ -1,28 +1,57 @@
 table 'Account Health'
 	lineageTag: ce0dcc0d-a388-46d8-8447-efb756757161
 
+	/// Number of accounts (customers with at least one order).
 	measure Accounts = COUNTROWS('Account Health')
 		formatString: #,0
 		lineageTag: d8bef22e-1964-4242-b0dd-35b83ea3b0f9
 
+	/// Accounts with at least one order in the last 12 months.
 	measure 'Active accounts' = CALCULATE([Accounts], 'Account Health'[Risk level] <> "Inactive")
 		formatString: #,0
 		lineageTag: 6eab78af-38ad-41d2-ac4f-3647890efda0
 
+	/// Active accounts with 2 or 3 risk signals.
 	measure 'High-risk accounts' = CALCULATE([Accounts], 'Account Health'[Risk level] = "High")
 		formatString: #,0
 		lineageTag: 8ba110ba-4d4e-4ea6-97d7-0f66e4506924
 
+	/// Last-12-month revenue of the accounts.
+	measure 'Revenue last 12m total' = SUM('Account Health'[Revenue last 12m])
+		formatString: #,0
+		lineageTag: 3f6c2a91-7d4e-4b8a-9c15-6e2f8a0d4b73
+
+	/// Last-12-month revenue of active accounts with at least one risk signal.
 	measure 'Total revenue at risk' = SUM('Account Health'[Revenue at risk])
 		formatString: #,0
 		lineageTag: 96dabe52-7bd2-4d9c-afc4-8b1781483f1f
 
-	measure '% of revenue at risk' = DIVIDE([Total revenue at risk], SUM('Account Health'[Revenue last 12m]))
+	/// Share of last-12-month revenue that comes from accounts at risk.
+	measure '% of revenue at risk' = DIVIDE([Total revenue at risk], [Revenue last 12m total])
 		formatString: 0.0%
 		lineageTag: b01af25d-612c-465f-b8b3-9b1fb2aa1682
 
+	/// Revenue of the 12 months before the last 12 months.
+	measure 'Revenue prev 12m total' = SUM('Account Health'[Revenue prev 12m])
+		formatString: #,0
+
+	/// Last-12-month revenue vs the previous 12 months.
+	measure 'Revenue change 12m' = DIVIDE([Revenue last 12m total] - [Revenue prev 12m total], [Revenue prev 12m total])
+		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+
+	/// Revenue change 12m of the active accounts.
+	measure 'Revenue change active' = CALCULATE([Revenue change 12m], 'Account Health'[Risk level] <> "Inactive")
+		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+
+	/// Revenue change 12m of the high-risk accounts.
+	measure 'Revenue change high-risk' = CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = "High")
+		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+
+	/// Highlights the region with the most revenue at risk.
+	measure 'Region bar color' = VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Region], Customer[Region ES], Customer[Region CA]), [Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, "#2B7BB9", "#C9D6DF")
+
 	column 'Customer key'
-		dataType: double
+		dataType: int64
 		isHidden
 		formatString: 0
 		lineageTag: b528393e-66d5-472e-b17d-bf725e5f0671
@@ -31,6 +60,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Reference date of the analysis: the last order in the data (1998-08-02).
 	column 'As of date'
 		dataType: dateTime
 		formatString: yyyy-mm-dd
@@ -38,15 +68,11 @@ table 'Account Health'
 		summarizeBy: none
 		sourceColumn: AS_OF_DATE
 
-		variation Variación
-			isDefault
-			relationship: 57e5a30f-44b3-4f44-b813-ed63d8bf80a1
-			defaultHierarchy: LocalDateTable_dea29f62-ef7b-4de1-8066-aaab42f5319f.'Date Hierarchy'
-
 		annotation SummarizationSetBy = User
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	/// A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest.
 	column 'Account tier'
 		dataType: string
 		lineageTag: db3f7115-d3f6-4af8-9863-e284273aa182
@@ -62,11 +88,6 @@ table 'Account Health'
 		summarizeBy: none
 		sourceColumn: FIRST_ORDER_DATE
 
-		variation Variación
-			isDefault
-			relationship: 52b83356-18ae-4384-8cf6-76af4e2a5ba6
-			defaultHierarchy: LocalDateTable_5beb800d-977f-4237-9885-c3ab2e824c8c.'Date Hierarchy'
-
 		annotation SummarizationSetBy = User
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -78,17 +99,13 @@ table 'Account Health'
 		summarizeBy: none
 		sourceColumn: LAST_ORDER_DATE
 
-		variation Variación
-			isDefault
-			relationship: 5b2beef3-c7c3-4814-bcb7-35910f740731
-			defaultHierarchy: LocalDateTable_55573fd0-45c6-492e-9b2e-ac1ccb4e274a.'Date Hierarchy'
-
 		annotation SummarizationSetBy = User
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	/// Days between the customer's last order and the as-of date.
 	column 'Days since last order'
-		dataType: double
+		dataType: int64
 		formatString: #,0
 		lineageTag: c05acea3-7f61-43e5-bf0d-9426431b48b3
 		summarizeBy: none
@@ -96,6 +113,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Average number of days between the customer's orders.
 	column 'Usual days between orders'
 		dataType: double
 		formatString: #,0
@@ -106,7 +124,7 @@ table 'Account Health'
 		annotation SummarizationSetBy = User
 
 	column 'Lifetime orders'
-		dataType: double
+		dataType: int64
 		formatString: #,0
 		lineageTag: c2f37cda-887d-4246-94da-b5697b326e78
 		summarizeBy: none
@@ -124,7 +142,7 @@ table 'Account Health'
 		annotation SummarizationSetBy = User
 
 	column 'Orders last 12m'
-		dataType: double
+		dataType: int64
 		formatString: #,0
 		lineageTag: 7452237e-4802-4b38-a75a-51ed2482616d
 		summarizeBy: none
@@ -150,6 +168,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Revenue of the last 12 months vs the previous 12 months.
 	column 'Revenue change %'
 		dataType: double
 		formatString: 0.0%
@@ -159,6 +178,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Share of the account's order lines received late in the last 12 months.
 	column 'Late line rate 12m'
 		dataType: double
 		formatString: 0.0%
@@ -168,6 +188,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// No order for more than 2x the customer's usual time between orders.
 	column Overdue
 		dataType: boolean
 		lineageTag: 0296b921-67b2-4d0a-ae44-e2ca43434b2b
@@ -176,6 +197,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Last-12-month revenue fell more than 30%.
 	column Declining
 		dataType: boolean
 		lineageTag: c39e6cb5-0fdb-4bc8-a976-465f629d9c6b
@@ -184,6 +206,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// In the worst 25% of accounts by late line rate.
 	column 'Service issues'
 		dataType: boolean
 		lineageTag: c1b25886-8480-4ec2-bcb4-4aae85f54093
@@ -192,8 +215,9 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// How many of the three signals (overdue, declining, service issues) are on.
 	column 'Risk signals'
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: ea1b8b45-a540-40d1-a38c-b3c14d413714
 		summarizeBy: none
@@ -201,6 +225,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Inactive (no order in 12 months), High (2-3 signals), Medium (1), Low (0).
 	column 'Risk level'
 		dataType: string
 		lineageTag: bbc658e7-57b1-4303-aa7a-b9afda79ed09
@@ -220,6 +245,7 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	/// Last-12-month revenue of active accounts with at least one risk signal.
 	column 'Revenue at risk'
 		dataType: double
 		formatString: #,0
@@ -319,6 +345,27 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
+	column 'Signals EN' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Overdue") & " " & IF('Account Health'[Declining], "Declining") & " " & IF('Account Health'[Service issues], "Service")), " ", " · ")
+		dataType: string
+		summarizeBy: none
+		displayFolder: Translations
+
+		annotation SummarizationSetBy = User
+
+	column 'Signals ES' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Retraso") & " " & IF('Account Health'[Declining], "Caída") & " " & IF('Account Health'[Service issues], "Servicio")), " ", " · ")
+		dataType: string
+		summarizeBy: none
+		displayFolder: Translations
+
+		annotation SummarizationSetBy = User
+
+	column 'Signals CA' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Retard") & " " & IF('Account Health'[Declining], "Caiguda") & " " & IF('Account Health'[Service issues], "Servei")), " ", " · ")
+		dataType: string
+		summarizeBy: none
+		displayFolder: Translations
+
+		annotation SummarizationSetBy = User
+
 	partition 'Account Health' = m
 		mode: import
 		source =
@@ -327,7 +374,8 @@ table 'Account Health'
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
 				    Data = Gold{[Name = "FCT_ACCOUNT_HEALTH", Kind = "Table"]}[Data],
-				    WithOrder = Table.AddColumn(Data, "RISK_ORDER", each if [RISK_LEVEL] = "High" then 1 else if [RISK_LEVEL] = "Medium" then 2 else if [RISK_LEVEL] = "Low" then 3 else 4, Int64.Type)
+				    Typed = Table.TransformColumnTypes(Data, {{"CUSTOMER_KEY", Int64.Type}, {"DAYS_SINCE_LAST_ORDER", Int64.Type}, {"LIFETIME_ORDERS", Int64.Type}, {"ORDERS_LAST_12M", Int64.Type}, {"RISK_SIGNALS", Int64.Type}}),
+				    WithOrder = Table.AddColumn(Typed, "RISK_ORDER", each if [RISK_LEVEL] = "High" then 1 else if [RISK_LEVEL] = "Medium" then 2 else if [RISK_LEVEL] = "Low" then 3 else 4, Int64.Type)
 				in
 				    WithOrder
 
