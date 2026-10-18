@@ -88,16 +88,17 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
   Con datos reales, la regla sería la misma con `current_date`: cerrar en el último mes completo.
 - Para el servicio solo cuento pedidos **ya entregados** en esa fecha.
 - **El servicio se mide por línea, no por pedido:** en TPC-H casi todos los pedidos tienen al menos
-  una línea tardía, así que el 80 % de las cuentas tenía un 100 % de pedidos tardíos. Con todos empatados
+  una línea tardía, así que (en todos los datos) el 80 % de las cuentas tenía un 100 % de pedidos tardíos. Con todos empatados
   no se puede saber quién está en el "peor 25 %". Por líneas sí hay diferencias (la media es un 62 %).
   El ranking se hace solo entre las cuentas que tienen entregas que medir.
 - **No uso devoluciones:** en TPC-H la marca de devolución solo es válida hasta 1995-06-17 (la "fecha actual" del estándar). Después todo sale como "no devuelto".
 - **Un tercio de los clientes nunca ha pedido** (en TPC-H, los que tienen clave múltiplo de 3). No son cuentas, así que no aparecen en `fct_account_health`.
 - **Los datos son sintéticos y uniformes,** así que los resultados salen bastante repartidos. Lo importante es el mecanismo, que funcionaría igual con datos reales.
 
-**Resultado** (99.996 cuentas): 9.701 High · 31.716 Medium · 45.245 Low · 13.334 Inactive.
-Las señales marcan: overdue 15.673 cuentas, declining 38.267, service issues 18.904.
-El revenue en riesgo es el 35 % del revenue de los últimos 12 meses.
+**Resultado de la cartera** (801 cuentas, a 1998-07-31): 77 High · 236 Medium · 365 Low · 123 Inactive.
+Las señales marcan: overdue 141 cuentas, declining 317 y service issues 130 (de las 599 con entregas que medir).
+Hay **84,6 M en riesgo**, un 33 % del revenue de 12 meses de las cuentas activas: A 31,0 M · **B 32,5 M** · C 21,2 M.
+Las grandes cuentas (A) son las que ve el dashboard: 160 cuentas, 26 en riesgo alto.
 
 **Un fallo que encontré y corregí:** al principio la señal de servicio medía pedidos tardíos y
 **no marcaba ninguna cuenta** (por el empate explicado arriba). Los tests no lo detectaban porque
@@ -108,7 +109,7 @@ a pasar: una alarma de negocio y un unit test (ver "Tests").
 
 - **Histórico del score:** guardar la foto cada semana (dbt snapshot o modelo incremental) para ver cómo evoluciona cada cuenta, y **validar el score**: ¿las cuentas marcadas como "High" acabaron dejando de comprar?
 - **Más señales** con datos reales: tickets de soporte, NPS, visitas o llamadas del CRM, impagos.
-- **Asignar cada cuenta a su KAM** (desde el CRM) para que cada uno vea solo su cartera.
+- **Asignar cada cuenta a su KAM desde el CRM**, en vez de con 2 variables de dbt, y usar seguridad a nivel de fila (RLS) en Power BI: un solo Gold y un solo informe, y cada KAM ve solo su cartera.
 - **Alertas:** avisar al KAM cuando una cuenta A pasa a "High".
 - **Orquestación:** ejecución diaria o semanal programada.
 - **Observabilidad:** frescura de las fuentes, alertas cuando falla un test, control de volúmenes.
@@ -124,26 +125,28 @@ Un único workflow de GitHub Actions ejecuta `dbt build` (crea los modelos y pas
 Así los KAM pueden confiar en la lista que reciben.
 **Mejora posible:** construir solo los modelos que han cambiado (*Slim CI*).
 
-## Tests (38 tests de datos + 1 unit test)
+## Tests (40 tests de datos + 1 unit test)
 
 - Claves únicas y no nulas en todas las tablas de Silver y Gold.
 - Valores permitidos: segmentos, estados, prioridades, tier (A/B/C) y nivel de riesgo.
+- **Gold solo contiene la cartera:** en `dim_customer`, el segmento y el país tienen que ser los de las variables.
 - Dos tests genéricos propios: `value_between` (por ejemplo, de 0 a 3 señales) y `unique_combination`.
 - Las facts solo apuntan a clientes y fechas que existen (tests de relación).
 - Dos tests de reconciliación:
   - el total de cada pedido coincide con la suma de sus líneas (regla de TPC-H);
-  - `fct_orders` tiene las mismas líneas y el mismo revenue que Silver (la agregación no pierde ni duplica nada).
+  - `fct_orders` tiene las mismas líneas y el mismo revenue que las líneas de Silver de los clientes de la cartera (la agregación no pierde ni duplica nada).
 - **Alarma de negocio:** cada señal de riesgo tiene que marcar entre el 1 % y el 60 % de las cuentas.
   Una señal que no marca a nadie (o a casi todos) no ayuda al KAM a decidir a quién llamar.
 - **Unit test de `fct_account_health`:** 4 clientes inventados, uno por nivel de riesgo (Low, Inactive,
-  High y Medium), con el resultado calculado a mano. Comprueba las reglas sin depender de los datos reales,
-  y si falla, dbt no reconstruye la tabla.
+  High y Medium), con el resultado calculado a mano. También comprueba la fecha de referencia: si el último
+  pedido es el 1998-08-02, tiene que salir 1998-07-31, y el pedido de ese día se ignora.
+  Comprueba las reglas sin depender de los datos reales, y si falla, dbt no reconstruye la tabla.
 
 ## Queries para la demo
 
 ```sql
 -- 1. La lista de esta semana: cuentas A en riesgo alto, ordenadas por dinero en juego
-select c.customer_name, c.customer_nation,
+select c.customer_name,
        h.revenue_at_risk, h.days_since_last_order, h.avg_days_between_orders,
        h.revenue_change_pct, h.is_overdue, h.is_declining, h.has_service_issues
 from gold.fct_account_health h
@@ -163,7 +166,7 @@ select d.year_month, count(*) as orders, sum(f.net_revenue) as revenue,
        sum(f.late_lines) / sum(f.order_lines) as late_line_rate
 from gold.fct_orders f
 join gold.dim_date d on f.order_date_key = d.date_key
-where f.customer_key = 1   -- cambiar por la cuenta que interese
+where f.customer_key = 86233   -- la primera de la query 1 (A, riesgo alto: retrasada y con revenue en caída)
 group by all order by 1;
 ```
 
@@ -178,10 +181,13 @@ group by all order by 1;
 - **Cómo lo comprobé:**
   - cada JSON se validó contra los esquemas oficiales de Microsoft;
   - el modelo TMDL se cargó con la librería oficial de Analysis Services.
+- **Qué muestra:** solo las grandes cuentas (categoría A), con un filtro fijo del informe, y los últimos 12 meses completos (ago 1997 – jul 1998).
 - **Qué enseñar:**
-  - filtrar el riesgo a "High" y el tier a "A";
-  - hacer clic en la primera cuenta de la tabla y ver su histórico en el gráfico de líneas;
-  - explicar por qué esa cuenta está en riesgo, mirando las columnas Overdue, Declining y Service issues.
+  - filtrar el riesgo a "High" con el filtro de arriba;
+  - la primera cuenta de la lista de trabajo es Customer#000086233, con 680 K en riesgo;
+  - explicar por qué está en riesgo con la columna "Por qué": está retrasada y su revenue cae.
+- **Lo que no hay en el informe, a propósito:** filtros de segmento, país o categoría, porque solo tendrían un valor.
+  El modelo solo carga las columnas que usa el informe; el resto sigue disponible en Gold.
 
 ## Datos del dataset
 

@@ -10,7 +10,7 @@ models:
 
   - name: dim_customer
     description: >
-      The Key Account Manager's portfolio: customers of one segment and region
+      The Key Account Manager's portfolio: customers of one segment and country
       (vars portfolio_segment and portfolio_nation, Furniture in the United Kingdom), with nation and region in one table.
     columns:
       - name: customer_key
@@ -180,6 +180,7 @@ exposures:
     description: >
       Weekly worklist for the Key Account Manager of Furniture accounts in the United Kingdom:
       which accounts are at risk, why, and how much revenue is at stake.
+      The Power BI report shows only the key accounts (tier A) over the last 12 complete months.
     depends_on:
       - ref('fct_account_health')
       - ref('fct_orders')
