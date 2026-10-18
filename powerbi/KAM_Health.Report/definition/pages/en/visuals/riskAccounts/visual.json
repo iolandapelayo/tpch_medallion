@@ -165,7 +165,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'The darker the colour, the higher the risk'"
+                  "Value": "'High risk highlighted; other levels in grey'"
                 }
               }
             }

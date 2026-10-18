@@ -42,8 +42,13 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#176366'"
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Account Health"
+                        }
+                      },
+                      "Property": "At risk share color"
                     }
                   }
                 }

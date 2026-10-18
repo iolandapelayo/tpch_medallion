@@ -21,8 +21,12 @@ TEXT, GREY, BG = "#292626", "#AAA4A4", "#EDEBEB"
 # for titles and numbers, and shades of its turquoise (buttons and logo, #6BD9DE) for the charts.
 DARK, ACCENT, ACCENT_PALE = SLATE, TEAL, TURQ_LIGHT
 CARD_BORDER = BG          # the site's lightest grey: separates the white cards from the white page
-# Risk is ordinal, so the darker the turquoise, the higher the risk
-RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, TURQUOISE, TURQ_LIGHT, "#DDF5F6"
+# Same logic as the reference dashboard: one accent colour for what matters (High risk, in the site's dark
+# turquoise) and everything else in grey, from dark to light so the order of the levels is still readable.
+RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, "#B5B5B5", "#CFCFCF", "#E6E6E6"
+# Traffic light only on "good or bad" numbers: green when it goes well, red when it goes badly
+GOOD, BAD = "#3A9E5F", "#C0392B"
+AT_RISK_ALERT = 0.25      # share of revenue at risk from which the KPI turns red
 # the site uses Inter for text and Roboto for big headings; Segoe UI is the fallback where they are not installed
 FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
 # TPC-H amounts have no currency in the spec; by convention (US benchmark) they are shown as US dollars
@@ -80,8 +84,8 @@ T = {
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
     "s_worklist": {"en": "High risk first, then by revenue at risk", "es": "Primero riesgo alto, después por ingresos en riesgo",
                    "ca": "Primer risc alt, després per ingressos en risc"},
-    "s_tierrisk": {"en": "The darker the colour, the higher the risk", "es": "Cuanto más oscuro, más riesgo",
-                   "ca": "Com més fosc, més risc"},
+    "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
+                   "ca": "Risc alt destacat; la resta, en gris"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
     "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},
@@ -192,6 +196,16 @@ TABLES = [
          CHANGE_FMT, "Revenue change 12m of the active accounts."),
         ("Revenue change high-risk", "CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = \"High\")",
          CHANGE_FMT, "Revenue change 12m of the high-risk accounts."),
+        # traffic-light colours for the "good or bad" numbers (green = good, red = bad)
+        ("Change active color", f"IF([Revenue change active] >= 0, \"{GOOD}\", \"{BAD}\")", None,
+         "Green if the active accounts' revenue grew, red if it fell."),
+        ("Change high-risk color", f"IF([Revenue change high-risk] >= 0, \"{GOOD}\", \"{BAD}\")", None,
+         "Green if the high-risk accounts' revenue grew, red if it fell."),
+        ("At risk share color", f"IF([% of revenue at risk] >= {AT_RISK_ALERT}, \"{BAD}\", \"{GOOD}\")", None,
+         f"Red from {AT_RISK_ALERT:.0%} of revenue at risk, green below."),
+        ("Row change color", "VAR RowChange = SELECTEDVALUE('Account Health'[Revenue change %]) RETURN "
+         f"IF(ISBLANK(RowChange), BLANK(), IF(RowChange >= 0, \"{GOOD}\", \"{BAD}\"))", None,
+         "Green or red for the 12-month change of each account in the worklist."),
     ], AH_EXTRA_STEP),
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
@@ -414,6 +428,12 @@ def meas(entity, prop, display=None):
     return proj("Measure", entity, prop, display)
 
 
+def measure_color(measure, entity="Account Health"):
+    """Colour taken from a measure that returns a hex code (conditional formatting by field value)."""
+    return {"solid": {"color": {"expr": {"Measure": {"Expression": {"SourceRef": {"Entity": entity}},
+                                                     "Property": measure}}}}}
+
+
 def title(text, subtitle=None):
     out = {"title": [{"properties": {"show": lit("true"), "text": text_lit(text)}}]}
     if subtitle:
@@ -545,14 +565,15 @@ def build_page(lang):
                })
 
     # ---- left column: three KPI cards (icon + label, big number, sparkline, comparison line)
-    kpis = [  # (icon, label, value measure, sparkline measure, sub measure, sub label)
-        ("◎", t["active"], "Active accounts", "Revenue active accounts", "Revenue change active", t["chg_12m"]),
+    kpis = [  # (icon, label, value measure, sparkline measure, sub measure, sub label, sub colour measure)
+        ("◎", t["active"], "Active accounts", "Revenue active accounts", "Revenue change active", t["chg_12m"],
+         "Change active color"),
         ("⚠", t["highrisk"], "High-risk accounts", "Revenue high-risk accounts",
-         "Revenue change high-risk", t["chg_12m"]),
+         "Revenue change high-risk", t["chg_12m"], "Change high-risk color"),
         ("◆", t["atrisk"], "Total revenue at risk", "Revenue accounts at risk", "% of revenue at risk",
-         t["of_revenue"]),
+         t["of_revenue"], "At risk share color"),
     ]
-    for i, (icon, label, value, spark, sub, sub_label) in enumerate(kpis):
+    for i, (icon, label, value, spark, sub, sub_label, sub_color) in enumerate(kpis):
         x, y, w, h = 24, 110 + i * 202, 276, 190
         textbox(f"kpi{i + 1}_card", x, y, w, h,
                 [{"textRuns": [run(f"{icon}  ", 13, ACCENT, bold=True), run(label, 12, DARK, bold=True, font=FONT_HEAD)]}],
@@ -575,7 +596,7 @@ def build_page(lang):
                container=BARE, filters=LAST_12_MONTHS)
         visual(f"kpi{i + 1}_sub", x + 14, y + 120, 248, 58, "card",
                query={"Values": {"projections": [meas("Account Health", sub, sub_label)]}},
-               objects={"labels": [{"properties": {"color": color(ACCENT), "fontSize": lit("14D"),
+               objects={"labels": [{"properties": {"color": measure_color(sub_color), "fontSize": lit("14D"),
                                                    "fontFamily": text_lit(FONT_HEAD)}}],
                         "categoryLabels": [{"properties": {"show": lit("true"), "color": color("#7A7575"),
                                                            "fontSize": lit("8D"),
@@ -627,7 +648,9 @@ def build_page(lang):
                                                       "fontColor": color(DARK), "bold": lit("true"),
                                                       "wordWrap": lit("true")}}],
                     "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
-                                               "wordWrap": lit("true")}}],
+                                               "wordWrap": lit("true")}},
+                               {"properties": {"fontColor": measure_color("Row change color")},
+                                "selector": {"metadata": "Account Health.Revenue change %"}}],
                     "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
                                              "rowPadding": lit("3D")}}]},
            container=title(t["c_worklist"], t["s_worklist"]),

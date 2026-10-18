@@ -209,6 +209,29 @@
               }
             }
           }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Account Health"
+                        }
+                      },
+                      "Property": "Row change color"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Account Health.Revenue change %"
+          }
         }
       ],
       "grid": [

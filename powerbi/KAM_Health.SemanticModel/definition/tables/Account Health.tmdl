@@ -51,6 +51,18 @@ table 'Account Health'
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
 		lineageTag: 73504135-7686-4d8c-a7e5-f80cc52efe74
 
+	/// Green if the active accounts' revenue grew, red if it fell.
+	measure 'Change active color' = IF([Revenue change active] >= 0, "#3A9E5F", "#C0392B")
+
+	/// Green if the high-risk accounts' revenue grew, red if it fell.
+	measure 'Change high-risk color' = IF([Revenue change high-risk] >= 0, "#3A9E5F", "#C0392B")
+
+	/// Red from 25% of revenue at risk, green below.
+	measure 'At risk share color' = IF([% of revenue at risk] >= 0.25, "#C0392B", "#3A9E5F")
+
+	/// Green or red for the 12-month change of each account in the worklist.
+	measure 'Row change color' = VAR RowChange = SELECTEDVALUE('Account Health'[Revenue change %]) RETURN IF(ISBLANK(RowChange), BLANK(), IF(RowChange >= 0, "#3A9E5F", "#C0392B"))
+
 	column 'Customer key'
 		dataType: int64
 		isHidden

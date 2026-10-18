@@ -165,7 +165,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Cuanto más oscuro, más riesgo'"
+                  "Value": "'Riesgo alto resaltado; el resto, en gris'"
                 }
               }
             }
