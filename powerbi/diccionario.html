@@ -8,96 +8,125 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #EDEBEB; --card: #FFFFFF; --border: #DEDADA;
-    --text: #292626; --muted: #6E6969; --navy: #0E3A5B; --blue: #2B7BB9;
-    --teal: #176366; --accent: #6BD9DE; --chip: #F4F2F2; --code: #EEF3F6;
+    --page: #FFFFFF; --text: #292626; --muted: #6E6969; --slate: #2D3540; --turq: #6BD9DE;
+    --teal: #176366; --turq-soft: #AAE9EC; --soft: #EDEBEB; --line: #E3DFDF; --card: #FFFFFF;
+    --code: #F4F6F8; --head: #2D3540;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #15191E; --card: #1F252C; --border: #333B44;
-      --text: #E8E6E6; --muted: #A39E9E; --navy: #AAE9EC; --blue: #6BB3E6;
-      --teal: #6BD9DE; --accent: #6BD9DE; --chip: #272E36; --code: #27313B;
+      --page: #1B2027; --text: #E8E6E6; --muted: #A6A1A1; --card: #232A33; --line: #343C47;
+      --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #15191E; --card: #1F252C; --border: #333B44;
-    --text: #E8E6E6; --muted: #A39E9E; --navy: #AAE9EC; --blue: #6BB3E6;
-    --teal: #6BD9DE; --accent: #6BD9DE; --chip: #272E36; --code: #27313B;
+    --page: #1B2027; --text: #E8E6E6; --muted: #A6A1A1; --card: #232A33; --line: #343C47;
+    --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-         font: 15px/1.55 Inter, 'Segoe UI', system-ui, sans-serif; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
-  header { background: var(--card); border: 1px solid var(--border); border-radius: 22px;
-           padding: 22px 24px; margin-bottom: 16px; }
-  .brand { display: flex; align-items: center; gap: 10px; color: var(--teal);
-           font: 600 12px/1 Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-  .brand i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); display: inline-block; }
-  h1 { font: 700 26px/1.25 Roboto, 'Segoe UI Semibold', sans-serif; color: var(--navy); margin: 10px 0 6px; }
-  .intro { color: var(--muted); margin: 0; max-width: 70ch; }
-  .tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
-  .langs { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
-  .langs button { border: 0; background: transparent; color: var(--text); padding: 7px 14px;
-                  font: 500 13px Inter, sans-serif; cursor: pointer; }
-  .langs button[aria-pressed="true"] { background: var(--navy); color: var(--card); }
-  input[type=search] { flex: 1 1 220px; min-width: 0; padding: 8px 14px; border-radius: 999px;
-                       border: 1px solid var(--border); background: var(--card); color: var(--text);
-                       font: 14px Inter, sans-serif; }
-  nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
-  nav a { text-decoration: none; color: var(--navy); background: var(--card); border: 1px solid var(--border);
-          border-radius: 999px; padding: 5px 12px; font-size: 13px; }
-  nav a:hover { border-color: var(--blue); }
-  section { margin-bottom: 22px; }
-  h2 { font: 700 18px/1.3 Roboto, 'Segoe UI Semibold', sans-serif; color: var(--navy); margin: 0 0 4px; }
-  .sec-intro { color: var(--muted); margin: 0 0 10px; font-size: 14px; }
-  dl { margin: 0; display: grid; gap: 10px; }
-  .entry { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; }
-  dt { font: 600 16px/1.35 Inter, sans-serif; color: var(--navy); }
-  .other { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; }
-  dd { margin: 6px 0 0; }
-  .meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--muted); }
-  code { background: var(--code); color: var(--text); border-radius: 6px; padding: 1px 6px;
-         font: 12px Consolas, 'Cascadia Mono', monospace; }
-  .empty { color: var(--muted); padding: 20px 4px; }
-  footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
-  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
-  @media print { .tools, nav { display: none; } body { background: #fff; } .entry, header { break-inside: avoid; } }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 16px/1.6 Inter, 'Segoe UI', system-ui, sans-serif; }
+  .inner { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  /* hero: slate band like the career site */
+  .hero { background: var(--slate); color: #fff; position: relative; overflow: hidden; }
+  .hero .inner { position: relative; padding-top: 22px; padding-bottom: 56px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .wordmark { font: 500 22px/1 Inter, sans-serif; color: var(--turq); letter-spacing: -.01em; }
+  .wordmark small { display: block; font-size: 11px; color: var(--turq-soft); margin-top: 3px; letter-spacing: .02em; }
+  .flags { display: flex; gap: 8px; }
+  .flags button { padding: 0; border: 2px solid transparent; border-radius: 6px; background: none; cursor: pointer;
+                  opacity: .55; transition: opacity .15s; }
+  .flags button:hover { opacity: .9; }
+  .flags button[aria-pressed="true"] { opacity: 1; border-color: var(--turq); }
+  .flags img { display: block; width: 33px; height: 22px; border-radius: 3px; }
+  .hero-body { max-width: 640px; margin-top: 52px; position: relative; z-index: 1; }
+  h1 { font: 700 clamp(34px, 6vw, 56px)/1.1 Roboto, 'Segoe UI Semibold', sans-serif; margin: 0 0 16px; }
+  .intro { margin: 0; color: #D9DEE3; font-size: 17px; }
+  .shape { position: absolute; right: -40px; bottom: -40px; width: 330px; height: 330px; opacity: .95; }
+  @media (max-width: 760px) { .shape { width: 200px; height: 200px; right: -70px; bottom: -70px; opacity: .35; } }
+
+  .search { margin-top: 28px; display: flex; max-width: 520px; }
+  input[type=search] { width: 100%; padding: 12px 20px; border-radius: 40px; border: 0; background: #fff; color: #292626;
+                       font: 15px Inter, sans-serif; }
+  input[type=search]:focus { outline: 3px solid var(--turq); }
+
+  nav { position: sticky; top: 0; z-index: 2; background: var(--page); border-bottom: 1px solid var(--line); }
+  nav .inner { display: flex; gap: 8px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; scrollbar-width: none; }
+  nav a { flex: none; text-decoration: none; font: 600 14px Inter, sans-serif; color: var(--head);
+          border: 2px solid var(--turq); border-radius: 40px; padding: 6px 16px; }
+  nav a:hover { background: var(--turq); color: #fff; }
+
+  main { padding: 40px 0 24px; }
+  section { margin-bottom: 48px; scroll-margin-top: 70px; }
+  h2 { font: 700 30px/1.2 Roboto, 'Segoe UI Semibold', sans-serif; color: var(--head); margin: 0 0 6px; }
+  .sec-intro { color: var(--muted); margin: 0 0 20px; }
+  dl { margin: 0; display: grid; gap: 14px; }
+  .entry { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 18px 22px;
+           border-left: 4px solid var(--turq); }
+  dt { font: 600 19px/1.35 Inter, sans-serif; color: var(--head); }
+  .other { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-top: 2px; }
+  dd { margin: 8px 0 0; }
+  .calc { margin-top: 14px; padding: 12px 16px; border-radius: 8px; background: var(--soft); }
+  .calc-h { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 600 13px/1.3 Inter, sans-serif; color: var(--teal); }
+  .tag { font: 600 11px/1 Inter, sans-serif; color: var(--slate); background: var(--turq-soft);
+         border-radius: 40px; padding: 4px 10px; }
+  .calc p { margin: 6px 0 0; font-size: 15px; }
+  .calc pre { margin: 10px 0 0; padding: 10px 12px; background: var(--code); border: 1px solid var(--line); border-radius: 6px;
+              overflow-x: auto; font: 12.5px/1.55 Consolas, 'Cascadia Mono', monospace; white-space: pre; color: var(--text); }
+  .meta { margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+  code { background: var(--soft); color: var(--text); border-radius: 4px; padding: 1px 6px; font: 12.5px Consolas, 'Cascadia Mono', monospace; }
+  .sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: 1px; margin-right: 8px; }
+  .empty { color: var(--muted); padding: 20px 0; }
+  footer { background: var(--slate); color: #C9CFD6; font-size: 14px; }
+  footer .inner { padding-top: 28px; padding-bottom: 28px; }
+  footer b { color: var(--turq); font-weight: 500; }
+  @media print { nav, .search, .flags, .shape { display: none; } .entry, .calc { break-inside: avoid; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand"><i></i><span id="brand"></span></div>
-    <h1 id="h1"></h1>
-    <p class="intro" id="intro"></p>
-    <div class="tools">
-      <div class="langs" role="group" aria-label="Language">
-        <button data-lang="en">English</button>
-        <button data-lang="es">Español</button>
-        <button data-lang="ca">Català</button>
+<header class="hero">
+  <div class="inner">
+    <div class="topbar">
+      <div class="wordmark">Propelling<small>KAM Health · Power BI</small></div>
+      <div class="flags" role="group" aria-label="Language">
+      <button data-lang="en" title="English" aria-label="English"><img alt="English" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAoCAIAAAAt2Q6oAAAATUlEQVR42u3VsQ0AIAwDsL7AD/x/Ci/BA3RBHSrhKHu8JXZp1pjX1q4ENDQ0NDQ0NDQ0dBN0NtO50NDQ0D+hPSI0NDQ0NDQ0NDT0M/oAP6hWa6uPWiQAAAAASUVORK5CYII="></button>
+      <button data-lang="es" title="Español" aria-label="Español"><img alt="Español" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAoCAIAAAAt2Q6oAAAASElEQVR42u3XMQ0AMAgAQUww4X/BRDXVQU3QgeSSF3DrR2etK6ChoaGhocfR9+wLGhoaGhoaGhoaGhoa+g/ajUNDQ0NDQ3fWA7k754aKlZ8BAAAAAElFTkSuQmCC"></button>
+      <button data-lang="ca" title="Català" aria-label="Català"><img alt="Català" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAoCAIAAAAt2Q6oAAAAT0lEQVR42u3VoQ0AIBAEwbdYJP1XRUIniO8Af2SSK2DUbd0z4lbQ0L+h91xxg4Z+ob0HNLS4+GlocXF50OLi8qDFxXtAQ4sLtLh4D+h0dAPfWW6TYFKQ7AAAAABJRU5ErkJggg=="></button>
       </div>
-      <input type="search" id="q" autocomplete="off">
     </div>
-  </header>
-  <nav id="nav"></nav>
-  <main id="main"></main>
-  <footer id="foot"></footer>
-</div>
+    <div class="hero-body">
+      <h1 id="h1"></h1>
+      <p class="intro" id="intro"></p>
+      <div class="search"><input type="search" id="q" autocomplete="off"></div>
+    </div>
+  </div>
+  <svg class="shape" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="92" cy="100" r="78" fill="#6BD9DE"/>
+    <rect x="110" y="40" width="62" height="120" fill="#AAE9EC" opacity=".55"/>
+    <polygon points="170,30 170,170 46,170" fill="#2D3540" opacity=".9"/>
+  </svg>
+</header>
+<nav><div class="inner" id="nav"></div></nav>
+<main><div class="inner" id="main"></div></main>
+<footer><div class="inner" id="foot"></div></footer>
 
 <script>
 const UI = {
-  en: { brand: "Propelling Tech · KAM Health", h1: "Dashboard glossary",
-        intro: "Definitions of every term shown in the Power BI cockpit “Furniture key accounts (tier A) · United Kingdom: health and churn risk”. Use it to understand exactly what each figure, signal and chart measures.",
+  en: { h1: "Dashboard glossary",
+        intro: "Definitions and calculation of every term in the Power BI cockpit “Furniture key accounts (tier A) · United Kingdom: health and churn risk”.",
         search: "Search a term…", field: "Field in the model", none: "No term matches your search.",
-        foot: "Source: TPCH_MEDALLION.GOLD (Snowflake), built with dbt from the TPC-H benchmark. Reference date: 31 Jul 1998. Amounts are in the currency of the source data." },
-  es: { brand: "Propelling Tech · KAM Health", h1: "Diccionario del panel",
-        intro: "Definiciones de todos los términos que aparecen en el panel de Power BI «Grandes cuentas (A) de mobiliario · Reino Unido: salud y riesgo de pérdida». Sirve para saber con exactitud qué mide cada cifra, cada señal y cada gráfico.",
+        calc: "How it is calculated", dax: "Power BI · DAX", dbt: "dbt · Gold (SQL)", pq: "Power BI · report",
+        foot: "<b>Source:</b> TPCH_MEDALLION.GOLD (Snowflake), built with dbt from the TPC-H benchmark. Reference date: 31 Jul 1998. Amounts are in the currency of the source data." },
+  es: { h1: "Diccionario del panel",
+        intro: "Definición y cálculo de todos los términos del panel de Power BI «Grandes cuentas (A) de mobiliario · Reino Unido: salud y riesgo de pérdida».",
         search: "Buscar un término…", field: "Campo en el modelo", none: "Ningún término coincide con la búsqueda.",
-        foot: "Origen: TPCH_MEDALLION.GOLD (Snowflake), construido con dbt a partir del benchmark TPC-H. Fecha de referencia: 31 jul 1998. Los importes están en la moneda de los datos de origen." },
-  ca: { brand: "Propelling Tech · KAM Health", h1: "Diccionari del quadre",
-        intro: "Definicions de tots els termes que apareixen al quadre de Power BI «Grans comptes (A) de mobiliari · Regne Unit: salut i risc de pèrdua». Serveix per saber amb exactitud què mesura cada xifra, cada senyal i cada gràfic.",
+        calc: "Cómo se calcula", dax: "Power BI · DAX", dbt: "dbt · Gold (SQL)", pq: "Power BI · informe",
+        foot: "<b>Origen:</b> TPCH_MEDALLION.GOLD (Snowflake), construido con dbt a partir del benchmark TPC-H. Fecha de referencia: 31 jul 1998. Los importes están en la moneda de los datos de origen." },
+  ca: { h1: "Diccionari del quadre",
+        intro: "Definició i càlcul de tots els termes del quadre de Power BI «Grans comptes (A) de mobiliari · Regne Unit: salut i risc de pèrdua».",
         search: "Cerca un terme…", field: "Camp al model", none: "Cap terme no coincideix amb la cerca.",
-        foot: "Origen: TPCH_MEDALLION.GOLD (Snowflake), construït amb dbt a partir del benchmark TPC-H. Data de referència: 31 jul 1998. Els imports són en la moneda de les dades d'origen." }
+        calc: "Com es calcula", dax: "Power BI · DAX", dbt: "dbt · Gold (SQL)", pq: "Power BI · informe",
+        foot: "<b>Origen:</b> TPCH_MEDALLION.GOLD (Snowflake), construït amb dbt a partir del benchmark TPC-H. Data de referència: 31 jul 1998. Els imports són en la moneda de les dades d'origen." }
 };
 
 const SECTIONS = [
@@ -276,6 +305,151 @@ const SECTIONS = [
     ]}
 ];
 
+// How each metric is calculated, keyed by its English term. src: where the logic lives.
+const CALC = {
+  "Reference date": { src: "dbt",
+    en: "Last day of the month of the latest order. If the latest order (2 Aug 1998) is not on a month end, the end of the previous month is used.",
+    es: "Último día del mes del pedido más reciente. Si ese pedido (2 ago 1998) no cae a fin de mes, se usa el fin del mes anterior.",
+    ca: "Últim dia del mes de la comanda més recent. Si aquesta comanda (2 ago 1998) no cau a final de mes, es fa servir el final del mes anterior.",
+    code: "case\n  when max(order_date) = last_day(max(order_date)) then max(order_date)\n  else dateadd(day, -1, date_trunc('month', max(order_date)))\nend as as_of_date" },
+  "Last 12 months (12m)": { src: "dbt",
+    en: "An order belongs to the last 12 months if its date is after the reference date minus 12 months and not after the reference date.",
+    es: "Un pedido pertenece a los últimos 12 meses si su fecha es posterior a la fecha de referencia menos 12 meses y no posterior a la fecha de referencia.",
+    ca: "Una comanda pertany als últims 12 mesos si la seva data és posterior a la data de referència menys 12 mesos i no posterior a la data de referència.",
+    code: "order_date >  dateadd(month, -12, as_of_date)\nand order_date <= as_of_date" },
+  "Previous 12 months": { src: "dbt",
+    en: "Orders between 24 and 12 months before the reference date.",
+    es: "Pedidos entre 24 y 12 meses antes de la fecha de referencia.",
+    ca: "Comandes d'entre 24 i 12 mesos abans de la data de referència.",
+    code: "order_date >  dateadd(month, -24, as_of_date)\nand order_date <= dateadd(month, -12, as_of_date)" },
+  "Account / Customer": { src: "dax",
+    en: "Number of rows of the Account Health table, which has one row per account.",
+    es: "Número de filas de la tabla Account Health, que tiene una fila por cuenta.",
+    ca: "Nombre de files de la taula Account Health, que té una fila per compte.",
+    code: "Accounts = COUNTROWS('Account Health')" },
+  "Active accounts": { src: "dax",
+    en: "Accounts whose risk level is not Inactive.",
+    es: "Cuentas cuyo nivel de riesgo no es Inactivo.",
+    ca: "Comptes amb un nivell de risc que no és Inactiu.",
+    code: "Active accounts =\nCALCULATE([Accounts], 'Account Health'[Risk level] <> \"Inactive\")" },
+  "Account tier": { src: "dbt",
+    en: "Accounts are ranked by total historical revenue (highest first). Their relative position (0 = first, 1 = last) sets the tier.",
+    es: "Las cuentas se ordenan por ingresos históricos totales, de mayor a menor. Su posición relativa (0 = primera, 1 = última) fija la categoría.",
+    ca: "Els comptes s'ordenen per ingressos històrics totals, de més a menys. La seva posició relativa (0 = primer, 1 = últim) fixa la categoria.",
+    code: "percent_rank() over (order by lifetime_revenue desc) as revenue_percentile\n\ncase when revenue_percentile < 0.2 then 'A'\n     when revenue_percentile < 0.5 then 'B'\n     else 'C' end as account_tier" },
+  "Key accounts (tier A)": { src: "pq",
+    en: "Report-level filter applied to every page and locked in reading mode.",
+    es: "Filtro a nivel de informe, aplicado a todas las páginas y bloqueado en modo lectura.",
+    ca: "Filtre a nivell d'informe, aplicat a totes les pàgines i bloquejat en mode lectura.",
+    code: "'Account Health'[Account tier] = \"A\"" },
+  "Revenue": { src: "dax",
+    en: "Each order line is valued at its price minus the discount (in dbt). Lines are added up per order, and the measure adds up the orders in the current filter.",
+    es: "Cada línea de pedido se valora a su precio menos el descuento (en dbt). Las líneas se suman por pedido y la medida suma los pedidos del filtro actual.",
+    ca: "Cada línia de comanda es valora al seu preu menys el descompte (a dbt). Les línies se sumen per comanda i la mesura suma les comandes del filtre actual.",
+    code: "-- dbt (Silver, per line)\nround(l_extendedprice * (1 - l_discount), 2) as net_amount\n\n// DAX\nRevenue = SUM(Orders[Net revenue])" },
+  "Revenue last 12m": { src: "dax",
+    en: "dbt adds up each account’s revenue from orders in the last 12 months; Power BI sums those amounts for the accounts shown.",
+    es: "dbt suma los ingresos de los pedidos de los últimos 12 meses de cada cuenta; Power BI suma esos importes de las cuentas mostradas.",
+    ca: "dbt suma els ingressos de les comandes dels últims 12 mesos de cada compte; Power BI suma aquests imports dels comptes mostrats.",
+    code: "-- dbt\nsum(iff(in_last_12m, net_revenue, 0)) as revenue_last_12m\n\n// DAX\nRevenue last 12m total = SUM('Account Health'[Revenue last 12m])" },
+  "Revenue previous 12m": { src: "dax",
+    en: "Same calculation as revenue last 12m, for the previous 12 months.",
+    es: "Mismo cálculo que los ingresos 12m, aplicado a los 12 meses anteriores.",
+    ca: "Mateix càlcul que els ingressos 12m, aplicat als 12 mesos anteriors.",
+    code: "-- dbt\nsum(iff(in_prev_12m, net_revenue, 0)) as revenue_prev_12m\n\n// DAX\nRevenue prev 12m total = SUM('Account Health'[Revenue prev 12m])" },
+  "Change 12m (12m revenue vs previous 12m)": { src: "dax",
+    en: "In the KPI cards it is calculated on the group’s total revenue (not as an average of percentages). In the worklist, it is the value of each account, calculated in dbt. If there was no revenue in the previous 12 months, the change is shown blank (DAX) or 0 (dbt).",
+    es: "En las tarjetas KPI se calcula sobre los ingresos totales del grupo (no como media de porcentajes). En la lista de trabajo es el valor de cada cuenta, calculado en dbt. Si no hubo ingresos en los 12 meses anteriores, la variación sale en blanco (DAX) o 0 (dbt).",
+    ca: "A les targetes KPI es calcula sobre els ingressos totals del grup (no com a mitjana de percentatges). A la llista de treball és el valor de cada compte, calculat a dbt. Si no hi va haver ingressos en els 12 mesos anteriors, la variació surt en blanc (DAX) o 0 (dbt).",
+    code: "// DAX (KPI cards)\nRevenue change 12m =\nDIVIDE([Revenue last 12m total] - [Revenue prev 12m total], [Revenue prev 12m total])\nRevenue change active =\nCALCULATE([Revenue change 12m], 'Account Health'[Risk level] <> \"Inactive\")\nRevenue change high-risk =\nCALCULATE([Revenue change 12m], 'Account Health'[Risk level] = \"High\")\n\n-- dbt (per account, worklist)\ndiv0(revenue_last_12m - revenue_prev_12m, revenue_prev_12m) as revenue_change_pct" },
+  "Revenue at risk": { src: "dax",
+    en: "For each account, dbt keeps its last-12-month revenue if it is active and has at least one signal, and 0 otherwise. Power BI adds up these amounts.",
+    es: "Para cada cuenta, dbt conserva sus ingresos de 12 meses si está activa y tiene al menos una señal, y 0 en caso contrario. Power BI suma estos importes.",
+    ca: "Per a cada compte, dbt conserva els seus ingressos de 12 mesos si és actiu i té almenys un senyal, i 0 en cas contrari. Power BI suma aquests imports.",
+    code: "-- dbt\niff(risk_signals >= 1 and orders_last_12m > 0, revenue_last_12m, 0) as revenue_at_risk\n\n// DAX\nTotal revenue at risk = SUM('Account Health'[Revenue at risk])" },
+  "% of last-12-month revenue": { src: "dax",
+    en: "Revenue at risk divided by total revenue of the last 12 months, both for the accounts shown.",
+    es: "Ingresos en riesgo divididos entre los ingresos totales de los últimos 12 meses, ambos de las cuentas mostradas.",
+    ca: "Ingressos en risc dividits entre els ingressos totals dels últims 12 mesos, tots dos dels comptes mostrats.",
+    code: "% of revenue at risk = DIVIDE([Total revenue at risk], [Revenue last 12m total])" },
+  "Monthly revenue": { src: "dax",
+    en: "The Revenue measure grouped by the first day of each month (created in Power Query). A report filter limits the charts to Aug 1997 – Jul 1998.",
+    es: "La medida Ingresos agrupada por el primer día de cada mes (creado en Power Query). Un filtro del informe limita los gráficos a ago 1997 – jul 1998.",
+    ca: "La mesura Ingressos agrupada pel primer dia de cada mes (creat a Power Query). Un filtre de l'informe limita els gràfics a ago 1997 – jul 1998.",
+    code: "// Power Query\nDate.StartOfMonth([Date])  -> Date[Month start]\n\n// Visual filter\nDate[Month start] >= 1997-08-01 and <= 1998-07-01" },
+  "Warning signal": { src: "dbt",
+    en: "Each signal counts 1. The sum (0 to 3) determines the risk level.",
+    es: "Cada señal suma 1. El total (de 0 a 3) determina el nivel de riesgo.",
+    ca: "Cada senyal suma 1. El total (de 0 a 3) determina el nivell de risc.",
+    code: "iff(is_overdue, 1, 0) + iff(is_declining, 1, 0) + iff(has_service_issues, 1, 0) as risk_signals" },
+  "Overdue": { src: "dbt",
+    en: "Days since the last order are compared with the average interval between the account’s orders (days from first to last order ÷ number of intervals). Accounts with a single order cannot be overdue.",
+    es: "Los días desde el último pedido se comparan con el intervalo medio entre los pedidos de la cuenta (días entre el primer y el último pedido ÷ número de intervalos). Las cuentas con un solo pedido no pueden estar en retraso.",
+    ca: "Els dies des de l'última comanda es comparen amb l'interval mitjà entre les comandes del compte (dies entre la primera i l'última comanda ÷ nombre d'intervals). Els comptes amb una sola comanda no poden estar en retard.",
+    code: "datediff(day, last_order_date, as_of_date)                                as days_since_last_order\ndatediff(day, first_order_date, last_order_date) / nullif(lifetime_orders - 1, 0) as avg_days_between_orders\n\ncoalesce(days_since_last_order > 2 * avg_days_between_orders, false) as is_overdue" },
+  "Declining": { src: "dbt",
+    en: "Revenue of the last 12 months is below 70% of the previous 12 months.",
+    es: "Los ingresos de los últimos 12 meses son inferiores al 70 % de los de los 12 meses anteriores.",
+    ca: "Els ingressos dels últims 12 mesos són inferiors al 70 % dels dels 12 mesos anteriors.",
+    code: "revenue_last_12m < (1 - 0.3) * revenue_prev_12m as is_declining" },
+  "Service issues": { src: "dbt",
+    en: "Accounts with a late line rate are ranked from lowest to highest rate. Those in the top quarter of the ranking (relative position ≥ 0.75) are flagged.",
+    es: "Las cuentas con tasa de líneas tardías se ordenan de menor a mayor tasa. Se marcan las que quedan en el cuarto superior del ranking (posición relativa ≥ 0,75).",
+    ca: "Els comptes amb taxa de línies tardanes s'ordenen de menor a major taxa. Es marquen els que queden al quart superior del rànquing (posició relativa ≥ 0,75).",
+    code: "late_line_rate_12m is not null\nand percent_rank() over (partition by late_line_rate_12m is null\n                         order by late_line_rate_12m) >= 0.75 as has_service_issues" },
+  "Late line rate": { src: "dbt",
+    en: "A line is late when it was received after the committed date. The rate divides late lines by total lines, using only orders of the last 12 months fully delivered by the reference date.",
+    es: "Una línea es tardía si se recibió después de la fecha comprometida. La tasa divide las líneas tardías entre el total de líneas, usando solo pedidos de los últimos 12 meses ya entregados en la fecha de referencia.",
+    ca: "Una línia és tardana si es va rebre després de la data compromesa. La taxa divideix les línies tardanes entre el total de línies, fent servir només comandes dels últims 12 mesos ja lliurades a la data de referència.",
+    code: "-- Silver, per line\nl_receiptdate > l_commitdate as is_late_delivery\n\n-- Gold, per account\nsum(late_lines) / nullif(sum(order_lines), 0)   -- last 12m, delivered orders only" },
+  "Why": { src: "dax",
+    en: "Calculated column that joins the names of the active signals with “ · ”. There is one column per language.",
+    es: "Columna calculada que une los nombres de las señales activas con « · ». Hay una columna por idioma.",
+    ca: "Columna calculada que uneix els noms dels senyals actius amb « · ». Hi ha una columna per idioma.",
+    code: "Signals ES =\nSUBSTITUTE(TRIM(\n    IF('Account Health'[Overdue], \"Retraso\") & \" \" &\n    IF('Account Health'[Declining], \"Caída\") & \" \" &\n    IF('Account Health'[Service issues], \"Servicio\")), \" \", \" · \")" },
+  "Risk level": { src: "dbt",
+    en: "Inactive is checked first; then the number of signals decides. Power Query adds a sort order (1–4) so the levels always appear High, Medium, Low, Inactive.",
+    es: "Primero se comprueba si es inactiva; después decide el número de señales. Power Query añade un orden (1–4) para que los niveles salgan siempre Alto, Medio, Bajo, Inactivo.",
+    ca: "Primer es comprova si és inactiu; després decideix el nombre de senyals. Power Query afegeix un ordre (1–4) perquè els nivells surtin sempre Alt, Mitjà, Baix, Inactiu.",
+    code: "case\n  when orders_last_12m = 0 then 'Inactive'\n  when risk_signals >= 2   then 'High'\n  when risk_signals = 1    then 'Medium'\n  else 'Low'\nend as risk_level" },
+  "High": { src: "dax",
+    en: "Active account with risk_signals ≥ 2. The measure counts them.",
+    es: "Cuenta activa con risk_signals ≥ 2. La medida las cuenta.",
+    ca: "Compte actiu amb risk_signals ≥ 2. La mesura els compta.",
+    code: "High-risk accounts =\nCALCULATE([Accounts], 'Account Health'[Risk level] = \"High\")" },
+  "Medium": { src: "dbt", en: "Active account with risk_signals = 1.", es: "Cuenta activa con risk_signals = 1.", ca: "Compte actiu amb risk_signals = 1.",
+    code: "orders_last_12m > 0 and risk_signals = 1" },
+  "Low": { src: "dbt", en: "Active account with risk_signals = 0.", es: "Cuenta activa con risk_signals = 0.", ca: "Compte actiu amb risk_signals = 0.",
+    code: "orders_last_12m > 0 and risk_signals = 0" },
+  "Inactive": { src: "dbt", en: "No orders in the last 12 months.", es: "Sin pedidos en los últimos 12 meses.", ca: "Sense comandes en els últims 12 mesos.",
+    code: "orders_last_12m = 0" },
+  "Sparkline": { src: "dax",
+    en: "The Revenue measure by month, restricted to the accounts of each card according to their current risk level.",
+    es: "La medida Ingresos por mes, limitada a las cuentas de cada tarjeta según su nivel de riesgo actual.",
+    ca: "La mesura Ingressos per mes, limitada als comptes de cada targeta segons el seu nivell de risc actual.",
+    code: "Revenue active accounts =\nCALCULATE([Revenue], 'Account Health'[Risk level] <> \"Inactive\")\nRevenue high-risk accounts =\nCALCULATE([Revenue], 'Account Health'[Risk level] = \"High\")\nRevenue accounts at risk =\nCALCULATE([Revenue], 'Account Health'[Risk level] IN {\"High\", \"Medium\"})" },
+  "Key accounts by risk level": { src: "pq",
+    en: "Measure Accounts on the value axis, Risk level on the category axis.",
+    es: "Medida Accounts en el eje de valores y Nivel de riesgo en el eje de categorías.",
+    ca: "Mesura Accounts a l'eix de valors i Nivell de risc a l'eix de categories.",
+    code: "Y = [Accounts]    X = 'Account Health'[Risk level]" },
+  "Revenue at risk by risk level": { src: "pq",
+    en: "Measure Total revenue at risk on the value axis, Risk level on the category axis.",
+    es: "Medida Total revenue at risk en el eje de valores y Nivel de riesgo en el eje de categorías.",
+    ca: "Mesura Total revenue at risk a l'eix de valors i Nivell de risc a l'eix de categories.",
+    code: "Y = [Total revenue at risk]    X = 'Account Health'[Risk level]" },
+  "Monthly revenue by risk level": { src: "pq",
+    en: "Measure Revenue by month, with one line per risk level.",
+    es: "Medida Ingresos por mes, con una línea por nivel de riesgo.",
+    ca: "Mesura Ingressos per mes, amb una línia per nivell de risc.",
+    code: "Y = [Revenue]    X = Date[Month start]    Series = 'Account Health'[Risk level]" },
+  "Worklist for this week": { src: "pq",
+    en: "One row per account, sorted by the Revenue at risk column, descending.",
+    es: "Una fila por cuenta, ordenada por la columna Ingresos en riesgo, de mayor a menor.",
+    ca: "Una fila per compte, ordenada per la columna Ingressos en risc, de més a menys.",
+    code: "Customer · Risk level · Revenue at risk · Revenue change % · Signals\nsort: 'Account Health'[Revenue at risk] DESC" }
+};
+
 const LANGS = ["en", "es", "ca"];
 let lang = "es";
 try { const s = localStorage.getItem("kam-dict-lang"); if (LANGS.includes(s)) lang = s; } catch (e) {}
@@ -286,33 +460,38 @@ const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 function render() {
   const u = UI[lang], q = norm(document.getElementById("q").value.trim());
   document.documentElement.lang = lang;
-  document.getElementById("brand").textContent = u.brand;
   document.getElementById("h1").textContent = u.h1;
   document.getElementById("intro").textContent = u.intro;
   document.getElementById("q").placeholder = u.search;
-  document.getElementById("foot").textContent = u.foot;
-  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  document.getElementById("foot").innerHTML = u.foot;
+  document.querySelectorAll(".flags button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   document.getElementById("nav").innerHTML = SECTIONS.map(s => `<a href="#${s.id}">${esc(s[lang][0])}</a>`).join("");
 
   let html = "", hits = 0;
   for (const s of SECTIONS) {
-    const items = s.items.filter(it => !q || norm(LANGS.map(l => it[l].join(" ")).join(" ") + " " + (it.field || "")).includes(q));
+    const items = s.items.filter(it => {
+      const c = CALC[it.en[0]];
+      const text = LANGS.map(l => it[l].join(" ") + (c ? " " + c[l] : "")).join(" ") + " " + (it.field || "") + (c ? " " + c.code : "");
+      return !q || norm(text).includes(q);
+    });
     if (!items.length) continue;
     hits += items.length;
     html += `<section id="${s.id}"><h2>${esc(s[lang][0])}</h2><p class="sec-intro">${esc(s[lang][1])}</p><dl>`;
     for (const it of items) {
       const others = LANGS.filter(l => l !== lang && it[l][0] !== it[lang][0]).map(l => `${l.toUpperCase()}: ${esc(it[l][0])}`).join(" · ");
       const sw = it.sw ? `<span class="sw" style="background:${it.sw}"></span>` : "";
-      html += `<div class="entry"><dt>${sw}${esc(it[lang][0])}${others ? `<span class="other">${others}</span>` : ""}</dt><dd>${esc(it[lang][1])}</dd>`;
+      html += `<div class="entry"><dt>${sw}${esc(it[lang][0])}${others ? `<span class="other">${others}</span>` : ""}</dt><dd>${esc(it[lang][1])}`;
+      const c = CALC[it.en[0]];
+      if (c) html += `<div class="calc"><div class="calc-h">${esc(u.calc)}<span class="tag">${esc(u[c.src])}</span></div><p>${esc(c[lang])}</p><pre>${esc(c.code)}</pre></div>`;
       if (it.field) html += `<div class="meta">${esc(u.field)}: ${it.field.split(" · ").map(f => `<code>${esc(f)}</code>`).join(" ")}</div>`;
-      html += `</div>`;
+      html += `</dd></div>`;
     }
     html += `</dl></section>`;
   }
   document.getElementById("main").innerHTML = hits ? html : `<p class="empty">${esc(u.none)}</p>`;
 }
 
-document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => {
+document.querySelectorAll(".flags button").forEach(b => b.addEventListener("click", () => {
   lang = b.dataset.lang;
   try { localStorage.setItem("kam-dict-lang", lang); } catch (e) {}
   render();
