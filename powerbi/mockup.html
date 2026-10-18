@@ -41,11 +41,11 @@
   .sub { margin: 2px 0 6px; font-size: 10.5px; color: var(--muted); }
   .legend { display: flex; gap: 12px; font-size: 11px; color: var(--muted); margin: 6px 0 4px; }
   .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; }
-  table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 10px; }
   td, th { white-space: nowrap; }
-  td:last-child { white-space: normal; }
-  th { text-align: left; color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--line); padding: 4px; }
-  td { padding: 4px; border-bottom: 1px solid var(--line); }
+  td:last-child, td:nth-child(2) { white-space: normal; }
+  th { text-align: left; color: var(--navy); font-weight: 600; border-bottom: 1px solid var(--line); padding: 3px; }
+  td { padding: 3px; border-bottom: 1px solid var(--line); }
   td.num, th.num { text-align: right; }
   .story { font-size: 11px; line-height: 1.45; color: var(--navy); padding: 8px 16px; }
 </style>
@@ -62,9 +62,9 @@
   </div>
 
   <!-- Filter pills (short labels, so they are never cut with "...") -->
-  <div class="box slicer" style="left:704px; top:24px; width:104px; height:54px;"><div class="label">Tier</div><div class="field">All <span>▾</span></div></div>
-  <div class="box slicer" style="left:816px; top:24px; width:104px; height:54px;"><div class="label">Risk</div><div class="field">All <span>▾</span></div></div>
-  <div class="box slicer" style="left:928px; top:24px; width:104px; height:54px;"><div class="label">Country</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:784px; top:24px; width:104px; height:54px;"><div class="label">Tier</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:896px; top:24px; width:104px; height:54px;"><div class="label">Risk</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:1008px; top:24px; width:132px; height:54px;"><div class="label">Country</div><div class="field">All <span>▾</span></div></div>
 
   <!-- Language flags (the active one has a turquoise outline) -->
   <div class="flag active" style="left:1158px; top:38px;">EN</div>
@@ -133,13 +133,13 @@
     <h3>Worklist for this week</h3>
     <div class="sub">Ordered by revenue at risk</div>
     <table>
-      <thead><tr><th>Customer</th><th>Tier</th><th>Risk</th><th class="num">Revenue at risk</th><th class="num">Change 12m</th><th>Why</th></tr></thead>
+      <thead><tr><th>Customer</th><th>Country</th><th>Tier</th><th>Risk</th><th class="num">Revenue at risk</th><th class="num">Change 12m</th><th>Why</th></tr></thead>
       <tbody>
-        <tr><td>Customer#000143500</td><td>A</td><td>High</td><td class="num">612,904</td><td class="num">-48.2%</td><td>Overdue · Declining</td></tr>
-        <tr><td>Customer#000095257</td><td>A</td><td>High</td><td class="num">588,117</td><td class="num">-35.0%</td><td>Declining · Service</td></tr>
-        <tr><td>Customer#000087115</td><td>A</td><td>Medium</td><td class="num">571,340</td><td class="num">4.1%</td><td>Overdue</td></tr>
-        <tr><td>Customer#000136777</td><td>A</td><td>Medium</td><td class="num">559,006</td><td class="num">-12.9%</td><td>Service</td></tr>
-        <tr><td>Customer#000044485</td><td>B</td><td>High</td><td class="num">498,775</td><td class="num">-52.6%</td><td>Overdue · Declining</td></tr>
+        <tr><td>Customer#000143500</td><td>Germany</td><td>A</td><td>High</td><td class="num">612,904</td><td class="num">-48.2%</td><td>Overdue · Declining</td></tr>
+        <tr><td>Customer#000095257</td><td>France</td><td>A</td><td>High</td><td class="num">588,117</td><td class="num">-35.0%</td><td>Declining · Service</td></tr>
+        <tr><td>Customer#000087115</td><td>United Kingdom</td><td>A</td><td>Medium</td><td class="num">571,340</td><td class="num">4.1%</td><td>Overdue</td></tr>
+        <tr><td>Customer#000136777</td><td>Russia</td><td>A</td><td>Medium</td><td class="num">559,006</td><td class="num">-12.9%</td><td>Service</td></tr>
+        <tr><td>Customer#000044485</td><td>Romania</td><td>B</td><td>High</td><td class="num">498,775</td><td class="num">-52.6%</td><td>Overdue · Declining</td></tr>
       </tbody>
     </table>
   </div>

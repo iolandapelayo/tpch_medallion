@@ -35,6 +35,21 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
+                      "Entity": "Customer"
+                    }
+                  },
+                  "Property": "Nation ES"
+                }
+              },
+              "queryRef": "Customer.Nation ES",
+              "nativeQueryRef": "Nation ES",
+              "displayName": "País"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
                       "Entity": "Account Health"
                     }
                   },
@@ -154,7 +169,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
                 }
               }
             },
@@ -199,7 +214,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
                 }
               }
             },

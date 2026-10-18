@@ -571,14 +571,15 @@ def build_page(lang):
         {"textRuns": [run(t["title"], 20, NAVY, bold=True, font=FONT_HEAD)]},
         {"textRuns": [run(t["subtitle"], 10, BLUE)]},
     ], container={**box("#FFFFFF", 28),
-                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("560D")}}]})
+                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("500D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
     # segment and region have a single value in the portfolio (Furniture, Europe): filter by country instead
     slicers = [("Account Health", "Account tier", t["f_tier"]), ("Account Health", f"Risk level{suffix}", t["f_risk"]),
                ("Customer", f"Nation{suffix}", t["f_nation"])]
+    slicer_x, slicer_w = [784, 896, 1008], [104, 104, 132]   # country is wider: "United Kingdom" fits whole
     for i, (entity, prop, label) in enumerate(slicers):
-        visual(f"slicer{i + 1}", 704 + i * 112, 24, 104, 54, "slicer",
+        visual(f"slicer{i + 1}", slicer_x[i], 24, slicer_w[i], 54, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
                objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}],
                         "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
@@ -678,6 +679,7 @@ def build_page(lang):
     visual("worklist", 784, 392, 472, 238, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),
+               col("Customer", f"Nation{suffix}", t["f_nation"]),
                col("Account Health", "Account tier", t["tier_short"]),
                col("Account Health", f"Risk level{suffix}", t["f_risk"]),
                col("Account Health", "Revenue at risk", t["atrisk"]),
@@ -685,10 +687,10 @@ def build_page(lang):
                col("Account Health", f"Signals {lang.upper()}", t["why"]),
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
-                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
+                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
                                                       "fontColor": color(NAVY), "bold": lit("true"),
                                                       "wordWrap": lit("true")}}],
-                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
+                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
                                                "wordWrap": lit("true")}}],
                     "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
                                              "rowPadding": lit("3D")}}]},

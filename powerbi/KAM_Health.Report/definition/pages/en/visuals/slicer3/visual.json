@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "slicer3",
   "position": {
-    "x": 928,
+    "x": 1008,
     "y": 24,
     "z": 5000,
-    "width": 104,
+    "width": 132,
     "height": 54,
     "tabOrder": 5000
   },
