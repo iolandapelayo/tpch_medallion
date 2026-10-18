@@ -25,6 +25,8 @@ CARD_BORDER = BG          # the site's lightest grey: separates the white cards 
 RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, TURQUOISE, TURQ_LIGHT, "#DDF5F6"
 # the site uses Inter for text and Roboto for big headings; Segoe UI is the fallback where they are not installed
 FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
+# TPC-H amounts have no currency in the spec; by convention (US benchmark) they are shown as US dollars
+MONEY = "$#,0"
 FONT_HEAD = "Roboto, 'Segoe UI Semibold', sans-serif"
 
 if OUT.exists():
@@ -134,8 +136,8 @@ AH_COLS = [
     ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
     ("Account tier", "ACCOUNT_TIER", "string", None, False,
      {"description": "A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest."}),
-    ("Revenue last 12m", "REVENUE_LAST_12M", "double", "#,0", False, {}),
-    ("Revenue prev 12m", "REVENUE_PREV_12M", "double", "#,0", False, {}),
+    ("Revenue last 12m", "REVENUE_LAST_12M", "double", MONEY, False, {}),
+    ("Revenue prev 12m", "REVENUE_PREV_12M", "double", MONEY, False, {}),
     ("Revenue change %", "REVENUE_CHANGE_PCT", "double", "0.0%", False,
      {"description": "Revenue of the last 12 months vs the previous 12 months."}),
     ("Overdue", "IS_OVERDUE", "boolean", None, False,
@@ -148,7 +150,7 @@ AH_COLS = [
      {"sortByColumn": "'Risk order'",
       "description": "Inactive (no order in 12 months), High (2-3 signals), Medium (1), Low (0)."}),
     ("Risk order", "RISK_ORDER", "int64", "0", True, {}),
-    ("Revenue at risk", "REVENUE_AT_RISK", "double", "#,0", False,
+    ("Revenue at risk", "REVENUE_AT_RISK", "double", MONEY, False,
      {"description": "Last-12-month revenue of active accounts with at least one risk signal."}),
 ]
 RL = "'Account Health'[Risk level]"
@@ -176,13 +178,13 @@ TABLES = [
          "Accounts with at least one order in the last 12 months."),
         ("High-risk accounts", "CALCULATE([Accounts], 'Account Health'[Risk level] = \"High\")", "#,0",
          "Active accounts with 2 or 3 risk signals."),
-        ("Revenue last 12m total", "SUM('Account Health'[Revenue last 12m])", "#,0",
+        ("Revenue last 12m total", "SUM('Account Health'[Revenue last 12m])", MONEY,
          "Last-12-month revenue of the accounts."),
-        ("Total revenue at risk", "SUM('Account Health'[Revenue at risk])", "#,0",
+        ("Total revenue at risk", "SUM('Account Health'[Revenue at risk])", MONEY,
          "Last-12-month revenue of active accounts with at least one risk signal."),
         ("% of revenue at risk", "DIVIDE([Total revenue at risk], [Revenue last 12m total])", "0.0%",
          "Share of last-12-month revenue that comes from accounts at risk."),
-        ("Revenue prev 12m total", "SUM('Account Health'[Revenue prev 12m])", "#,0",
+        ("Revenue prev 12m total", "SUM('Account Health'[Revenue prev 12m])", MONEY,
          "Revenue of the 12 months before the last 12 months."),
         ("Revenue change 12m", "DIVIDE([Revenue last 12m total] - [Revenue prev 12m total], [Revenue prev 12m total])",
          CHANGE_FMT, "Last-12-month revenue vs the previous 12 months."),
@@ -198,16 +200,16 @@ TABLES = [
     ("Orders", "FCT_ORDERS", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Order date key", "ORDER_DATE_KEY", "int64", "0", True, {}),
-        ("Net revenue", "NET_REVENUE", "double", "#,0", True, {}),
+        ("Net revenue", "NET_REVENUE", "double", MONEY, True, {}),
     ], [], [
-        ("Revenue", "SUM(Orders[Net revenue])", "#,0", "Net revenue of the orders (after discount)."),
+        ("Revenue", "SUM(Orders[Net revenue])", MONEY, "Net revenue of the orders (after discount)."),
         # sparklines of the KPI cards: filters on Account Health reach Orders through Customer (both directions)
-        ("Revenue active accounts", "CALCULATE([Revenue], 'Account Health'[Risk level] <> \"Inactive\")", "#,0",
+        ("Revenue active accounts", "CALCULATE([Revenue], 'Account Health'[Risk level] <> \"Inactive\")", MONEY,
          "Monthly revenue of the accounts that are active today."),
-        ("Revenue high-risk accounts", "CALCULATE([Revenue], 'Account Health'[Risk level] = \"High\")", "#,0",
+        ("Revenue high-risk accounts", "CALCULATE([Revenue], 'Account Health'[Risk level] = \"High\")", MONEY,
          "Monthly revenue of the accounts that are high risk today."),
         ("Revenue accounts at risk", "CALCULATE([Revenue], 'Account Health'[Risk level] IN {\"High\", \"Medium\"})",
-         "#,0", "Monthly revenue of the active accounts with at least one risk signal today."),
+         MONEY, "Monthly revenue of the active accounts with at least one risk signal today."),
     ], None),
     ("Date", "DIM_DATE", [
         ("Date key", "DATE_KEY", "int64", "0", True, {}),

@@ -3,22 +3,22 @@ table Orders
 
 	/// Net revenue of the orders (after discount).
 	measure Revenue = SUM(Orders[Net revenue])
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: b3a3de37-df8d-4d36-8bd9-846bac7321d9
 
 	/// Monthly revenue of the accounts that are active today.
 	measure 'Revenue active accounts' = CALCULATE([Revenue], 'Account Health'[Risk level] <> "Inactive")
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: a53e76a2-92b4-4576-a723-2cb9031f3d74
 
 	/// Monthly revenue of the accounts that are high risk today.
 	measure 'Revenue high-risk accounts' = CALCULATE([Revenue], 'Account Health'[Risk level] = "High")
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 01a26d41-91ea-4c28-87cf-60381a2eca15
 
 	/// Monthly revenue of the active accounts with at least one risk signal today.
 	measure 'Revenue accounts at risk' = CALCULATE([Revenue], 'Account Health'[Risk level] IN {"High", "Medium"})
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 2b812d7d-ab2b-47af-9911-568e43ba3b13
 
 	column 'Customer key'
@@ -44,7 +44,7 @@ table Orders
 	column 'Net revenue'
 		dataType: double
 		isHidden
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: aa37a4a5-3b34-4bc1-ade9-4a8c770bc13f
 		summarizeBy: none
 		sourceColumn: NET_REVENUE

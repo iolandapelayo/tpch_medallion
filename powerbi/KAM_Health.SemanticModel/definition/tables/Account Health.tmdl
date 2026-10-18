@@ -18,7 +18,7 @@ table 'Account Health'
 
 	/// Last-12-month revenue of active accounts with at least one risk signal.
 	measure 'Total revenue at risk' = SUM('Account Health'[Revenue at risk])
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 96dabe52-7bd2-4d9c-afc4-8b1781483f1f
 
 	/// Share of last-12-month revenue that comes from accounts at risk.
@@ -28,12 +28,12 @@ table 'Account Health'
 
 	/// Last-12-month revenue of the accounts.
 	measure 'Revenue last 12m total' = SUM('Account Health'[Revenue last 12m])
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 3f6c2a91-7d4e-4b8a-9c15-6e2f8a0d4b73
 
 	/// Revenue of the 12 months before the last 12 months.
 	measure 'Revenue prev 12m total' = SUM('Account Health'[Revenue prev 12m])
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 22a5a8fd-17da-4ad7-8f1f-3bddb142e22e
 
 	/// Last-12-month revenue vs the previous 12 months.
@@ -72,7 +72,7 @@ table 'Account Health'
 
 	column 'Revenue last 12m'
 		dataType: double
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 14330251-07d5-4414-8095-954fa75c89a1
 		summarizeBy: none
 		sourceColumn: REVENUE_LAST_12M
@@ -81,7 +81,7 @@ table 'Account Health'
 
 	column 'Revenue prev 12m'
 		dataType: double
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: a422e9b2-b8f7-46a6-b84a-893e75a1fe6f
 		summarizeBy: none
 		sourceColumn: REVENUE_PREV_12M
@@ -148,7 +148,7 @@ table 'Account Health'
 	/// Last-12-month revenue of active accounts with at least one risk signal.
 	column 'Revenue at risk'
 		dataType: double
-		formatString: #,0
+		formatString: $#,0
 		lineageTag: 7bba4142-1d13-47fc-a7d0-fa9c2343ce62
 		summarizeBy: none
 		sourceColumn: REVENUE_AT_RISK

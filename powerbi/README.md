@@ -57,6 +57,7 @@ What was generated:
   - Medium `#6BD9DE`;
   - Low `#AAE9EC`;
   - Inactive `#DDF5F6`.
+- **Currency:** amounts are shown in US dollars (`$#,0`, e.g. $31M). The TPC-H specification gives no currency; dollars are the usual convention for this US benchmark.
 - **Worklist order:** High risk first, then by revenue at risk.
   - Sorting only by revenue put medium-risk accounts on top: high-risk ones have already lost about 61% of their revenue, so less of it is left "at risk".
   - Calling the high-risk ones first is what the "how to read it" card recommends.
