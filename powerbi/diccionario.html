@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diccionario KAM Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDEBEB; --card: #FFFFFF; --border: #DEDADA;
+    --text: #292626; --muted: #6E6969; --navy: #0E3A5B; --blue: #2B7BB9;
+    --teal: #176366; --accent: #6BD9DE; --chip: #F4F2F2; --code: #EEF3F6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15191E; --card: #1F252C; --border: #333B44;
+      --text: #E8E6E6; --muted: #A39E9E; --navy: #AAE9EC; --blue: #6BB3E6;
+      --teal: #6BD9DE; --accent: #6BD9DE; --chip: #272E36; --code: #27313B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15191E; --card: #1F252C; --border: #333B44;
+    --text: #E8E6E6; --muted: #A39E9E; --navy: #AAE9EC; --blue: #6BB3E6;
+    --teal: #6BD9DE; --accent: #6BD9DE; --chip: #272E36; --code: #27313B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.55 Inter, 'Segoe UI', system-ui, sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { background: var(--card); border: 1px solid var(--border); border-radius: 22px;
+           padding: 22px 24px; margin-bottom: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--teal);
+           font: 600 12px/1 Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .brand i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); display: inline-block; }
+  h1 { font: 700 26px/1.25 Roboto, 'Segoe UI Semibold', sans-serif; color: var(--navy); margin: 10px 0 6px; }
+  .intro { color: var(--muted); margin: 0; max-width: 70ch; }
+  .tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+  .langs { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .langs button { border: 0; background: transparent; color: var(--text); padding: 7px 14px;
+                  font: 500 13px Inter, sans-serif; cursor: pointer; }
+  .langs button[aria-pressed="true"] { background: var(--navy); color: var(--card); }
+  input[type=search] { flex: 1 1 220px; min-width: 0; padding: 8px 14px; border-radius: 999px;
+                       border: 1px solid var(--border); background: var(--card); color: var(--text);
+                       font: 14px Inter, sans-serif; }
+  nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+  nav a { text-decoration: none; color: var(--navy); background: var(--card); border: 1px solid var(--border);
+          border-radius: 999px; padding: 5px 12px; font-size: 13px; }
+  nav a:hover { border-color: var(--blue); }
+  section { margin-bottom: 22px; }
+  h2 { font: 700 18px/1.3 Roboto, 'Segoe UI Semibold', sans-serif; color: var(--navy); margin: 0 0 4px; }
+  .sec-intro { color: var(--muted); margin: 0 0 10px; font-size: 14px; }
+  dl { margin: 0; display: grid; gap: 10px; }
+  .entry { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; }
+  dt { font: 600 16px/1.35 Inter, sans-serif; color: var(--navy); }
+  .other { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; }
+  dd { margin: 6px 0 0; }
+  .meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--muted); }
+  code { background: var(--code); color: var(--text); border-radius: 6px; padding: 1px 6px;
+         font: 12px Consolas, 'Cascadia Mono', monospace; }
+  .empty { color: var(--muted); padding: 20px 4px; }
+  footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
+  @media print { .tools, nav { display: none; } body { background: #fff; } .entry, header { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><i></i><span id="brand"></span></div>
+    <h1 id="h1"></h1>
+    <p class="intro" id="intro"></p>
+    <div class="tools">
+      <div class="langs" role="group" aria-label="Language">
+        <button data-lang="en">English</button>
+        <button data-lang="es">Español</button>
+        <button data-lang="ca">Català</button>
+      </div>
+      <input type="search" id="q" autocomplete="off">
+    </div>
+  </header>
+  <nav id="nav"></nav>
+  <main id="main"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const UI = {
+  en: { brand: "Propelling Tech · KAM Health", h1: "Dashboard glossary",
+        intro: "Definitions of every term shown in the Power BI cockpit “Furniture key accounts (tier A) · United Kingdom: health and churn risk”. Use it to understand exactly what each figure, signal and chart measures.",
+        search: "Search a term…", field: "Field in the model", none: "No term matches your search.",
+        foot: "Source: TPCH_MEDALLION.GOLD (Snowflake), built with dbt from the TPC-H benchmark. Reference date: 31 Jul 1998. Amounts are in the currency of the source data." },
+  es: { brand: "Propelling Tech · KAM Health", h1: "Diccionario del panel",
+        intro: "Definiciones de todos los términos que aparecen en el panel de Power BI «Grandes cuentas (A) de mobiliario · Reino Unido: salud y riesgo de pérdida». Sirve para saber con exactitud qué mide cada cifra, cada señal y cada gráfico.",
+        search: "Buscar un término…", field: "Campo en el modelo", none: "Ningún término coincide con la búsqueda.",
+        foot: "Origen: TPCH_MEDALLION.GOLD (Snowflake), construido con dbt a partir del benchmark TPC-H. Fecha de referencia: 31 jul 1998. Los importes están en la moneda de los datos de origen." },
+  ca: { brand: "Propelling Tech · KAM Health", h1: "Diccionari del quadre",
+        intro: "Definicions de tots els termes que apareixen al quadre de Power BI «Grans comptes (A) de mobiliari · Regne Unit: salut i risc de pèrdua». Serveix per saber amb exactitud què mesura cada xifra, cada senyal i cada gràfic.",
+        search: "Cerca un terme…", field: "Camp al model", none: "Cap terme no coincideix amb la cerca.",
+        foot: "Origen: TPCH_MEDALLION.GOLD (Snowflake), construït amb dbt a partir del benchmark TPC-H. Data de referència: 31 jul 1998. Els imports són en la moneda de les dades d'origen." }
+};
+
+const SECTIONS = [
+  { id: "context",
+    en: ["Scope and time frame", "Who the dashboard is for and which period it covers."],
+    es: ["Alcance y periodo", "Para quién es el panel y qué periodo cubre."],
+    ca: ["Abast i període", "Per a qui és el quadre i quin període cobreix."],
+    items: [
+      { en: ["Key Account Manager (KAM)", "The person responsible for the commercial relationship with a portfolio of large customers. The dashboard is their cockpit: it tells them which accounts need attention first."],
+        es: ["Key Account Manager (KAM)", "Responsable de la relación comercial con una cartera de grandes clientes. El panel es su herramienta de trabajo: le indica qué cuentas necesitan atención primero."],
+        ca: ["Key Account Manager (KAM)", "Responsable de la relació comercial amb una cartera de grans clients. El quadre és la seva eina de treball: li indica quins comptes necessiten atenció primer."] },
+      { en: ["Portfolio", "The set of customers assigned to the KAM: customers in the Furniture market segment located in the United Kingdom. All figures and rankings are calculated only within this portfolio."],
+        es: ["Cartera", "Conjunto de clientes asignados al KAM: los clientes del segmento de mercado Mobiliario (Furniture) ubicados en el Reino Unido. Todas las cifras y clasificaciones se calculan solo dentro de esta cartera."],
+        ca: ["Cartera", "Conjunt de clients assignats al KAM: els clients del segment de mercat Mobiliari (Furniture) ubicats al Regne Unit. Totes les xifres i classificacions es calculen només dins d'aquesta cartera."] },
+      { en: ["Churn risk", "The likelihood that a customer reduces or stops buying. The dashboard estimates it with three observable warning signals rather than a predictive model, so every result can be explained."],
+        es: ["Riesgo de pérdida (churn)", "Probabilidad de que un cliente reduzca o deje de hacer compras. El panel la estima con tres señales de alarma observables, no con un modelo predictivo, de modo que cada resultado se puede explicar."],
+        ca: ["Risc de pèrdua (churn)", "Probabilitat que un client redueixi o deixi de fer compres. El quadre l'estima amb tres senyals d'alarma observables, no amb un model predictiu, de manera que cada resultat es pot explicar."] },
+      { en: ["Reference date", "The day on which account health is assessed: 31 July 1998, the last day of the last complete month of data. Orders after this date are ignored. With live data it would be today’s date."],
+        es: ["Fecha de referencia", "Día en el que se evalúa la salud de las cuentas: 31 de julio de 1998, último día del último mes completo de datos. Los pedidos posteriores se ignoran. Con datos reales sería la fecha de hoy."],
+        ca: ["Data de referència", "Dia en què s'avalua la salut dels comptes: 31 de juliol de 1998, últim dia de l'últim mes complet de dades. Les comandes posteriors s'ignoren. Amb dades reals seria la data d'avui."],
+        field: "as_of_date" },
+      { en: ["Last 12 months (12m)", "The 12 complete months ending on the reference date: August 1997 to July 1998. KPIs, signals and monthly charts all use this same window."],
+        es: ["Últimos 12 meses (12m)", "Los 12 meses completos que terminan en la fecha de referencia: de agosto de 1997 a julio de 1998. Los KPI, las señales y los gráficos mensuales usan esta misma ventana."],
+        ca: ["Últims 12 mesos (12m)", "Els 12 mesos complets que acaben a la data de referència: d'agost de 1997 a juliol de 1998. Els KPI, els senyals i els gràfics mensuals fan servir aquesta mateixa finestra."] },
+      { en: ["Previous 12 months", "The 12 months immediately before the last 12 months: August 1996 to July 1997. Used as the baseline for comparisons."],
+        es: ["12 meses anteriores", "Los 12 meses inmediatamente anteriores a los últimos 12 meses: de agosto de 1996 a julio de 1997. Sirven de base para las comparaciones."],
+        ca: ["12 mesos anteriors", "Els 12 mesos immediatament anteriors als últims 12 mesos: d'agost de 1996 a juliol de 1997. Serveixen de base per a les comparacions."] }
+    ]},
+  { id: "accounts",
+    en: ["Accounts and tiers", "How customers are counted and classified."],
+    es: ["Cuentas y categorías", "Cómo se cuentan y se clasifican los clientes."],
+    ca: ["Comptes i categories", "Com es compten i es classifiquen els clients."],
+    items: [
+      { en: ["Account / Customer", "A customer of the portfolio that has placed at least one order. Each account appears once, identified by its customer name."],
+        es: ["Cuenta / Cliente", "Cliente de la cartera que ha hecho al menos un pedido. Cada cuenta aparece una sola vez, identificada por el nombre del cliente."],
+        ca: ["Compte / Client", "Client de la cartera que ha fet almenys una comanda. Cada compte apareix una sola vegada, identificat pel nom del client."],
+        field: "Accounts · Customer[Customer]" },
+      { en: ["Active accounts", "Accounts with at least one order in the last 12 months (any risk level except Inactive)."],
+        es: ["Cuentas activas", "Cuentas con al menos un pedido en los últimos 12 meses (cualquier nivel de riesgo excepto Inactiva)."],
+        ca: ["Comptes actius", "Comptes amb almenys una comanda en els últims 12 mesos (qualsevol nivell de risc excepte Inactiu)."],
+        field: "Active accounts" },
+      { en: ["Account tier", "Classification of each account by its total historical revenue, compared with the rest of the portfolio: A = top 20%, B = next 30%, C = remaining 50%."],
+        es: ["Categoría de cuenta", "Clasificación de cada cuenta según sus ingresos históricos totales, comparada con el resto de la cartera: A = el 20 % superior, B = el 30 % siguiente, C = el 50 % restante."],
+        ca: ["Categoria de compte", "Classificació de cada compte segons els seus ingressos històrics totals, comparada amb la resta de la cartera: A = el 20 % superior, B = el 30 % següent, C = el 50 % restant."],
+        field: "Account Health[Account tier]" },
+      { en: ["Key accounts (tier A)", "The top 20% of the portfolio by historical revenue. The dashboard shows only these accounts: a locked report filter keeps tier = A on every page."],
+        es: ["Grandes cuentas (categoría A)", "El 20 % de la cartera con más ingresos históricos. El panel muestra solo estas cuentas: un filtro bloqueado del informe mantiene la categoría = A en todas las páginas."],
+        ca: ["Grans comptes (categoria A)", "El 20 % de la cartera amb més ingressos històrics. El quadre mostra només aquests comptes: un filtre bloquejat de l'informe manté la categoria = A a totes les pàgines."] }
+    ]},
+  { id: "revenue",
+    en: ["Revenue", "Amounts sold and how they change over time."],
+    es: ["Ingresos", "Importes vendidos y cómo evolucionan."],
+    ca: ["Ingressos", "Imports venuts i com evolucionen."],
+    items: [
+      { en: ["Revenue", "Net revenue of the orders: list price of each order line minus its discount, before taxes."],
+        es: ["Ingresos", "Ingresos netos de los pedidos: precio de cada línea de pedido menos su descuento, antes de impuestos."],
+        ca: ["Ingressos", "Ingressos nets de les comandes: preu de cada línia de comanda menys el seu descompte, abans d'impostos."],
+        field: "Revenue · Orders[Net revenue]" },
+      { en: ["Revenue last 12m", "Revenue of an account (or of all accounts shown) in the last 12 months."],
+        es: ["Ingresos 12m", "Ingresos de una cuenta (o del conjunto de cuentas mostradas) en los últimos 12 meses."],
+        ca: ["Ingressos 12m", "Ingressos d'un compte (o del conjunt de comptes mostrats) en els últims 12 mesos."],
+        field: "Revenue last 12m total" },
+      { en: ["Revenue previous 12m", "Revenue in the 12 months before the last 12 months."],
+        es: ["Ingresos 12m anteriores", "Ingresos de los 12 meses anteriores a los últimos 12 meses."],
+        ca: ["Ingressos 12m anteriors", "Ingressos dels 12 mesos anteriors als últims 12 mesos."],
+        field: "Revenue prev 12m total" },
+      { en: ["Change 12m (12m revenue vs previous 12m)", "Percentage change of last-12-month revenue against the previous 12 months: (last 12m − previous 12m) ÷ previous 12m. ▲ means growth, ▼ means decline."],
+        es: ["Variación 12m (ingresos 12m vs 12m anteriores)", "Variación porcentual de los ingresos de los últimos 12 meses frente a los 12 anteriores: (12m − 12m anteriores) ÷ 12m anteriores. ▲ indica crecimiento y ▼, caída."],
+        ca: ["Variació 12m (ingressos 12m vs 12m anteriors)", "Variació percentual dels ingressos dels últims 12 mesos respecte dels 12 anteriors: (12m − 12m anteriors) ÷ 12m anteriors. ▲ indica creixement i ▼, caiguda."],
+        field: "Revenue change % · Revenue change active · Revenue change high-risk" },
+      { en: ["Revenue at risk", "Last-12-month revenue of the active accounts that show at least one warning signal (High or Medium risk). It is the revenue that could be lost if those accounts leave. Low-risk and inactive accounts contribute zero."],
+        es: ["Ingresos en riesgo", "Ingresos de los últimos 12 meses de las cuentas activas que presentan al menos una señal de alarma (riesgo alto o medio). Son los ingresos que se podrían perder si esas cuentas se van. Las cuentas de riesgo bajo y las inactivas aportan cero."],
+        ca: ["Ingressos en risc", "Ingressos dels últims 12 mesos dels comptes actius que presenten almenys un senyal d'alarma (risc alt o mitjà). Són els ingressos que es podrien perdre si aquests comptes marxen. Els comptes de risc baix i els inactius aporten zero."],
+        field: "Total revenue at risk · Account Health[Revenue at risk]" },
+      { en: ["% of last-12-month revenue", "Share of total last-12-month revenue that is at risk: revenue at risk ÷ revenue last 12m."],
+        es: ["% de los ingresos de 12 meses", "Parte de los ingresos totales de los últimos 12 meses que está en riesgo: ingresos en riesgo ÷ ingresos 12m."],
+        ca: ["% dels ingressos de 12 mesos", "Part dels ingressos totals dels últims 12 mesos que està en risc: ingressos en risc ÷ ingressos 12m."],
+        field: "% of revenue at risk" },
+      { en: ["Monthly revenue", "Revenue per calendar month, by order date. Monthly charts show August 1997 to July 1998."],
+        es: ["Ingresos mensuales", "Ingresos por mes natural, según la fecha del pedido. Los gráficos mensuales muestran de agosto de 1997 a julio de 1998."],
+        ca: ["Ingressos mensuals", "Ingressos per mes natural, segons la data de la comanda. Els gràfics mensuals mostren d'agost de 1997 a juliol de 1998."],
+        field: "Date[Month start]" }
+    ]},
+  { id: "signals",
+    en: ["Warning signals", "The three indicators that make up the risk level."],
+    es: ["Señales de alarma", "Los tres indicadores que forman el nivel de riesgo."],
+    ca: ["Senyals d'alarma", "Els tres indicadors que formen el nivell de risc."],
+    items: [
+      { en: ["Warning signal", "A yes/no indicator that an account is cooling down. Each account is checked against three signals: overdue, declining and service issues."],
+        es: ["Señal de alarma", "Indicador de sí o no que avisa de que una cuenta se está enfriando. Cada cuenta se evalúa con tres señales: retraso, caída y problemas de servicio."],
+        ca: ["Senyal d'alarma", "Indicador de sí o no que avisa que un compte s'està refredant. Cada compte s'avalua amb tres senyals: retard, caiguda i problemes de servei."] },
+      { en: ["Overdue", "The account has gone more than twice its usual time between orders without ordering. The usual time is the average number of days between its orders; the factor (2×) is configurable."],
+        es: ["Retraso", "La cuenta lleva sin pedir más del doble de su intervalo habitual entre pedidos. El intervalo habitual es la media de días entre sus pedidos; el factor (2×) es configurable."],
+        ca: ["Retard", "El compte fa més del doble del seu interval habitual entre comandes sense demanar. L'interval habitual és la mitjana de dies entre les seves comandes; el factor (2×) és configurable."],
+        field: "Account Health[Overdue]" },
+      { en: ["Declining", "Last-12-month revenue fell more than 30% compared with the previous 12 months. The threshold is configurable."],
+        es: ["Caída", "Los ingresos de los últimos 12 meses han bajado más de un 30 % respecto a los 12 meses anteriores. El umbral es configurable."],
+        ca: ["Caiguda", "Els ingressos dels últims 12 mesos han baixat més d'un 30 % respecte dels 12 mesos anteriors. El llindar és configurable."],
+        field: "Account Health[Declining]" },
+      { en: ["Service issues", "The account is among the worst 25% of the portfolio by late line rate in the last 12 months. Only accounts with delivered orders are compared."],
+        es: ["Problemas de servicio", "La cuenta está en el peor 25 % de la cartera por tasa de líneas entregadas tarde en los últimos 12 meses. Solo se comparan las cuentas con pedidos entregados."],
+        ca: ["Problemes de servei", "El compte és al pitjor 25 % de la cartera per taxa de línies lliurades tard en els últims 12 mesos. Només es comparen els comptes amb comandes lliurades."],
+        field: "Account Health[Service issues]" },
+      { en: ["Late line rate", "Share of an account’s order lines received after the date committed to the customer. It is measured by line, not by order, because almost every order contains at least one late line."],
+        es: ["Tasa de líneas tardías", "Porcentaje de líneas de pedido de una cuenta recibidas después de la fecha comprometida con el cliente. Se mide por línea y no por pedido, porque casi todos los pedidos contienen alguna línea tardía."],
+        ca: ["Taxa de línies tardanes", "Percentatge de línies de comanda d'un compte rebudes després de la data compromesa amb el client. Es mesura per línia i no per comanda, perquè gairebé totes les comandes contenen alguna línia tardana."],
+        field: "late_line_rate_12m (Gold)" },
+      { en: ["Why", "Worklist column listing the signals an account has, in one word each: Overdue · Declining · Service."],
+        es: ["Por qué", "Columna de la lista de trabajo que indica las señales que tiene la cuenta, con una palabra cada una: Retraso · Caída · Servicio."],
+        ca: ["Per què", "Columna de la llista de treball que indica els senyals que té el compte, amb una paraula cadascun: Retard · Caiguda · Servei."],
+        field: "Signals EN · Signals ES · Signals CA" }
+    ]},
+  { id: "risk",
+    en: ["Risk level", "The final classification of each account."],
+    es: ["Nivel de riesgo", "La clasificación final de cada cuenta."],
+    ca: ["Nivell de risc", "La classificació final de cada compte."],
+    items: [
+      { en: ["Risk level", "Classification of each account based on its activity and the number of warning signals: High, Medium, Low or Inactive. Always shown in this order."],
+        es: ["Nivel de riesgo", "Clasificación de cada cuenta según su actividad y el número de señales de alarma: Alto, Medio, Bajo o Inactivo. Se muestra siempre en este orden."],
+        ca: ["Nivell de risc", "Classificació de cada compte segons la seva activitat i el nombre de senyals d'alarma: Alt, Mitjà, Baix o Inactiu. Es mostra sempre en aquest ordre."],
+        field: "Account Health[Risk level] · Risk level ES · Risk level CA · Risk order" },
+      { sw: "#0E3A5B",
+        en: ["High", "Active account with 2 or 3 warning signals. Priority for the KAM. It is the only level shown in colour (navy)."],
+        es: ["Alto", "Cuenta activa con 2 o 3 señales de alarma. Prioridad para el KAM. Es el único nivel que se muestra en color (azul marino)."],
+        ca: ["Alt", "Compte actiu amb 2 o 3 senyals d'alarma. Prioritat per al KAM. És l'únic nivell que es mostra en color (blau marí)."],
+        field: "High-risk accounts" },
+      { sw: "#8FA3B3",
+        en: ["Medium", "Active account with exactly 1 warning signal. Worth monitoring."],
+        es: ["Medio", "Cuenta activa con exactamente 1 señal de alarma. Conviene vigilarla."],
+        ca: ["Mitjà", "Compte actiu amb exactament 1 senyal d'alarma. Convé vigilar-lo."] },
+      { sw: "#B8C6D1",
+        en: ["Low", "Active account with no warning signals."],
+        es: ["Bajo", "Cuenta activa sin ninguna señal de alarma."],
+        ca: ["Baix", "Compte actiu sense cap senyal d'alarma."] },
+      { sw: "#DDE5EB",
+        en: ["Inactive", "Account with no orders in the last 12 months. Its signals do not count and its revenue at risk is zero, because it has already stopped buying."],
+        es: ["Inactivo", "Cuenta sin pedidos en los últimos 12 meses. Sus señales no cuentan y sus ingresos en riesgo son cero, porque ya ha dejado de comprar."],
+        ca: ["Inactiu", "Compte sense comandes en els últims 12 mesos. Els seus senyals no compten i els seus ingressos en risc són zero, perquè ja ha deixat de comprar."] }
+    ]},
+  { id: "visuals",
+    en: ["Dashboard elements", "What each part of the page shows and how to use it."],
+    es: ["Elementos del panel", "Qué muestra cada parte de la página y cómo usarla."],
+    ca: ["Elements del quadre", "Què mostra cada part de la pàgina i com fer-la servir."],
+    items: [
+      { en: ["KPI cards", "The three cards on the left: Active accounts, High-risk accounts and Revenue at risk. Each shows the main figure, a sparkline and a comparison line."],
+        es: ["Tarjetas KPI", "Las tres tarjetas de la izquierda: Cuentas activas, Cuentas en riesgo alto e Ingresos en riesgo. Cada una muestra la cifra principal, una minigráfica y una línea de comparación."],
+        ca: ["Targetes KPI", "Les tres targetes de l'esquerra: Comptes actius, Comptes en risc alt i Ingressos en risc. Cadascuna mostra la xifra principal, un minigràfic i una línia de comparació."] },
+      { en: ["Sparkline", "Small chart inside each KPI card showing the monthly revenue of that group of accounts over the last 12 months. It shows the trend, not exact values."],
+        es: ["Minigráfica", "Gráfico pequeño dentro de cada tarjeta KPI con los ingresos mensuales de ese grupo de cuentas en los últimos 12 meses. Muestra la tendencia, no valores exactos."],
+        ca: ["Minigràfic", "Gràfic petit dins de cada targeta KPI amb els ingressos mensuals d'aquest grup de comptes en els últims 12 mesos. Mostra la tendència, no valors exactes."],
+        field: "Revenue active accounts · Revenue high-risk accounts · Revenue accounts at risk" },
+      { en: ["Comparison line", "Line at the bottom of each KPI card. For accounts: change 12m of their revenue. For revenue at risk: its % of last-12-month revenue."],
+        es: ["Línea de comparación", "Línea al pie de cada tarjeta KPI. En las de cuentas: la variación 12m de sus ingresos. En la de ingresos en riesgo: su % sobre los ingresos de 12 meses."],
+        ca: ["Línia de comparació", "Línia al peu de cada targeta KPI. A les de comptes: la variació 12m dels seus ingressos. A la d'ingressos en risc: el seu % sobre els ingressos de 12 mesos."] },
+      { en: ["Key accounts by risk level", "Bar chart with the number of tier A accounts at each risk level. High risk is highlighted; the other levels are in grey."],
+        es: ["Grandes cuentas por nivel de riesgo", "Gráfico de barras con el número de cuentas de categoría A en cada nivel de riesgo. El riesgo alto está resaltado; el resto, en gris."],
+        ca: ["Grans comptes per nivell de risc", "Gràfic de barres amb el nombre de comptes de categoria A a cada nivell de risc. El risc alt està destacat; la resta, en gris."] },
+      { en: ["Revenue at risk by risk level", "Bar chart with the revenue at risk of each level. Only High and Medium have values, because only accounts with warning signals have revenue at risk."],
+        es: ["Ingresos en riesgo por nivel de riesgo", "Gráfico de barras con los ingresos en riesgo de cada nivel. Solo Alto y Medio tienen valor, porque solo las cuentas con señales de alarma tienen ingresos en riesgo."],
+        ca: ["Ingressos en risc per nivell de risc", "Gràfic de barres amb els ingressos en risc de cada nivell. Només Alt i Mitjà tenen valor, perquè només els comptes amb senyals d'alarma tenen ingressos en risc."] },
+      { en: ["Monthly revenue by risk level", "Line chart with the monthly revenue of each risk level from August 1997 to July 1998. Accounts are grouped by their current risk level. Clicking an account in the worklist shows only its months."],
+        es: ["Ingresos mensuales por nivel de riesgo", "Gráfico de líneas con los ingresos mensuales de cada nivel de riesgo de agosto de 1997 a julio de 1998. Las cuentas se agrupan según su nivel de riesgo actual. Al hacer clic en una cuenta de la lista de trabajo se ven solo sus meses."],
+        ca: ["Ingressos mensuals per nivell de risc", "Gràfic de línies amb els ingressos mensuals de cada nivell de risc d'agost de 1997 a juliol de 1998. Els comptes s'agrupen segons el seu nivell de risc actual. En fer clic en un compte de la llista de treball se'n veuen només els mesos."] },
+      { en: ["Worklist for this week", "Table of accounts ordered by revenue at risk, from highest to lowest: customer, risk level, revenue at risk, change 12m and why. It is the KAM’s call list."],
+        es: ["Lista de la semana", "Tabla de cuentas ordenada por ingresos en riesgo, de mayor a menor: cliente, nivel de riesgo, ingresos en riesgo, variación 12m y por qué. Es la lista de llamadas del KAM."],
+        ca: ["Llista de la setmana", "Taula de comptes ordenada per ingressos en risc, de més a menys: client, nivell de risc, ingressos en risc, variació 12m i per què. És la llista de trucades del KAM."] },
+      { en: ["Risk filter", "Selector at the top of the page that limits every visual to one or more risk levels."],
+        es: ["Filtro Riesgo", "Selector de la parte superior de la página que limita todos los gráficos a uno o varios niveles de riesgo."],
+        ca: ["Filtre Risc", "Selector de la part superior de la pàgina que limita tots els gràfics a un o diversos nivells de risc."] },
+      { en: ["Language flags", "The three flags at the top right switch the page to English, Spanish or Catalan. The data are the same in all three languages. In Power BI Desktop, use Ctrl+click."],
+        es: ["Banderas de idioma", "Las tres banderas de arriba a la derecha cambian la página a inglés, castellano o catalán. Los datos son los mismos en los tres idiomas. En Power BI Desktop, usa Ctrl+clic."],
+        ca: ["Banderes d'idioma", "Les tres banderes de dalt a la dreta canvien la pàgina a anglès, castellà o català. Les dades són les mateixes en els tres idiomes. A Power BI Desktop, fes servir Ctrl+clic."] },
+      { en: ["How to read it", "Card at the bottom of the page that summarises the three signals and the recommended starting point: the High-risk accounts."],
+        es: ["Cómo leerlo", "Tarjeta al pie de la página que resume las tres señales y por dónde empezar: las cuentas de riesgo alto."],
+        ca: ["Com llegir-ho", "Targeta al peu de la pàgina que resumeix els tres senyals i per on començar: els comptes de risc alt."] }
+    ]}
+];
+
+const LANGS = ["en", "es", "ca"];
+let lang = "es";
+try { const s = localStorage.getItem("kam-dict-lang"); if (LANGS.includes(s)) lang = s; } catch (e) {}
+
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+function render() {
+  const u = UI[lang], q = norm(document.getElementById("q").value.trim());
+  document.documentElement.lang = lang;
+  document.getElementById("brand").textContent = u.brand;
+  document.getElementById("h1").textContent = u.h1;
+  document.getElementById("intro").textContent = u.intro;
+  document.getElementById("q").placeholder = u.search;
+  document.getElementById("foot").textContent = u.foot;
+  document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  document.getElementById("nav").innerHTML = SECTIONS.map(s => `<a href="#${s.id}">${esc(s[lang][0])}</a>`).join("");
+
+  let html = "", hits = 0;
+  for (const s of SECTIONS) {
+    const items = s.items.filter(it => !q || norm(LANGS.map(l => it[l].join(" ")).join(" ") + " " + (it.field || "")).includes(q));
+    if (!items.length) continue;
+    hits += items.length;
+    html += `<section id="${s.id}"><h2>${esc(s[lang][0])}</h2><p class="sec-intro">${esc(s[lang][1])}</p><dl>`;
+    for (const it of items) {
+      const others = LANGS.filter(l => l !== lang && it[l][0] !== it[lang][0]).map(l => `${l.toUpperCase()}: ${esc(it[l][0])}`).join(" · ");
+      const sw = it.sw ? `<span class="sw" style="background:${it.sw}"></span>` : "";
+      html += `<div class="entry"><dt>${sw}${esc(it[lang][0])}${others ? `<span class="other">${others}</span>` : ""}</dt><dd>${esc(it[lang][1])}</dd>`;
+      if (it.field) html += `<div class="meta">${esc(u.field)}: ${it.field.split(" · ").map(f => `<code>${esc(f)}</code>`).join(" ")}</div>`;
+      html += `</div>`;
+    }
+    html += `</dl></section>`;
+  }
+  document.getElementById("main").innerHTML = hits ? html : `<p class="empty">${esc(u.none)}</p>`;
+}
+
+document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => {
+  lang = b.dataset.lang;
+  try { localStorage.setItem("kam-dict-lang", lang); } catch (e) {}
+  render();
+}));
+document.getElementById("q").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
