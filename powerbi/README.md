@@ -24,9 +24,11 @@ Prompt given to Claude:
 > with illustrative numbers where every block has an absolute position in pixels.
 
 Result: [`mockup.html`](mockup.html). The mockup was later restyled together with the report, following two reference dashboards. It now shows:
-- a white header band with the title, the portfolio (Furniture accounts in the United Kingdom), 2 filter pills (tier and risk) and the language flags;
+- **tier A only:** a report-level filter (`tierAOnly`, locked) keeps only the key accounts, on all three pages.
+  Tiers are computed in dbt against the whole portfolio, so the Gold layer keeps every account.
+- a white header band with the title, the portfolio (Furniture key accounts - tier A - in the United Kingdom), 1 filter pill (risk) and the language flags;
 - 3 KPI cards on the left (active accounts, high-risk accounts and revenue at risk). Each card has a sparkline and a comparison line;
-- in the centre: accounts by tier and risk level, and revenue at risk by tier, with the top tier highlighted;
+- in the centre: key accounts by risk level, and revenue at risk by risk level;
 - on the right: monthly revenue by risk level for the last 12 complete months (Aug 1997 - Jul 1998; August 1998 has only 2 days of orders, so it is left out), and a compact worklist with a "Why" column;
 - a "how to read it" card at the bottom.
 
@@ -43,15 +45,15 @@ What was generated:
 - **Model:**
   - Tables: `Account Health`, `Customer`, `Orders` and `Date`. Gold holds one KAM's portfolio (Furniture, United Kingdom: 801 accounts), so there are no segment or country filters.
   - Main measures: Accounts, Active accounts, High-risk accounts, Total revenue at risk, % of revenue at risk, Revenue and Late line rate.
-  - Helper measures for the cards: 12-month revenue change, sparkline revenue, and the bar colour of the top tier.
-  - Relationship between `Account Health` and `Customer` in both directions. This way a risk or tier slicer also filters the orders behind the monthly revenue line.
+  - Helper measures for the cards: 12-month revenue change, sparkline revenue, and the bar colour of the top tier (no longer used by any visual).
+  - Relationship between `Account Health` and `Customer` in both directions. This way the tier A report filter and the risk slicer also filter the orders behind the monthly revenue line.
 - **Report:** visuals placed at the mockup's coordinates. Clicking an account in the worklist shows that account's monthly revenue in the line chart.
 - **Look:** a grey rounded frame, white cards with large rounded corners, and Inter / Roboto fonts (with Segoe UI as fallback). All of it is taken from careers.propellingtech.com.
 - **Colours and decluttering:** the charts follow the rule "everything in grey except what we want to highlight". The blues match the turquoise of the Propelling logo (`#6BD9DE`).
   - Risk level: only High is coloured (navy `#0E3A5B`). Medium, Low and Inactive are blue-tinted greys (`#8FA3B3`, `#B8C6D1` and `#DDE5EB`), from dark to light, so the order is still readable.
-  - Revenue at risk by tier: only the top tier is in blue (`#2B7BB9`); the rest are grey.
+  - Both centre charts use the risk colours: only High in navy, the other levels in grey.
   - Legends are kept only where the title and the axis do not say what each colour is.
-  - Data labels are shown only on the tier revenue chart, which has no value axis.
+  - Data labels are shown only on the revenue-at-risk chart, which has no value axis.
   - The monthly line starts its Y axis at zero, so that changes are not exaggerated.
 - **Languages (English, Spanish, Catalan):**
   - Each language has its own page.

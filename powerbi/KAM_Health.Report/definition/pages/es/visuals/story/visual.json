@@ -4,10 +4,10 @@
   "position": {
     "x": 316,
     "y": 644,
-    "z": 24000,
+    "z": 23000,
     "width": 940,
     "height": 56,
-    "tabOrder": 24000
+    "tabOrder": 23000
   },
   "visual": {
     "visualType": "textbox",
@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de riesgo alto (azul marino) de la categoría resaltada: es la que tiene más ingresos en juego.",
+                    "value": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas tardías). Dos o más señales = riesgo alto. Solo se muestran las cuentas de categoría A (el 20 % que más compra): empieza por las de riesgo alto (azul marino).",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "8pt",

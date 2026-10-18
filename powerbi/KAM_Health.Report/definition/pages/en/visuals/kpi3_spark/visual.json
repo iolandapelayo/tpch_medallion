@@ -4,10 +4,10 @@
   "position": {
     "x": 200,
     "y": 560,
-    "z": 18000,
+    "z": 17000,
     "width": 88,
     "height": 64,
-    "tabOrder": 18000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "areaChart",

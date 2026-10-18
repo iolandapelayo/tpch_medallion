@@ -55,6 +55,9 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 (801 con pedidos y 11.976 pedidos).
 - La cartera se define con **2 variables de dbt** (`portfolio_segment`, `portfolio_nation`). Para otro KAM
   basta con cambiarlas: bronce y plata **no se tocan**. Es la mejor prueba de por qué se separan las capas.
+- **El dashboard muestra solo las grandes cuentas (categoría A: 160 cuentas, 30 M en riesgo).** Es un filtro de Power BI,
+  no de dbt: la categoría A se calcula comparando cada cuenta con *toda* la cartera, así que oro conserva todas las cuentas
+  y el filtro solo cambia lo que se ve.
 - Los rankings (peor 25 % en servicio, tier A/B/C) **comparan sus cuentas entre sí**: "tus 20 % más grandes",
   no las más grandes del mundo.
 - La fecha de referencia sigue siendo el último pedido de **todos** los datos (1998-08-02), no el de la cartera.

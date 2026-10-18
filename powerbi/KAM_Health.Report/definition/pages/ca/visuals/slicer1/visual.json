@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "slicer1",
   "position": {
-    "x": 896,
+    "x": 1008,
     "y": 24,
     "z": 3000,
     "width": 104,
@@ -23,12 +23,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Account tier"
+                  "Property": "Risk level CA"
                 }
               },
-              "queryRef": "Account Health.Account tier",
-              "nativeQueryRef": "Account tier",
-              "displayName": "Categoria"
+              "queryRef": "Account Health.Risk level CA",
+              "nativeQueryRef": "Risk level CA",
+              "displayName": "Risc"
             }
           ]
         }

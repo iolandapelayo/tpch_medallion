@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "riskTier",
+  "name": "riskAccounts",
   "position": {
     "x": 316,
-    "y": 392,
-    "z": 21000,
+    "y": 110,
+    "z": 19000,
     "width": 452,
-    "height": 238,
-    "tabOrder": 21000
+    "height": 268,
+    "tabOrder": 19000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,12 +23,31 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Account tier"
+                  "Property": "Risk level"
                 }
               },
-              "queryRef": "Account Health.Account tier",
-              "nativeQueryRef": "Account tier",
-              "displayName": "Categoria del compte"
+              "queryRef": "Account Health.Risk level",
+              "nativeQueryRef": "Risk level",
+              "displayName": "Risk level"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Account Health"
+                    }
+                  },
+                  "Property": "Risk level"
+                }
+              },
+              "queryRef": "Account Health.Risk level",
+              "nativeQueryRef": "Risk level",
+              "displayName": "Risk level"
             }
           ]
         },
@@ -42,12 +61,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Total revenue at risk"
+                  "Property": "Accounts"
                 }
               },
-              "queryRef": "Account Health.Total revenue at risk",
-              "nativeQueryRef": "Total revenue at risk",
-              "displayName": "Ingressos en risc"
+              "queryRef": "Account Health.Accounts",
+              "nativeQueryRef": "Accounts",
+              "displayName": "Accounts"
             }
           ]
         }
@@ -62,7 +81,7 @@
                     "Entity": "Account Health"
                   }
                 },
-                "Property": "Account tier"
+                "Property": "Risk level"
               }
             },
             "direction": "Ascending"
@@ -72,44 +91,13 @@
       }
     },
     "objects": {
-      "dataPoint": [
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Account Health"
-                        }
-                      },
-                      "Property": "Tier bar color"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "labels": [
+      "legend": [
         {
           "properties": {
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -132,7 +120,7 @@
       "valueAxis": [
         {
           "properties": {
-            "show": {
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -157,7 +145,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ingressos en risc per categoria'"
+                  "Value": "'Key accounts by risk level'"
                 }
               }
             }
@@ -177,7 +165,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'La categoria amb més ingressos en risc, destacada'"
+                  "Value": "'High risk highlighted; other levels in grey'"
                 }
               }
             }

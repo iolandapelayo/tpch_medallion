@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "tierRisk",
+  "name": "riskRevenue",
   "position": {
     "x": 316,
-    "y": 110,
+    "y": 392,
     "z": 20000,
     "width": 452,
-    "height": 268,
+    "height": 238,
     "tabOrder": 20000
   },
   "visual": {
@@ -23,12 +23,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Account tier"
+                  "Property": "Risk level ES"
                 }
               },
-              "queryRef": "Account Health.Account tier",
-              "nativeQueryRef": "Account tier",
-              "displayName": "Categoria del compte"
+              "queryRef": "Account Health.Risk level ES",
+              "nativeQueryRef": "Risk level ES",
+              "displayName": "Nivel de riesgo"
             }
           ]
         },
@@ -42,12 +42,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Risk level CA"
+                  "Property": "Risk level ES"
                 }
               },
-              "queryRef": "Account Health.Risk level CA",
-              "nativeQueryRef": "Risk level CA",
-              "displayName": "Nivell de risc"
+              "queryRef": "Account Health.Risk level ES",
+              "nativeQueryRef": "Risk level ES",
+              "displayName": "Nivel de riesgo"
             }
           ]
         },
@@ -61,12 +61,12 @@
                       "Entity": "Account Health"
                     }
                   },
-                  "Property": "Accounts"
+                  "Property": "Total revenue at risk"
                 }
               },
-              "queryRef": "Account Health.Accounts",
-              "nativeQueryRef": "Accounts",
-              "displayName": "Comptes"
+              "queryRef": "Account Health.Total revenue at risk",
+              "nativeQueryRef": "Total revenue at risk",
+              "displayName": "Ingresos en riesgo"
             }
           ]
         }
@@ -81,7 +81,7 @@
                     "Entity": "Account Health"
                   }
                 },
-                "Property": "Account tier"
+                "Property": "Risk level ES"
               }
             },
             "direction": "Ascending"
@@ -94,17 +94,23 @@
       "legend": [
         {
           "properties": {
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Top'"
-                }
-              }
-            },
-            "showTitle": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -127,7 +133,7 @@
       "valueAxis": [
         {
           "properties": {
-            "showAxisTitle": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -152,7 +158,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Comptes per categoria i nivell de risc'"
+                  "Value": "'Ingresos en riesgo por nivel de riesgo'"
                 }
               }
             }
@@ -172,7 +178,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Risc alt destacat; la resta, en gris'"
+                  "Value": "'Solo las cuentas con señales de alarma tienen ingresos en riesgo'"
                 }
               }
             }

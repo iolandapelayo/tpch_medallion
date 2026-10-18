@@ -4,10 +4,10 @@
   "position": {
     "x": 784,
     "y": 392,
-    "z": 23000,
+    "z": 22000,
     "width": 472,
     "height": 238,
-    "tabOrder": 23000
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "tableEx",
@@ -29,21 +29,6 @@
               "queryRef": "Customer.Customer",
               "nativeQueryRef": "Customer",
               "displayName": "Customer"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Account Health"
-                    }
-                  },
-                  "Property": "Account tier"
-                }
-              },
-              "queryRef": "Account Health.Account tier",
-              "nativeQueryRef": "Account tier",
-              "displayName": "Tier"
             },
             {
               "field": {

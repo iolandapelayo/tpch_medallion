@@ -42,9 +42,9 @@ def write(path, content):
 LANGS = ["en", "es", "ca"]
 T = {
     "page": {"en": "Account health", "es": "Salud de cuentas", "ca": "Salut dels comptes"},
-    "title": {"en": "Furniture · United Kingdom: account health and churn risk",
-              "es": "Mobiliario · Reino Unido: salud de cuentas y riesgo de pérdida",
-              "ca": "Mobiliari · Regne Unit: salut dels comptes i risc de pèrdua"},
+    "title": {"en": "Furniture key accounts (tier A) · United Kingdom: health and churn risk",
+              "es": "Grandes cuentas (A) de mobiliario · Reino Unido: salud y riesgo de pérdida",
+              "ca": "Grans comptes (A) de mobiliari · Regne Unit: salut i risc de pèrdua"},
     "subtitle": {
         "en": "Key Account Manager cockpit · last 12 months (Aug 1997 - Jul 1998) · which accounts are cooling down, why, and what revenue is at stake",
         "es": "Panel del KAM · últimos 12 meses (ago 1997 - jul 1998) · qué cuentas se enfrían, por qué y cuántos ingresos están en juego",
@@ -61,6 +61,13 @@ T = {
     "accounts": {"en": "Accounts", "es": "Cuentas", "ca": "Comptes"},
     "revenue": {"en": "Revenue", "es": "Ingresos", "ca": "Ingressos"},
     "month": {"en": "Month", "es": "Mes", "ca": "Mes"},
+    "c_risk_accounts": {"en": "Key accounts by risk level", "es": "Grandes cuentas por nivel de riesgo",
+                        "ca": "Grans comptes per nivell de risc"},
+    "c_risk_revenue": {"en": "Revenue at risk by risk level", "es": "Ingresos en riesgo por nivel de riesgo",
+                       "ca": "Ingressos en risc per nivell de risc"},
+    "s_risk_revenue": {"en": "Only accounts with warning signals have revenue at risk",
+                       "es": "Solo las cuentas con señales de alarma tienen ingresos en riesgo",
+                       "ca": "Només els comptes amb senyals d'alarma tenen ingressos en risc"},
     "c_tierrisk": {"en": "Accounts by tier and risk level", "es": "Cuentas por categoría y nivel de riesgo",
                    "ca": "Comptes per categoria i nivell de risc"},
     "c_tier_rev": {"en": "Revenue at risk by tier", "es": "Ingresos en riesgo por categoría",
@@ -109,16 +116,16 @@ T = {
     "story": {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
               "rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late "
-              "deliveries). Two or more signals = High risk. Start with the High-risk accounts (navy) of the "
-              "highlighted tier: it holds the most revenue at stake.",
+              "deliveries). Two or more signals = High risk. Only tier A accounts (the top 20% by revenue) are "
+              "shown: start with the High-risk ones (navy).",
         "es": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), "
               "caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas "
-              "tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de riesgo alto (azul marino) "
-              "de la categoría resaltada: es la que tiene más ingresos en juego.",
+              "tardías). Dos o más señales = riesgo alto. Solo se muestran las cuentas de categoría A (el 20 % "
+              "que más compra): empieza por las de riesgo alto (azul marino).",
         "ca": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és "
               "habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % "
-              "en lliuraments tardans). Dos o més senyals = risc alt. Comença pels comptes de risc alt (blau marí) de la "
-              "categoria destacada: és la que té més ingressos en joc."},
+              "en lliuraments tardans). Dos o més senyals = risc alt. Només es mostren els comptes de categoria A (el "
+              "20 % que més compra): comença pels de risc alt (blau marí)."},
 }
 # short words for the "Why" column (one word each, joined with " · ")
 SIGNAL_WORDS = {"en": ("Overdue", "Declining", "Service"), "es": ("Retraso", "Caída", "Servicio"),
@@ -409,6 +416,20 @@ write(R / "report.json", {
                   + [{"name": f, "path": f, "type": "Image"} for f in FLAG_FILES.values()]},
     ],
     "settings": {"useStylableVisualContainerHeader": True, "defaultDrillFilterOtherVisuals": True},
+    # the cockpit shows only key accounts (tier A). Tiers are computed in dbt against the whole portfolio,
+    # so the filter lives here and not in the Gold layer.
+    "filterConfig": {"filters": [{
+        "name": "tierAOnly",
+        "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Account tier"}},
+        "type": "Categorical",
+        "filter": {"Version": 2, "From": [{"Name": "a", "Entity": "Account Health", "Type": 0}],
+                   "Where": [{"Condition": {"In": {
+                       "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "a"}},
+                                                   "Property": "Account tier"}}],
+                       "Values": [[{"Literal": {"Value": "'A'"}}]]}}}]},
+        "isLockedInViewMode": True,
+        "howCreated": "User",
+    }]},
 })
 STATIC = RP / "StaticResources"
 (STATIC / "SharedResources/BaseThemes").mkdir(parents=True)
@@ -583,9 +604,9 @@ def build_page(lang):
                   "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("392D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
-    # segment and country have a single value in the portfolio (Furniture, United Kingdom): only tier and risk
-    slicers = [("Account Health", "Account tier", t["f_tier"]), ("Account Health", f"Risk level{suffix}", t["f_risk"])]
-    slicer_x, slicer_w = [896, 1008], [104, 104]   # right-aligned next to the flags
+    # segment, country and tier have a single value (Furniture, United Kingdom, tier A): only risk
+    slicers = [("Account Health", f"Risk level{suffix}", t["f_risk"])]
+    slicer_x, slicer_w = [1008], [104]   # right-aligned next to the flags
     for i, (entity, prop, label) in enumerate(slicers):
         visual(f"slicer{i + 1}", slicer_x[i], 24, slicer_w[i], 54, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
@@ -651,27 +672,25 @@ def build_page(lang):
                container=BARE)
 
     # ---- centre: where the risk sits
-    visual("tierRisk", 316, 110, 452, 268, "barChart",
-           query={"Category": {"projections": [col("Account Health", "Account tier", t["tier"])]},
+    visual("riskAccounts", 316, 110, 452, 268, "barChart",
+           query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Accounts", t["accounts"])]}},
-           objects={"legend": [{"properties": {"position": lit("'Top'"), "showTitle": lit("false")}}],
+           objects={"legend": [{"properties": {"show": lit("false")}}],
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
                     "valueAxis": [{"properties": {"showAxisTitle": lit("false")}}]},
-           container=title(t["c_tierrisk"], t["s_tierrisk"]),
-           sort={"field": field("Column", "Account Health", "Account tier"), "direction": "Ascending"})
-    bar_color = {"solid": {"color": {"expr": {"Measure": {
-        "Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Tier bar color"}}}}}
-    visual("riskTier", 316, 392, 452, 238, "clusteredBarChart",
-           query={"Category": {"projections": [col("Account Health", "Account tier", t["tier"])]},
+           container=title(t["c_risk_accounts"], t["s_tierrisk"]),
+           sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
+    visual("riskRevenue", 316, 392, 452, 238, "barChart",
+           query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
+                  "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
-           objects={"dataPoint": [{"properties": {"fill": bar_color},
-                                   "selector": {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}}],
+           objects={"legend": [{"properties": {"show": lit("false")}}],
                     "labels": [{"properties": {"show": lit("true")}}],
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
                     "valueAxis": [{"properties": {"show": lit("false")}}]},
-           container=title(t["c_tier_rev"], t["s_tier_rev"]),
-           sort={"field": field("Column", "Account Health", "Account tier"), "direction": "Ascending"})
+           container=title(t["c_risk_revenue"], t["s_risk_revenue"]),
+           sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
 
     # ---- right column: trend by risk level and the worklist
     visual("revenueTrend", 784, 110, 472, 268, "lineChart",
@@ -687,7 +706,6 @@ def build_page(lang):
     visual("worklist", 784, 392, 472, 238, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),
-               col("Account Health", "Account tier", t["tier_short"]),
                col("Account Health", f"Risk level{suffix}", t["f_risk"]),
                col("Account Health", "Revenue at risk", t["atrisk"]),
                col("Account Health", "Revenue change %", t["change_short"]),
