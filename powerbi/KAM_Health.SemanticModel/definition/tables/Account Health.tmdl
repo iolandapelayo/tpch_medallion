@@ -51,10 +51,6 @@ table 'Account Health'
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
 		lineageTag: 73504135-7686-4d8c-a7e5-f80cc52efe74
 
-	/// Highlights the tier with the most revenue at risk.
-	measure 'Tier bar color' = VAR MaxRevenueAtRisk = MAXX(ALLSELECTED('Account Health'[Account tier]), [Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, "#2B7BB9", "#C9D6DF")
-		lineageTag: ccb6caef-b4ec-4286-8223-d0aa84a58249
-
 	column 'Customer key'
 		dataType: int64
 		isHidden
@@ -65,93 +61,12 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
-	/// Reference date of the analysis: the last order in the data (1998-08-02).
-	column 'As of date'
-		dataType: dateTime
-		formatString: yyyy-mm-dd
-		lineageTag: d86e2f02-791e-469a-b051-99e7312594ba
-		summarizeBy: none
-		sourceColumn: AS_OF_DATE
-
-		annotation SummarizationSetBy = User
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	/// A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest.
 	column 'Account tier'
 		dataType: string
 		lineageTag: db3f7115-d3f6-4af8-9863-e284273aa182
 		summarizeBy: none
 		sourceColumn: ACCOUNT_TIER
-
-		annotation SummarizationSetBy = User
-
-	column 'First order date'
-		dataType: dateTime
-		formatString: yyyy-mm-dd
-		lineageTag: 33206bb7-3538-4da3-adb0-0b0340b775ec
-		summarizeBy: none
-		sourceColumn: FIRST_ORDER_DATE
-
-		annotation SummarizationSetBy = User
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column 'Last order date'
-		dataType: dateTime
-		formatString: yyyy-mm-dd
-		lineageTag: 21d345b1-bbbc-4d8f-a855-8c823ec879db
-		summarizeBy: none
-		sourceColumn: LAST_ORDER_DATE
-
-		annotation SummarizationSetBy = User
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	/// Days between the customer's last order and the as-of date.
-	column 'Days since last order'
-		dataType: int64
-		formatString: #,0
-		lineageTag: c05acea3-7f61-43e5-bf0d-9426431b48b3
-		summarizeBy: none
-		sourceColumn: DAYS_SINCE_LAST_ORDER
-
-		annotation SummarizationSetBy = User
-
-	/// Average number of days between the customer's orders.
-	column 'Usual days between orders'
-		dataType: double
-		formatString: #,0
-		lineageTag: 34d9d42e-4350-4abc-8e09-72cd24fb1822
-		summarizeBy: none
-		sourceColumn: AVG_DAYS_BETWEEN_ORDERS
-
-		annotation SummarizationSetBy = User
-
-	column 'Lifetime orders'
-		dataType: int64
-		formatString: #,0
-		lineageTag: c2f37cda-887d-4246-94da-b5697b326e78
-		summarizeBy: none
-		sourceColumn: LIFETIME_ORDERS
-
-		annotation SummarizationSetBy = User
-
-	column 'Lifetime revenue'
-		dataType: double
-		formatString: #,0
-		lineageTag: 05e08e10-9d40-4732-928e-db74cd8bf18c
-		summarizeBy: none
-		sourceColumn: LIFETIME_REVENUE
-
-		annotation SummarizationSetBy = User
-
-	column 'Orders last 12m'
-		dataType: int64
-		formatString: #,0
-		lineageTag: 7452237e-4802-4b38-a75a-51ed2482616d
-		summarizeBy: none
-		sourceColumn: ORDERS_LAST_12M
 
 		annotation SummarizationSetBy = User
 
@@ -183,16 +98,6 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
-	/// Share of the account's order lines received late in the last 12 months.
-	column 'Late line rate 12m'
-		dataType: double
-		formatString: 0.0%
-		lineageTag: 2581363f-f068-4c71-8505-87dee487ea4d
-		summarizeBy: none
-		sourceColumn: LATE_LINE_RATE_12M
-
-		annotation SummarizationSetBy = User
-
 	/// No order for more than 2x the customer's usual time between orders.
 	column Overdue
 		dataType: boolean
@@ -217,16 +122,6 @@ table 'Account Health'
 		lineageTag: c1b25886-8480-4ec2-bcb4-4aae85f54093
 		summarizeBy: none
 		sourceColumn: HAS_SERVICE_ISSUES
-
-		annotation SummarizationSetBy = User
-
-	/// How many of the three signals (overdue, declining, service issues) are on.
-	column 'Risk signals'
-		dataType: int64
-		formatString: 0
-		lineageTag: ea1b8b45-a540-40d1-a38c-b3c14d413714
-		summarizeBy: none
-		sourceColumn: RISK_SIGNALS
 
 		annotation SummarizationSetBy = User
 
@@ -278,78 +173,6 @@ table 'Account Health'
 
 		annotation SummarizationSetBy = User
 
-	column 'Overdue EN' = IF('Account Health'[Overdue], "Yes", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 648a0841-b22d-4506-8e0b-5647f1828e9e
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Overdue ES' = IF('Account Health'[Overdue], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 75c474f1-bbc7-48de-8186-11a83ae20564
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Overdue CA' = IF('Account Health'[Overdue], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 9c426b2b-9158-4c9d-a065-b3f0223db73b
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Declining EN' = IF('Account Health'[Declining], "Yes", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 83a5d8ef-4033-4ce2-ab2d-1231376332d3
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Declining ES' = IF('Account Health'[Declining], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: ac035bef-caa1-485d-9e81-e42bcdcf5cfb
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Declining CA' = IF('Account Health'[Declining], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: a0b11e3a-0585-40ec-a79a-7582631c18dd
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Service issues EN' = IF('Account Health'[Service issues], "Yes", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: a87bd06e-fe2c-4ab5-914c-0fe521f5856b
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Service issues ES' = IF('Account Health'[Service issues], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 2cec10d4-4ca2-4dc9-9e73-5a651b3e5c61
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Service issues CA' = IF('Account Health'[Service issues], "Sí", "No")
-		dataType: string
-		displayFolder: Translations
-		lineageTag: 413c4c44-fb9e-4998-ab34-1766d1daafcb
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
 	column 'Signals EN' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Overdue") & " " & IF('Account Health'[Declining], "Declining") & " " & IF('Account Health'[Service issues], "Service")), " ", " · ")
 		dataType: string
 		displayFolder: Translations
@@ -382,7 +205,8 @@ table 'Account Health'
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
 				    Data = Gold{[Name = "FCT_ACCOUNT_HEALTH", Kind = "Table"]}[Data],
-				    Typed = Table.TransformColumnTypes(Data, {{"CUSTOMER_KEY", Int64.Type}, {"DAYS_SINCE_LAST_ORDER", Int64.Type}, {"LIFETIME_ORDERS", Int64.Type}, {"ORDERS_LAST_12M", Int64.Type}, {"RISK_SIGNALS", Int64.Type}}),
+				    Kept = Table.SelectColumns(Data, {"CUSTOMER_KEY", "ACCOUNT_TIER", "REVENUE_LAST_12M", "REVENUE_PREV_12M", "REVENUE_CHANGE_PCT", "IS_OVERDUE", "IS_DECLINING", "HAS_SERVICE_ISSUES", "RISK_LEVEL", "REVENUE_AT_RISK"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"CUSTOMER_KEY", Int64.Type}}),
 				    WithOrder = Table.AddColumn(Typed, "RISK_ORDER", each if [RISK_LEVEL] = "High" then 1 else if [RISK_LEVEL] = "Medium" then 2 else if [RISK_LEVEL] = "Low" then 3 else 4, Int64.Type)
 				in
 				    WithOrder

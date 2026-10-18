@@ -55,12 +55,12 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 (801 con pedidos y 11.976 pedidos).
 - La cartera se define con **2 variables de dbt** (`portfolio_segment`, `portfolio_nation`). Para otro KAM
   basta con cambiarlas: bronce y plata **no se tocan**. Es la mejor prueba de por qué se separan las capas.
-- **El dashboard muestra solo las grandes cuentas (categoría A: 160 cuentas, 30 M en riesgo).** Es un filtro de Power BI,
+- **El dashboard muestra solo las grandes cuentas (categoría A: 160 cuentas, 31 M en riesgo).** Es un filtro de Power BI,
   no de dbt: la categoría A se calcula comparando cada cuenta con *toda* la cartera, así que oro conserva todas las cuentas
   y el filtro solo cambia lo que se ve.
 - Los rankings (peor 25 % en servicio, tier A/B/C) **comparan sus cuentas entre sí**: "tus 20 % más grandes",
   no las más grandes del mundo.
-- La fecha de referencia sigue siendo el último pedido de **todos** los datos (1998-08-02), no el de la cartera.
+- La fecha de referencia se calcula con **todos** los datos, no solo con los de la cartera: el último día del último mes completo (1998-07-31).
 
 **Decisión que apoya:** a quién llamar esta semana y con qué argumento.
 - Si la cuenta está **retrasada**, la llamada es comercial: "hace tiempo que no nos pides".
@@ -83,7 +83,9 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 - **"Inactive" va aparte:** son cuentas ya perdidas, que necesitan una campaña de recuperación y no una llamada de seguimiento.
 
 **Detalles del dataset que tuve en cuenta:**
-- La **fecha de referencia** es el último pedido de los datos (1998-08-02), porque los datos no llegan a hoy.
+- La **fecha de referencia** es el último día del último mes completo de datos (1998-07-31), porque los datos no llegan a hoy.
+  Los pedidos acaban el 1998-08-02. Un mes con solo 2 días distorsionaría las ventanas de 12 meses, así que esos pedidos no se cuentan.
+  Con datos reales, la regla sería la misma con `current_date`: cerrar en el último mes completo.
 - Para el servicio solo cuento pedidos **ya entregados** en esa fecha.
 - **El servicio se mide por línea, no por pedido:** en TPC-H casi todos los pedidos tienen al menos
   una línea tardía, así que el 80 % de las cuentas tenía un 100 % de pedidos tardíos. Con todos empatados

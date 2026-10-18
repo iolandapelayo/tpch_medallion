@@ -22,7 +22,6 @@ TEXT, GREY, BG = "#292626", "#AAA4A4", "#EDEBEB"
 NAVY, BLUE, BLUE_PALE = "#0E3A5B", "#2B7BB9", "#C9D6DF"
 # High risk is the message, so it is the only coloured level; the rest go from dark to light grey (still ordinal)
 RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = NAVY, "#8FA3B3", "#B8C6D1", "#DDE5EB"
-BAR_GREY = BLUE_PALE   # non-highlighted bars
 # the site uses Inter for text and Roboto for big headings; Segoe UI is the fallback where they are not installed
 FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
 FONT_HEAD = "Roboto, 'Segoe UI Semibold', sans-serif"
@@ -49,15 +48,10 @@ T = {
         "en": "Key Account Manager cockpit · last 12 months (Aug 1997 - Jul 1998) · which accounts are cooling down, why, and what revenue is at stake",
         "es": "Panel del KAM · últimos 12 meses (ago 1997 - jul 1998) · qué cuentas se enfrían, por qué y cuántos ingresos están en juego",
         "ca": "Quadre del KAM · últims 12 mesos (ago 1997 - jul 1998) · quins comptes es refreden, per què i quants ingressos hi ha en joc"},
-    "tier": {"en": "Account tier", "es": "Categoría de cuenta", "ca": "Categoria del compte"},
     "risk": {"en": "Risk level", "es": "Nivel de riesgo", "ca": "Nivell de risc"},
-    "segment": {"en": "Market segment", "es": "Segmento", "ca": "Segment"},
-    "region": {"en": "Region", "es": "Región", "ca": "Regió"},
-    "nation": {"en": "Country", "es": "País", "ca": "País"},
     "active": {"en": "Active accounts", "es": "Cuentas activas", "ca": "Comptes actius"},
     "highrisk": {"en": "High-risk accounts", "es": "Cuentas en riesgo alto", "ca": "Comptes en risc alt"},
     "atrisk": {"en": "Revenue at risk", "es": "Ingresos en riesgo", "ca": "Ingressos en risc"},
-    "pctrisk": {"en": "% of revenue at risk", "es": "% de ingresos en riesgo", "ca": "% d'ingressos en risc"},
     "accounts": {"en": "Accounts", "es": "Cuentas", "ca": "Comptes"},
     "revenue": {"en": "Revenue", "es": "Ingresos", "ca": "Ingressos"},
     "month": {"en": "Month", "es": "Mes", "ca": "Mes"},
@@ -68,25 +62,7 @@ T = {
     "s_risk_revenue": {"en": "Only accounts with warning signals have revenue at risk",
                        "es": "Solo las cuentas con señales de alarma tienen ingresos en riesgo",
                        "ca": "Només els comptes amb senyals d'alarma tenen ingressos en risc"},
-    "c_tierrisk": {"en": "Accounts by tier and risk level", "es": "Cuentas por categoría y nivel de riesgo",
-                   "ca": "Comptes per categoria i nivell de risc"},
-    "c_tier_rev": {"en": "Revenue at risk by tier", "es": "Ingresos en riesgo por categoría",
-                   "ca": "Ingressos en risc per categoria"},
-    "c_trend": {"en": "Monthly revenue (click an account in the table to see its history)",
-                "es": "Ingresos mensuales (haz clic en una cuenta de la tabla para ver su historia)",
-                "ca": "Ingressos mensuals (fes clic en un compte de la taula per veure'n l'historial)"},
-    "c_table": {"en": "Worklist for this week - accounts ordered by revenue at risk",
-                "es": "Lista de la semana - cuentas ordenadas por ingresos en riesgo",
-                "ca": "Llista de la setmana - comptes ordenats per ingressos en risc"},
     "customer": {"en": "Customer", "es": "Cliente", "ca": "Client"},
-    "tier_short": {"en": "Tier", "es": "Categoría", "ca": "Categoria"},
-    "change": {"en": "Revenue change %", "es": "Variación ingresos %", "ca": "Variació ingressos %"},
-    "days_since": {"en": "Days since last order", "es": "Días sin pedir", "ca": "Dies sense comanda"},
-    "usual_days": {"en": "Usual days between orders", "es": "Días habituales entre pedidos",
-                   "ca": "Dies habituals entre comandes"},
-    "overdue": {"en": "Overdue", "es": "Retrasada", "ca": "Endarrerit"},
-    "declining": {"en": "Declining", "es": "En caída", "ca": "En caiguda"},
-    "service": {"en": "Service issues", "es": "Problemas de servicio", "ca": "Problemes de servei"},
     "flag_tip": {"en": "English", "es": "Español", "ca": "Català"},
     "why": {"en": "Why", "es": "Por qué", "ca": "Per què"},
     "chg_12m": {"en": "12m revenue vs previous 12m", "es": "Ingresos 12m vs 12m anteriores",
@@ -103,15 +79,8 @@ T = {
                    "ca": "Ordenada per ingressos en risc"},
     "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
                    "ca": "Risc alt destacat; la resta, en gris"},
-    "s_tier_rev": {"en": "The tier with the most revenue at risk is highlighted",
-                   "es": "La categoría con más ingresos en riesgo, resaltada",
-                   "ca": "La categoria amb més ingressos en risc, destacada"},
     # short labels for the filter pills, so they are never cut with "..."
-    "f_tier": {"en": "Tier", "es": "Categoría", "ca": "Categoria"},
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
-    "f_segment": {"en": "Segment", "es": "Segmento", "ca": "Segment"},
-    "f_region": {"en": "Region", "es": "Región", "ca": "Regió"},
-    "f_nation": {"en": "Country", "es": "País", "ca": "País"},
     "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},
     "story": {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
@@ -133,16 +102,7 @@ SIGNAL_WORDS = {"en": ("Overdue", "Declining", "Service"), "es": ("Retraso", "Ca
 VALUES = {  # data values translated with DAX calculated columns
     "risk": {"High": ("Alto", "Alt"), "Medium": ("Medio", "Mitjà"), "Low": ("Bajo", "Baix"),
              "Inactive": ("Inactivo", "Inactiu")},
-    "segment": {"Automobile": ("Automoción", "Automoció"), "Building": ("Construcción", "Construcció"),
-                "Furniture": ("Mobiliario", "Mobiliari"), "Household": ("Hogar", "Llar"),
-                "Machinery": ("Maquinaria", "Maquinària")},
-    "region": {"Africa": ("África", "Àfrica"), "America": ("América", "Amèrica"), "Asia": ("Asia", "Àsia"),
-               "Europe": ("Europa", "Europa"), "Middle East": ("Oriente Medio", "Orient Mitjà")},
-    # the five European nations of TPC-H (the portfolio is Furniture in Europe)
-    "nation": {"France": ("Francia", "França"), "Germany": ("Alemania", "Alemanya"), "Romania": ("Rumanía", "Romania"),
-               "Russia": ("Rusia", "Rússia"), "United Kingdom": ("Reino Unido", "Regne Unit")},
 }
-YES_NO = {"en": ("Yes", "No"), "es": ("Sí", "No"), "ca": ("Sí", "No")}
 
 # ============================================================================ project
 write(OUT / f"{NAME}.pbip", {
@@ -171,33 +131,18 @@ def switch(ref, mapping, idx):
 # because Snowflake NUMBER arrives as decimal and Desktop would turn them back into double.
 AH_COLS = [
     ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
-    ("As of date", "AS_OF_DATE", "dateTime", "yyyy-mm-dd", False,
-     {"description": "Reference date of the analysis: the last order in the data (1998-08-02)."}),
     ("Account tier", "ACCOUNT_TIER", "string", None, False,
      {"description": "A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest."}),
-    ("First order date", "FIRST_ORDER_DATE", "dateTime", "yyyy-mm-dd", False, {}),
-    ("Last order date", "LAST_ORDER_DATE", "dateTime", "yyyy-mm-dd", False, {}),
-    ("Days since last order", "DAYS_SINCE_LAST_ORDER", "int64", "#,0", False,
-     {"description": "Days between the customer's last order and the as-of date."}),
-    ("Usual days between orders", "AVG_DAYS_BETWEEN_ORDERS", "double", "#,0", False,
-     {"description": "Average number of days between the customer's orders."}),
-    ("Lifetime orders", "LIFETIME_ORDERS", "int64", "#,0", False, {}),
-    ("Lifetime revenue", "LIFETIME_REVENUE", "double", "#,0", False, {}),
-    ("Orders last 12m", "ORDERS_LAST_12M", "int64", "#,0", False, {}),
     ("Revenue last 12m", "REVENUE_LAST_12M", "double", "#,0", False, {}),
     ("Revenue prev 12m", "REVENUE_PREV_12M", "double", "#,0", False, {}),
     ("Revenue change %", "REVENUE_CHANGE_PCT", "double", "0.0%", False,
      {"description": "Revenue of the last 12 months vs the previous 12 months."}),
-    ("Late line rate 12m", "LATE_LINE_RATE_12M", "double", "0.0%", False,
-     {"description": "Share of the account's order lines received late in the last 12 months."}),
     ("Overdue", "IS_OVERDUE", "boolean", None, False,
      {"description": "No order for more than 2x the customer's usual time between orders."}),
     ("Declining", "IS_DECLINING", "boolean", None, False,
      {"description": "Last-12-month revenue fell more than 30%."}),
     ("Service issues", "HAS_SERVICE_ISSUES", "boolean", None, False,
      {"description": "In the worst 25% of accounts by late line rate."}),
-    ("Risk signals", "RISK_SIGNALS", "int64", "0", False,
-     {"description": "How many of the three signals (overdue, declining, service issues) are on."}),
     ("Risk level", "RISK_LEVEL", "string", None, False,
      {"sortByColumn": "'Risk order'",
       "description": "Inactive (no order in 12 months), High (2-3 signals), Medium (1), Low (0)."}),
@@ -210,21 +155,12 @@ AH_CALC = [  # (name, DAX, extra properties)
     ("Risk level ES", switch(RL, VALUES["risk"], 0), {"sortByColumn": "'Risk order'"}),
     ("Risk level CA", switch(RL, VALUES["risk"], 1), {"sortByColumn": "'Risk order'"}),
 ]
-for col in ["Overdue", "Declining", "Service issues"]:
-    for lang in LANGS:
-        yes, no = YES_NO[lang]
-        AH_CALC.append((f"{col} {lang.upper()}", f"IF('Account Health'[{col}], \"{yes}\", \"{no}\")", {}))
 for lang in LANGS:  # e.g. "Overdue · Declining" for the worklist
     o, d, s = SIGNAL_WORDS[lang]
     AH_CALC.append((f"Signals {lang.upper()}",
                     f"SUBSTITUTE(TRIM(IF('Account Health'[Overdue], \"{o}\") & \" \" & "
                     f"IF('Account Health'[Declining], \"{d}\") & \" \" & "
                     f"IF('Account Health'[Service issues], \"{s}\")), \" \", \" · \")", {}))
-
-CU_CALC = []
-for key, col in [("segment", "Market segment"), ("region", "Region"), ("nation", "Nation")]:
-    for idx, lang in enumerate(["ES", "CA"]):
-        CU_CALC.append((f"{col} {lang}", switch(f"Customer[{col}]", VALUES[key], idx), {}))
 
 # Risk order is added in Power Query (not DAX) to avoid a circular dependency with sortByColumn
 AH_EXTRA_STEP = ('WithOrder = Table.AddColumn(Typed, "RISK_ORDER", each if [RISK_LEVEL] = "High" then 1 '
@@ -253,41 +189,17 @@ TABLES = [
          CHANGE_FMT, "Revenue change 12m of the active accounts."),
         ("Revenue change high-risk", "CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = \"High\")",
          CHANGE_FMT, "Revenue change 12m of the high-risk accounts."),
-        # bar colour: the tier with the most revenue at risk in blue, the rest in pale blue
-        ("Tier bar color", "VAR MaxRevenueAtRisk = MAXX(ALLSELECTED('Account Health'[Account tier]), "
-         "[Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, \"" + BLUE + "\", \"" + BAR_GREY + "\")",
-         None, "Highlights the tier with the most revenue at risk."),
     ], AH_EXTRA_STEP),
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Customer", "CUSTOMER_NAME", "string", None, False, {}),
-        ("Market segment", "MARKET_SEGMENT", "string", None, False, {}),
-        ("Nation", "CUSTOMER_NATION", "string", None, False, {}),
-        ("Region", "CUSTOMER_REGION", "string", None, False, {}),
-        ("Account balance", "ACCOUNT_BALANCE", "double", "#,0.00", False, {}),
-    ], CU_CALC, [], None),
+    ], [], [], None),
     ("Orders", "FCT_ORDERS", [
-        ("Order id", "ORDER_ID", "int64", "0", False, {}),
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Order date key", "ORDER_DATE_KEY", "int64", "0", True, {}),
-        ("Order date", "ORDER_DATE", "dateTime", "yyyy-mm-dd", False, {}),
-        ("Order status", "ORDER_STATUS", "string", None, False, {}),
-        ("Order priority", "ORDER_PRIORITY", "string", None, False, {}),
-        ("Order lines", "ORDER_LINES", "int64", "#,0", False,
-         {"description": "Number of lines (products) in the order."}),
         ("Net revenue", "NET_REVENUE", "double", "#,0", True, {}),
-        ("Delivered date", "DELIVERED_DATE", "dateTime", "yyyy-mm-dd", False,
-         {"description": "Date the last line of the order was received."}),
-        ("Late lines", "LATE_LINES", "int64", "#,0", False,
-         {"description": "Lines received after the date committed to the customer."}),
-        ("Is late", "IS_LATE", "boolean", None, False,
-         {"description": "At least one line arrived after the committed date."}),
     ], [], [
         ("Revenue", "SUM(Orders[Net revenue])", "#,0", "Net revenue of the orders (after discount)."),
-        # lines, not orders: almost every TPC-H order has some late line, so an order-level rate is ~100%
-        ("Late line rate", "DIVIDE(SUM(Orders[Late lines]), SUM(Orders[Order lines]))", "0.0%",
-         "Share of order lines received after the date committed to the customer. "
-         "Counts lines, not orders: almost every TPC-H order has some late line."),
         # sparklines of the KPI cards: filters on Account Health reach Orders through Customer (both directions)
         ("Revenue active accounts", "CALCULATE([Revenue], 'Account Health'[Risk level] <> \"Inactive\")", "#,0",
          "Monthly revenue of the accounts that are active today."),
@@ -299,12 +211,6 @@ TABLES = [
     ("Date", "DIM_DATE", [
         ("Date key", "DATE_KEY", "int64", "0", True, {}),
         ("Date", "FULL_DATE", "dateTime", "yyyy-mm-dd", False, {"isKey": None}),
-        ("Year", "YEAR", "int64", "0", False, {}),
-        ("Quarter", "QUARTER", "int64", "0", False, {}),
-        ("Month", "MONTH", "int64", "0", False, {}),
-        ("Month name", "MONTH_NAME", "string", None, False, {}),
-        ("Year month", "YEAR_MONTH", "string", None, False, {}),
-        ("Day name", "DAY_NAME", "string", None, False, {}),
         ("Month start", "MONTH_START", "dateTime", "mmm yyyy", False,
          {"description": "First day of the month: a real date, so charts get a continuous axis with whole labels."}),
     ], [], [], 'WithMonth = Table.AddColumn(Typed, "MONTH_START", each Date.StartOfMonth(Date.From([FULL_DATE])), type date)'),
@@ -342,6 +248,8 @@ def table_tmdl(name, source, columns, calc_columns, measures, extra_step):
     result = extra_step.split(" = ")[0] if extra_step else "Typed"
     whole = ", ".join(f'{{"{src}", Int64.Type}}' for _, src, dtype, *_ in columns
                       if dtype == "int64" and src != "RISK_ORDER")
+    added = {"RISK_ORDER", "MONTH_START"}   # created in Power Query, not read from Snowflake
+    kept = ", ".join(f'"{src}"' for _, src, *_ in columns if src not in added)
     lines += [
         f"\tpartition {q(name)} = m",
         "\t\tmode: import",
@@ -351,7 +259,9 @@ def table_tmdl(name, source, columns, calc_columns, measures, extra_step):
         '\t\t\t\t    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],',
         '\t\t\t\t    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],',
         f'\t\t\t\t    Data = Gold{{[Name = "{source}", Kind = "Table"]}}[Data],',
-        f"\t\t\t\t    Typed = Table.TransformColumnTypes(Data, {{{whole}}})" + ("," if extra_step else ""),
+        # only the columns the report needs are downloaded; everything else stays available in Gold
+        f"\t\t\t\t    Kept = Table.SelectColumns(Data, {{{kept}}}),",
+        f"\t\t\t\t    Typed = Table.TransformColumnTypes(Kept, {{{whole}}})" + ("," if extra_step else ""),
     ]
     if extra_step:
         lines.append(f"\t\t\t\t    {extra_step}")

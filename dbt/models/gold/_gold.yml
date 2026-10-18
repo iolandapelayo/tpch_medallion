@@ -79,7 +79,7 @@ models:
                 to: ref('dim_customer')
                 field: customer_key
       - name: as_of_date
-        description: Reference date of the snapshot (last order date in the data).
+        description: Reference date of the snapshot - the last day of the last complete month of data (1998-07-31). Later orders are ignored.
       - name: account_tier
         description: A = top 20% of the portfolio's accounts by lifetime revenue, B = next 30%, C = rest.
         data_tests:
@@ -133,17 +133,18 @@ unit_tests:
   - name: test_account_health_risk_rules
     description: >
       Four made-up customers, one per risk level, checked against results worked out by hand.
-      The as-of date is the last order in the data: 1998-08-02.
+      The last order in the data is 1998-08-02, so the as-of date is the end of the last
+      complete month: 1998-07-31.
         1 Low      - steady buyer, revenue growing, no late lines.
         2 Inactive - last order 1997-01-01 (no order in 12 months). Its revenue also fell,
                      but Inactive wins over any signal and its revenue at risk is 0.
-        3 High     - usually orders every ~112 days but nothing for 335 days (overdue) and
+        3 High     - usually orders every ~112 days but nothing for 333 days (overdue) and
                      revenue fell from 6,000 to 200 (declining). Biggest buyer, so tier A.
         4 Medium   - 3 of every 4 lines arrive late, the worst of the accounts with deliveries
                      (service issues). Customer 2 has no deliveries to measure and is left out
                      of that ranking.
-      The 1998-08-02 order of customer 1 arrives after the as-of date, so it does not count
-      for service quality.
+      The 1998-08-02 order of customer 1 is after the as-of date, so it is ignored completely
+      (revenue, last order and service quality).
     model: fct_account_health
     given:
       - input: ref('slv_orders')
@@ -167,10 +168,10 @@ unit_tests:
           - {customer_key: 4, order_date: 1998-06-01, net_revenue: 300, order_lines: 4, late_lines: 3, delivered_date: 1998-06-20}
     expect:
       rows:
-        - {customer_key: 1, account_tier: C, late_line_rate_12m: 0,    is_overdue: false, is_declining: false, has_service_issues: false, risk_level: Low,      revenue_at_risk: 0}
-        - {customer_key: 2, account_tier: B, late_line_rate_12m: null, is_overdue: false, is_declining: true,  has_service_issues: false, risk_level: Inactive, revenue_at_risk: 0}
-        - {customer_key: 3, account_tier: A, late_line_rate_12m: 0,    is_overdue: true,  is_declining: true,  has_service_issues: false, risk_level: High,     revenue_at_risk: 200}
-        - {customer_key: 4, account_tier: C, late_line_rate_12m: 0.75, is_overdue: false, is_declining: false, has_service_issues: true,  risk_level: Medium,   revenue_at_risk: 900}
+        - {customer_key: 1, as_of_date: 1998-07-31, account_tier: C, late_line_rate_12m: 0,    is_overdue: false, is_declining: false, has_service_issues: false, risk_level: Low,      revenue_at_risk: 0}
+        - {customer_key: 2, as_of_date: 1998-07-31, account_tier: B, late_line_rate_12m: null, is_overdue: false, is_declining: true,  has_service_issues: false, risk_level: Inactive, revenue_at_risk: 0}
+        - {customer_key: 3, as_of_date: 1998-07-31, account_tier: A, late_line_rate_12m: 0,    is_overdue: true,  is_declining: true,  has_service_issues: false, risk_level: High,     revenue_at_risk: 200}
+        - {customer_key: 4, as_of_date: 1998-07-31, account_tier: C, late_line_rate_12m: 0.75, is_overdue: false, is_declining: false, has_service_issues: true,  risk_level: Medium,   revenue_at_risk: 900}
 
 exposures:
   - name: key_account_health_cockpit

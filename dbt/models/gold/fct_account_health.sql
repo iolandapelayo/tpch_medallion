@@ -1,11 +1,17 @@
 -- Grain: one row per customer of the Key Account Manager's portfolio that has ever ordered.
--- Health of each account on the "as of" date (the last order date in the whole data set),
--- with three simple, explainable risk signals and a final risk level.
+-- Health of each account on the "as of" date: the last day of the last complete month of data
+-- (orders end on 1998-08-02, so 1998-07-31). An incomplete month would distort the 12-month windows.
+-- Orders after that date are ignored, as if they were not known yet.
+-- Three simple, explainable risk signals give a final risk level.
 -- Rankings (tier, service issues) compare the accounts of the portfolio with each other.
 
 with as_of as (
 
-    select max(order_date) as as_of_date
+    select
+        case
+            when max(order_date) = last_day(max(order_date)) then max(order_date)  -- month already complete
+            else dateadd(day, -1, date_trunc('month', max(order_date)))           -- end of the previous month
+        end as as_of_date
     from {{ ref('slv_orders') }}
 
 ),
@@ -20,6 +26,7 @@ orders as (
             and f.order_date > dateadd(month, -24, a.as_of_date)  as in_prev_12m
     from {{ ref('fct_orders') }} as f
     cross join as_of as a
+    where f.order_date <= a.as_of_date
 
 ),
 

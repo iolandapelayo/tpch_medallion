@@ -20,7 +20,7 @@ builds the Gold layer for another KAM, e.g. `dbt build --vars '{portfolio_segmen
 
 ## How the risk level is calculated
 
-On the as-of date (last order date in the data), each account gets three signals:
+On the as-of date (the last day of the last complete month of data: 1998-07-31, because orders end on 1998-08-02), each account gets three signals:
 
 | Signal | Rule |
 |---|---|

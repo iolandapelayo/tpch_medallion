@@ -6,11 +6,6 @@ table Orders
 		formatString: #,0
 		lineageTag: b3a3de37-df8d-4d36-8bd9-846bac7321d9
 
-	/// Share of order lines received after the date committed to the customer. Counts lines, not orders: almost every TPC-H order has some late line.
-	measure 'Late line rate' = DIVIDE(SUM(Orders[Late lines]), SUM(Orders[Order lines]))
-		formatString: 0.0%
-		lineageTag: 751a43cc-3760-4e70-81e1-64873ccf8fd7
-
 	/// Monthly revenue of the accounts that are active today.
 	measure 'Revenue active accounts' = CALCULATE([Revenue], 'Account Health'[Risk level] <> "Inactive")
 		formatString: #,0
@@ -25,15 +20,6 @@ table Orders
 	measure 'Revenue accounts at risk' = CALCULATE([Revenue], 'Account Health'[Risk level] IN {"High", "Medium"})
 		formatString: #,0
 		lineageTag: 2b812d7d-ab2b-47af-9911-568e43ba3b13
-
-	column 'Order id'
-		dataType: int64
-		formatString: 0
-		lineageTag: 48e75920-8761-4d67-82c1-1d9253f1c775
-		summarizeBy: none
-		sourceColumn: ORDER_ID
-
-		annotation SummarizationSetBy = User
 
 	column 'Customer key'
 		dataType: int64
@@ -55,43 +41,6 @@ table Orders
 
 		annotation SummarizationSetBy = User
 
-	column 'Order date'
-		dataType: dateTime
-		formatString: yyyy-mm-dd
-		lineageTag: c57eee7f-164b-4387-b05d-05f5683636ce
-		summarizeBy: none
-		sourceColumn: ORDER_DATE
-
-		annotation SummarizationSetBy = User
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column 'Order status'
-		dataType: string
-		lineageTag: e11fc703-5333-4689-878c-3380022e97a5
-		summarizeBy: none
-		sourceColumn: ORDER_STATUS
-
-		annotation SummarizationSetBy = User
-
-	column 'Order priority'
-		dataType: string
-		lineageTag: c90e7d4a-9866-4648-b63e-a91e63fc0235
-		summarizeBy: none
-		sourceColumn: ORDER_PRIORITY
-
-		annotation SummarizationSetBy = User
-
-	/// Number of lines (products) in the order.
-	column 'Order lines'
-		dataType: int64
-		formatString: #,0
-		lineageTag: 4865b734-3d7b-46ea-aad1-f0527bf4c0bf
-		summarizeBy: none
-		sourceColumn: ORDER_LINES
-
-		annotation SummarizationSetBy = User
-
 	column 'Net revenue'
 		dataType: double
 		isHidden
@@ -99,37 +48,6 @@ table Orders
 		lineageTag: aa37a4a5-3b34-4bc1-ade9-4a8c770bc13f
 		summarizeBy: none
 		sourceColumn: NET_REVENUE
-
-		annotation SummarizationSetBy = User
-
-	/// Date the last line of the order was received.
-	column 'Delivered date'
-		dataType: dateTime
-		formatString: yyyy-mm-dd
-		lineageTag: 857bc397-6782-47e5-ae3a-1c2b51841a23
-		summarizeBy: none
-		sourceColumn: DELIVERED_DATE
-
-		annotation SummarizationSetBy = User
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	/// Lines received after the date committed to the customer.
-	column 'Late lines'
-		dataType: int64
-		formatString: #,0
-		lineageTag: d1f7ac30-c8ee-48f2-81c4-5e43ba8b0c1a
-		summarizeBy: none
-		sourceColumn: LATE_LINES
-
-		annotation SummarizationSetBy = User
-
-	/// At least one line arrived after the committed date.
-	column 'Is late'
-		dataType: boolean
-		lineageTag: 71619f50-0538-47e5-a6f8-3afe8330e276
-		summarizeBy: none
-		sourceColumn: IS_LATE
 
 		annotation SummarizationSetBy = User
 
@@ -141,7 +59,8 @@ table Orders
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
 				    Data = Gold{[Name = "FCT_ORDERS", Kind = "Table"]}[Data],
-				    Typed = Table.TransformColumnTypes(Data, {{"ORDER_ID", Int64.Type}, {"CUSTOMER_KEY", Int64.Type}, {"ORDER_DATE_KEY", Int64.Type}, {"ORDER_LINES", Int64.Type}, {"LATE_LINES", Int64.Type}})
+				    Kept = Table.SelectColumns(Data, {"CUSTOMER_KEY", "ORDER_DATE_KEY", "NET_REVENUE"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"CUSTOMER_KEY", Int64.Type}, {"ORDER_DATE_KEY", Int64.Type}})
 				in
 				    Typed
 

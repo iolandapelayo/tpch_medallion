@@ -44,8 +44,9 @@ Prompt given to Claude:
 What was generated:
 - **Model:**
   - Tables: `Account Health`, `Customer`, `Orders` and `Date`. Gold holds one KAM's portfolio (Furniture, United Kingdom: 801 accounts), so there are no segment or country filters.
-  - Main measures: Accounts, Active accounts, High-risk accounts, Total revenue at risk, % of revenue at risk, Revenue and Late line rate.
-  - Helper measures for the cards: 12-month revenue change, sparkline revenue, and the bar colour of the top tier (no longer used by any visual).
+  - Main measures: Accounts, Active accounts, High-risk accounts, Total revenue at risk, % of revenue at risk and Revenue.
+  - Helper measures for the cards: 12-month revenue change and sparkline revenue.
+  - **Lean model:** only what the report uses. Power Query downloads only those columns (`Table.SelectColumns`); everything else (order dates, lifetime figures, late lines...) stays available in the Gold layer.
   - Relationship between `Account Health` and `Customer` in both directions. This way the tier A report filter and the risk slicer also filter the orders behind the monthly revenue line.
 - **Report:** visuals placed at the mockup's coordinates. Clicking an account in the worklist shows that account's monthly revenue in the line chart.
 - **Look:** a grey rounded frame, white cards with large rounded corners, and Inter / Roboto fonts (with Segoe UI as fallback). All of it is taken from careers.propellingtech.com.
@@ -58,7 +59,7 @@ What was generated:
 - **Languages (English, Spanish, Catalan):**
   - Each language has its own page.
   - The three flags at the top right switch between pages: Ctrl+click in Desktop, a normal click in the service.
-  - Data values (risk level, Yes/No, the "Why" signals) are translated with DAX calculated columns in the `Translations` folder.
+  - Data values (risk level and the "Why" signals) are translated with DAX calculated columns in the `Translations` folder.
 
 **Validation done:**
 - Every JSON file was checked against Microsoft's published schemas.
