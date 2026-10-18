@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "revenueTrend",
   "position": {
     "x": 784,
     "y": 110,
     "z": 22000,
-    "width": 472,
     "height": 268,
+    "width": 472,
     "tabOrder": 22000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Date.Month start",
               "nativeQueryRef": "Month start",
+              "active": true,
               "displayName": "Mes"
             }
           ]

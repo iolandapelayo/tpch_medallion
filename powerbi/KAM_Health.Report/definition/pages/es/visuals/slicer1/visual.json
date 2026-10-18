@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "slicer1",
   "position": {
     "x": 896,
     "y": 24,
     "z": 3000,
-    "width": 104,
     "height": 54,
+    "width": 104,
     "tabOrder": 3000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Account Health.Account tier",
               "nativeQueryRef": "Account tier",
+              "active": true,
               "displayName": "Categoría"
             }
           ]
@@ -55,13 +56,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
                 }
               }
             },
@@ -93,13 +87,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
                 }
               }
             }

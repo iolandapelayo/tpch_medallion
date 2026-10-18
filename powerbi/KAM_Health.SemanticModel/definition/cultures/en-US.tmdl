@@ -138,7 +138,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "% of revenue at risk": {
+			          "of last-12-month revenue": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -148,7 +148,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "% de ingresos en riesgo": {
+			          "de los ingresos de 12 meses": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -158,7 +158,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "% d'ingressos en risc": {
+			          "dels ingressos de 12 mesos": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -251,6 +251,16 @@ cultureInfo en-US
 			      "Terms": [
 			        {
 			          "Risk level": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Risk": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -353,7 +363,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Revenue change %": {
+			          "Change 12m": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -363,7 +373,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Variación ingresos %": {
+			          "Variación 12m": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -373,7 +383,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Variació ingressos %": {
+			          "Variació 12m": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -391,39 +401,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Days since last order"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Days since last order": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Días sin pedir": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Dies sense comanda": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.usual_days_between_orders": {
 			      "Definition": {
@@ -432,39 +410,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Usual days between orders"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Usual days between orders": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Días habituales entre pedidos": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Dies habituals entre comandes": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.overdue_en": {
 			      "Definition": {
@@ -473,19 +419,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Overdue EN"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Overdue": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.declining_en": {
 			      "Definition": {
@@ -494,19 +428,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Declining EN"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Declining": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.service_issues_en": {
 			      "Definition": {
@@ -515,19 +437,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Service issues EN"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Service issues": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.risk_level_es": {
 			      "Definition": {
@@ -547,6 +457,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.9
 			          }
+			        },
+			        {
+			          "Riesgo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -557,19 +477,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Overdue ES"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Retrasada": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.declining_es": {
 			      "Definition": {
@@ -578,19 +486,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Declining ES"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "En caída": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.service_issues_es": {
 			      "Definition": {
@@ -599,19 +495,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Service issues ES"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Problemas de servicio": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.risk_level_ca": {
 			      "Definition": {
@@ -631,6 +515,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.9
 			          }
+			        },
+			        {
+			          "Risc": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -641,19 +535,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Overdue CA"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Endarrerit": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.declining_ca": {
 			      "Definition": {
@@ -662,19 +544,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Declining CA"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "En caiguda": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.service_issues_ca": {
 			      "Definition": {
@@ -683,19 +553,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Service issues CA"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Problemes de servei": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "date.year_month": {
 			      "Definition": {
@@ -704,29 +562,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Year month"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Month": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Mes": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "orders.revenue": {
 			      "Definition": {
@@ -776,19 +612,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Region"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Region": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "customer.market_segment": {
 			      "Definition": {
@@ -797,19 +621,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Market segment"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Market segment": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "customer.customer": {
 			      "Definition": {
@@ -859,19 +671,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Region ES"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Región": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "customer.market_segment_es": {
 			      "Definition": {
@@ -880,19 +680,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Market segment ES"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Segmento": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "customer.region_ca": {
 			      "Definition": {
@@ -901,10 +689,48 @@ cultureInfo en-US
 			          "ConceptualProperty": "Region CA"
 			        }
 			      },
+			      "State": "Generated"
+			    },
+			    "customer.market_segment_ca": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer",
+			          "ConceptualProperty": "Market segment CA"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "account_health.revenue_change_active": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Revenue change active"
+			        }
+			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Regió": {
+			          "12m revenue vs previous 12m": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos 12m vs 12m anteriores": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos 12m vs 12m anteriors": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -915,17 +741,254 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "customer.market_segment_ca": {
+			    "account_health.revenue_change_highrisk": {
 			      "Definition": {
 			        "Binding": {
-			          "ConceptualEntity": "Customer",
-			          "ConceptualProperty": "Market segment CA"
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Revenue change high-risk"
 			        }
 			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Segment": {
+			          "12m revenue vs previous 12m": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos 12m vs 12m anteriores": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos 12m vs 12m anteriors": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.signals_en": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Signals EN"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Why": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.signals_es": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Signals ES"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Por qué": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.signals_ca": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Signals CA"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Per què": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.month_start": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Month start"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Mes": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "orders.revenue_active_accounts": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Orders",
+			          "ConceptualProperty": "Revenue active accounts"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "orders.revenue_highrisk_accounts": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Orders",
+			          "ConceptualProperty": "Revenue high-risk accounts"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "orders.revenue_accounts_at_risk": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Orders",
+			          "ConceptualProperty": "Revenue accounts at risk"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

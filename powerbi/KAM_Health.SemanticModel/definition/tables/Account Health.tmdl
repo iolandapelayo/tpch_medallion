@@ -16,11 +16,6 @@ table 'Account Health'
 		formatString: #,0
 		lineageTag: 8ba110ba-4d4e-4ea6-97d7-0f66e4506924
 
-	/// Last-12-month revenue of the accounts.
-	measure 'Revenue last 12m total' = SUM('Account Health'[Revenue last 12m])
-		formatString: #,0
-		lineageTag: 3f6c2a91-7d4e-4b8a-9c15-6e2f8a0d4b73
-
 	/// Last-12-month revenue of active accounts with at least one risk signal.
 	measure 'Total revenue at risk' = SUM('Account Health'[Revenue at risk])
 		formatString: #,0
@@ -31,24 +26,34 @@ table 'Account Health'
 		formatString: 0.0%
 		lineageTag: b01af25d-612c-465f-b8b3-9b1fb2aa1682
 
+	/// Last-12-month revenue of the accounts.
+	measure 'Revenue last 12m total' = SUM('Account Health'[Revenue last 12m])
+		formatString: #,0
+		lineageTag: 3f6c2a91-7d4e-4b8a-9c15-6e2f8a0d4b73
+
 	/// Revenue of the 12 months before the last 12 months.
 	measure 'Revenue prev 12m total' = SUM('Account Health'[Revenue prev 12m])
 		formatString: #,0
+		lineageTag: 22a5a8fd-17da-4ad7-8f1f-3bddb142e22e
 
 	/// Last-12-month revenue vs the previous 12 months.
 	measure 'Revenue change 12m' = DIVIDE([Revenue last 12m total] - [Revenue prev 12m total], [Revenue prev 12m total])
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+		lineageTag: 76fd58ce-3777-4e6c-b99f-b195808334c0
 
 	/// Revenue change 12m of the active accounts.
 	measure 'Revenue change active' = CALCULATE([Revenue change 12m], 'Account Health'[Risk level] <> "Inactive")
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+		lineageTag: 1fe89a43-ab84-4571-822b-71e3a7df04ac
 
 	/// Revenue change 12m of the high-risk accounts.
 	measure 'Revenue change high-risk' = CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = "High")
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
+		lineageTag: 73504135-7686-4d8c-a7e5-f80cc52efe74
 
 	/// Highlights the tier with the most revenue at risk.
 	measure 'Tier bar color' = VAR MaxRevenueAtRisk = MAXX(ALLSELECTED('Account Health'[Account tier]), [Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, "#2B7BB9", "#C9D6DF")
+		lineageTag: ccb6caef-b4ec-4286-8223-d0aa84a58249
 
 	column 'Customer key'
 		dataType: int64
@@ -347,22 +352,25 @@ table 'Account Health'
 
 	column 'Signals EN' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Overdue") & " " & IF('Account Health'[Declining], "Declining") & " " & IF('Account Health'[Service issues], "Service")), " ", " · ")
 		dataType: string
-		summarizeBy: none
 		displayFolder: Translations
+		lineageTag: 69c997c3-012c-4eb4-8c76-3600df3c4aab
+		summarizeBy: none
 
 		annotation SummarizationSetBy = User
 
 	column 'Signals ES' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Retraso") & " " & IF('Account Health'[Declining], "Caída") & " " & IF('Account Health'[Service issues], "Servicio")), " ", " · ")
 		dataType: string
-		summarizeBy: none
 		displayFolder: Translations
+		lineageTag: b1c2ef36-657b-4efe-a4b3-8086e7e63167
+		summarizeBy: none
 
 		annotation SummarizationSetBy = User
 
 	column 'Signals CA' = SUBSTITUTE(TRIM(IF('Account Health'[Overdue], "Retard") & " " & IF('Account Health'[Declining], "Caiguda") & " " & IF('Account Health'[Service issues], "Servei")), " ", " · ")
 		dataType: string
-		summarizeBy: none
 		displayFolder: Translations
+		lineageTag: 3c55b6f4-63e9-49a6-80a6-c2080e13629b
+		summarizeBy: none
 
 		annotation SummarizationSetBy = User
 

@@ -1,6 +1,6 @@
 table Date
-	dataCategory: Time
 	lineageTag: 6dbbe956-c78e-4e4a-94b0-9f8fb4e97311
+	dataCategory: Time
 
 	column 'Date key'
 		dataType: int64
@@ -79,10 +79,13 @@ table Date
 	column 'Month start'
 		dataType: dateTime
 		formatString: mmm yyyy
+		lineageTag: c0491e2a-282b-4b8c-a6a9-87b6a0955486
 		summarizeBy: none
 		sourceColumn: MONTH_START
 
 		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition Date = m
 		mode: import

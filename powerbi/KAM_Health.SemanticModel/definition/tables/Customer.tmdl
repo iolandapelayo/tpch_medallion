@@ -87,6 +87,7 @@ table Customer
 	column 'Nation ES' = SWITCH(Customer[Nation], "France", "Francia", "Germany", "Alemania", "Romania", "Rumanía", "Russia", "Rusia", "United Kingdom", "Reino Unido", Customer[Nation])
 		dataType: string
 		displayFolder: Translations
+		lineageTag: 19e0c581-39b5-4a20-845a-bf8fbac496b0
 		summarizeBy: none
 
 		annotation SummarizationSetBy = User
@@ -94,6 +95,7 @@ table Customer
 	column 'Nation CA' = SWITCH(Customer[Nation], "France", "França", "Germany", "Alemanya", "Romania", "Romania", "Russia", "Rússia", "United Kingdom", "Regne Unit", Customer[Nation])
 		dataType: string
 		displayFolder: Translations
+		lineageTag: f2486f49-a492-4d0c-a812-249aa95a4da4
 		summarizeBy: none
 
 		annotation SummarizationSetBy = User

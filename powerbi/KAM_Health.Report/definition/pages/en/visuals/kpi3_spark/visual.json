@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "kpi3_spark",
   "position": {
     "x": 200,
     "y": 560,
     "z": 18000,
-    "width": 88,
     "height": 64,
+    "width": 88,
     "tabOrder": 18000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Date.Month start",
               "nativeQueryRef": "Month start",
+              "active": true,
               "displayName": "Month"
             }
           ]

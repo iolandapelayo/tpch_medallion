@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "worklist",
   "position": {
     "x": 784,
     "y": 392,
     "z": 23000,
-    "width": 472,
     "height": 238,
+    "width": 472,
     "tabOrder": 23000
   },
   "visual": {
@@ -123,8 +123,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {
@@ -284,5 +283,93 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "18d063494e15be1c3116",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "Customer"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4c3f4d5ead0b4afe8306",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Account tier"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "231a465b9cfd2cc027e7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Risk level"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c9e8ba89ab6c4fa6a1d4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Revenue at risk"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ad62d5af215f51d0627d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Revenue change %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "18f27b97bab1f298148b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Signals EN"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
