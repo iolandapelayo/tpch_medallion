@@ -7,9 +7,8 @@ with silver as (
     join {{ ref('slv_orders') }} as o on l.order_id = o.order_id
     join {{ ref('slv_customer') }} as c on o.customer_id = c.customer_id
     join {{ ref('slv_nation') }} as n on c.nation_id = n.nation_id
-    join {{ ref('slv_region') }} as r on n.region_id = r.region_id
     where c.market_segment = '{{ var("portfolio_segment") }}'
-      and r.region_name = '{{ var("portfolio_region") }}'
+      and n.nation_name = '{{ var("portfolio_nation") }}'
 ),
 
 gold as (

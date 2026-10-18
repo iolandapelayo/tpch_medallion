@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "riskNation",
+  "name": "riskTier",
   "position": {
     "x": 316,
     "y": 392,
-    "z": 22000,
+    "z": 21000,
     "width": 452,
     "height": 238,
-    "tabOrder": 22000
+    "tabOrder": 21000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -20,15 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Customer"
+                      "Entity": "Account Health"
                     }
                   },
-                  "Property": "Nation ES"
+                  "Property": "Account tier"
                 }
               },
-              "queryRef": "Customer.Nation ES",
-              "nativeQueryRef": "Nation ES",
-              "displayName": "País"
+              "queryRef": "Account Health.Account tier",
+              "nativeQueryRef": "Account tier",
+              "displayName": "Categoria del compte"
             }
           ]
         },
@@ -47,7 +47,7 @@
               },
               "queryRef": "Account Health.Total revenue at risk",
               "nativeQueryRef": "Total revenue at risk",
-              "displayName": "Ingresos en riesgo"
+              "displayName": "Ingressos en risc"
             }
           ]
         }
@@ -56,16 +56,16 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
                     "Entity": "Account Health"
                   }
                 },
-                "Property": "Total revenue at risk"
+                "Property": "Account tier"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ],
         "isDefaultSort": false
@@ -85,7 +85,7 @@
                           "Entity": "Account Health"
                         }
                       },
-                      "Property": "Nation bar color"
+                      "Property": "Tier bar color"
                     }
                   }
                 }
@@ -157,7 +157,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ingresos en riesgo por país'"
+                  "Value": "'Ingressos en risc per categoria'"
                 }
               }
             }
@@ -177,7 +177,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'El país con más ingresos en riesgo, resaltado'"
+                  "Value": "'La categoria amb més ingressos en risc, destacada'"
                 }
               }
             }

@@ -11,7 +11,7 @@ models:
   - name: dim_customer
     description: >
       The Key Account Manager's portfolio: customers of one segment and region
-      (vars portfolio_segment and portfolio_region, Furniture in Europe), with nation and region in one table.
+      (vars portfolio_segment and portfolio_nation, Furniture in the United Kingdom), with nation and region in one table.
     columns:
       - name: customer_key
         description: Customer identifier, same value as customer_id in Silver.
@@ -23,13 +23,13 @@ models:
               arguments:
                 values: ["{{ var('portfolio_segment') }}"]
       - name: customer_nation
-        description: Country of the customer.
-      - name: customer_region
-        description: Continent of the customer's country. Always the portfolio region.
+        description: Country of the customer. Always the portfolio nation.
         data_tests:
           - accepted_values:
               arguments:
-                values: ["{{ var('portfolio_region') }}"]
+                values: ["{{ var('portfolio_nation') }}"]
+      - name: customer_region
+        description: Continent of the customer's country.
       - name: account_balance
         description: Balance of the customer's account with us. Negative = the customer owes money.
 
@@ -177,7 +177,7 @@ exposures:
     label: Key Account Health Cockpit
     type: dashboard
     description: >
-      Weekly worklist for the Key Account Manager of Furniture accounts in Europe:
+      Weekly worklist for the Key Account Manager of Furniture accounts in the United Kingdom:
       which accounts are at risk, why, and how much revenue is at stake.
     depends_on:
       - ref('fct_account_health')
@@ -185,4 +185,4 @@ exposures:
       - ref('dim_customer')
       - ref('dim_date')
     owner:
-      name: Key Account Manager - Furniture, Europe
+      name: Key Account Manager - Furniture, United Kingdom

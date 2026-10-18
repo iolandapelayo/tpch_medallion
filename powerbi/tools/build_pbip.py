@@ -45,9 +45,9 @@ T = {
     "title": {"en": "Key Account Health Cockpit", "es": "Panel de salud de cuentas clave",
               "ca": "Quadre de salut dels comptes clau"},
     "subtitle": {
-        "en": "Furniture accounts in Europe · which are cooling down, why, and how much revenue is at stake · as of 1998-08-02",
-        "es": "Cuentas de mobiliario en Europa · cuáles se enfrían, por qué y cuántos ingresos están en juego · a 1998-08-02",
-        "ca": "Comptes de mobiliari a Europa · quins es refreden, per què i quants ingressos hi ha en joc · a 1998-08-02"},
+        "en": "Furniture accounts in the United Kingdom · which are cooling down, why, and how much revenue is at stake · as of 1998-08-02",
+        "es": "Cuentas de mobiliario del Reino Unido · cuáles se enfrían, por qué y cuántos ingresos están en juego · a 1998-08-02",
+        "ca": "Comptes de mobiliari del Regne Unit · quins es refreden, per què i quants ingressos hi ha en joc · a 1998-08-02"},
     "tier": {"en": "Account tier", "es": "Categoría de cuenta", "ca": "Categoria del compte"},
     "risk": {"en": "Risk level", "es": "Nivel de riesgo", "ca": "Nivell de risc"},
     "segment": {"en": "Market segment", "es": "Segmento", "ca": "Segment"},
@@ -62,8 +62,8 @@ T = {
     "month": {"en": "Month", "es": "Mes", "ca": "Mes"},
     "c_tierrisk": {"en": "Accounts by tier and risk level", "es": "Cuentas por categoría y nivel de riesgo",
                    "ca": "Comptes per categoria i nivell de risc"},
-    "c_nation": {"en": "Revenue at risk by country", "es": "Ingresos en riesgo por país",
-                 "ca": "Ingressos en risc per país"},
+    "c_tier_rev": {"en": "Revenue at risk by tier", "es": "Ingresos en riesgo por categoría",
+                   "ca": "Ingressos en risc per categoria"},
     "c_trend": {"en": "Monthly revenue (click an account in the table to see its history)",
                 "es": "Ingresos mensuales (haz clic en una cuenta de la tabla para ver su historia)",
                 "ca": "Ingressos mensuals (fes clic en un compte de la taula per veure'n l'historial)"},
@@ -95,9 +95,9 @@ T = {
                    "ca": "Ordenada per ingressos en risc"},
     "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
                    "ca": "Risc alt destacat; la resta, en gris"},
-    "s_nation": {"en": "The country with the most revenue at risk is highlighted",
-                 "es": "El país con más ingresos en riesgo, resaltado",
-                 "ca": "El país amb més ingressos en risc, destacat"},
+    "s_tier_rev": {"en": "The tier with the most revenue at risk is highlighted",
+                   "es": "La categoría con más ingresos en riesgo, resaltada",
+                   "ca": "La categoria amb més ingressos en risc, destacada"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_tier": {"en": "Tier", "es": "Categoría", "ca": "Categoria"},
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
@@ -245,10 +245,10 @@ TABLES = [
          CHANGE_FMT, "Revenue change 12m of the active accounts."),
         ("Revenue change high-risk", "CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = \"High\")",
          CHANGE_FMT, "Revenue change 12m of the high-risk accounts."),
-        # bar colour: the top country in blue, the rest in pale blue (works for the EN, ES and CA nation columns)
-        ("Nation bar color", "VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Nation], Customer[Nation ES], Customer[Nation CA]), "
+        # bar colour: the tier with the most revenue at risk in blue, the rest in pale blue
+        ("Tier bar color", "VAR MaxRevenueAtRisk = MAXX(ALLSELECTED('Account Health'[Account tier]), "
          "[Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, \"" + BLUE + "\", \"" + BAR_GREY + "\")",
-         None, "Highlights the country with the most revenue at risk."),
+         None, "Highlights the tier with the most revenue at risk."),
     ], AH_EXTRA_STEP),
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
@@ -574,10 +574,9 @@ def build_page(lang):
                   "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("500D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
-    # segment and region have a single value in the portfolio (Furniture, Europe): filter by country instead
-    slicers = [("Account Health", "Account tier", t["f_tier"]), ("Account Health", f"Risk level{suffix}", t["f_risk"]),
-               ("Customer", f"Nation{suffix}", t["f_nation"])]
-    slicer_x, slicer_w = [784, 896, 1008], [104, 104, 132]   # country is wider: "United Kingdom" fits whole
+    # segment and country have a single value in the portfolio (Furniture, United Kingdom): only tier and risk
+    slicers = [("Account Health", "Account tier", t["f_tier"]), ("Account Health", f"Risk level{suffix}", t["f_risk"])]
+    slicer_x, slicer_w = [896, 1008], [104, 104]   # right-aligned next to the flags
     for i, (entity, prop, label) in enumerate(slicers):
         visual(f"slicer{i + 1}", slicer_x[i], 24, slicer_w[i], 54, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
@@ -653,17 +652,17 @@ def build_page(lang):
            container=title(t["c_tierrisk"], t["s_tierrisk"]),
            sort={"field": field("Column", "Account Health", "Account tier"), "direction": "Ascending"})
     bar_color = {"solid": {"color": {"expr": {"Measure": {
-        "Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Nation bar color"}}}}}
-    visual("riskNation", 316, 392, 452, 238, "clusteredBarChart",
-           query={"Category": {"projections": [col("Customer", f"Nation{suffix}", t["nation"])]},
+        "Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Tier bar color"}}}}}
+    visual("riskTier", 316, 392, 452, 238, "clusteredBarChart",
+           query={"Category": {"projections": [col("Account Health", "Account tier", t["tier"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
            objects={"dataPoint": [{"properties": {"fill": bar_color},
                                    "selector": {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}}],
                     "labels": [{"properties": {"show": lit("true")}}],
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
                     "valueAxis": [{"properties": {"show": lit("false")}}]},
-           container=title(t["c_nation"], t["s_nation"]),
-           sort={"field": field("Measure", "Account Health", "Total revenue at risk"), "direction": "Descending"})
+           container=title(t["c_tier_rev"], t["s_tier_rev"]),
+           sort={"field": field("Column", "Account Health", "Account tier"), "direction": "Ascending"})
 
     # ---- right column: trend by risk level and the worklist
     visual("revenueTrend", 784, 110, 472, 268, "lineChart",
@@ -679,7 +678,6 @@ def build_page(lang):
     visual("worklist", 784, 392, 472, 238, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),
-               col("Customer", f"Nation{suffix}", t["f_nation"]),
                col("Account Health", "Account tier", t["tier_short"]),
                col("Account Health", f"Risk level{suffix}", t["f_risk"]),
                col("Account Health", "Revenue at risk", t["atrisk"]),
@@ -687,10 +685,10 @@ def build_page(lang):
                col("Account Health", f"Signals {lang.upper()}", t["why"]),
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
-                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
                                                       "fontColor": color(NAVY), "bold": lit("true"),
                                                       "wordWrap": lit("true")}}],
-                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
                                                "wordWrap": lit("true")}}],
                     "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
                                              "rowPadding": lit("3D")}}]},

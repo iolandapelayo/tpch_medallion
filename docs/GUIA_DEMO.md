@@ -46,14 +46,14 @@ En cambio, "cuenta en riesgo" es una regla **de este caso de uso**, así que va 
 
 ### 3. Caso de uso y consumidor
 
-**Consumidor:** el Key Account Manager que gestiona las **cuentas de mobiliario (Furniture) en Europa**, y su responsable comercial.
+**Consumidor:** el Key Account Manager que gestiona las **cuentas de mobiliario (Furniture) del Reino Unido**, y su responsable comercial.
 
 **Pregunta:** *¿qué cuentas de mi cartera se están enfriando, por qué, y cuánto dinero hay en juego?*
 
 **Por qué una cartera concreta:** un KAM no gestiona los 100.000 clientes, sino los suyos. Oro es la capa
-"para un consumidor", así que contiene **solo su cartera**: 5.919 clientes de Furniture en Europa (4.024 con pedidos)
-en 5 países (Alemania, Francia, Reino Unido, Rumanía y Rusia).
-- La cartera se define con **2 variables de dbt** (`portfolio_segment`, `portfolio_region`). Para otro KAM
+"para un consumidor", así que contiene **solo su cartera**: 1.172 clientes de Furniture del Reino Unido
+(801 con pedidos y 11.976 pedidos).
+- La cartera se define con **2 variables de dbt** (`portfolio_segment`, `portfolio_nation`). Para otro KAM
   basta con cambiarlas: bronce y plata **no se tocan**. Es la mejor prueba de por qué se separan las capas.
 - Los rankings (peor 25 % en servicio, tier A/B/C) **comparan sus cuentas entre sí**: "tus 20 % más grandes",
   no las más grandes del mundo.
@@ -71,7 +71,7 @@ en 5 países (Alemania, Francia, Reino Unido, Rumanía y Rusia).
   - servicio: % de **líneas** de pedido que llegaron tarde en los últimos 12 meses;
   - 3 señales, el nivel de riesgo, el **revenue en riesgo** y el **tier A/B/C** (para priorizar las cuentas grandes).
 - `fct_orders`: una fila por pedido. Sirve para ver la evolución mensual de una cuenta y bajar al detalle.
-- `dim_customer`: **la cartera** (filtrada por segmento y región), con el país de cada cliente; y `dim_date`.
+- `dim_customer`: **la cartera** (filtrada por segmento y país); y `dim_date`.
 
 **Por qué estas reglas:**
 - **Simples y explicables:** un KAM tiene que entender por qué una cuenta sale en rojo. Un modelo de machine learning sería una caja negra.

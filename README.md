@@ -1,7 +1,7 @@
 # TPC-H Medallion Architecture on Snowflake + dbt
 
 Bronze / Silver / Gold data product built on `SNOWFLAKE_SAMPLE_DATA.TPCH_SF1`.
-The Gold layer serves **the Key Account Manager of Furniture accounts in Europe** and answers one question:
+The Gold layer serves **the Key Account Manager of Furniture accounts in the United Kingdom** and answers one question:
 **which of my accounts are at risk of being lost, why, and how much revenue is at stake?**
 
 ```
@@ -12,11 +12,11 @@ TPCH_SF1 (8 tables) ─▶ BRONZE (brz_tpch__*) ─▶ SILVER (slv_*) ─▶ GOL
 |---|---|
 | **Bronze** | Copies the 8 source tables as they are, plus a load timestamp. |
 | **Silver** | Readable names, clean text, decoded codes, split composite codes, revenue and delivery rules. One model per table, independent of any use case. |
-| **Gold** | Only the KAM's portfolio (5,919 Furniture customers in Europe, 4,024 with orders): `fct_account_health` (one row per account: activity, revenue trend, service, risk level), `fct_orders` (one row per order, for trends and drill-down), `dim_customer`, `dim_date`. |
+| **Gold** | Only the KAM's portfolio (1,172 Furniture customers in the United Kingdom, 801 with orders): `fct_account_health` (one row per account: activity, revenue trend, service, risk level), `fct_orders` (one row per order, for trends and drill-down), `dim_customer`, `dim_date`. |
 
 The portfolio is defined by two dbt variables in `dbt/dbt_project.yml` (`portfolio_segment: Furniture`,
-`portfolio_region: Europe`): Bronze and Silver stay the same for any use case, and changing those two values
-builds the Gold layer for another KAM, e.g. `dbt build --vars '{portfolio_segment: Machinery, portfolio_region: Asia}'`.
+`portfolio_nation: United Kingdom`): Bronze and Silver stay the same for any use case, and changing those two values
+builds the Gold layer for another KAM, e.g. `dbt build --vars '{portfolio_segment: Machinery, portfolio_nation: Germany}'`.
 
 ## How the risk level is calculated
 

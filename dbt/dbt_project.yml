@@ -8,7 +8,7 @@ vars:
   # Portfolio of the Key Account Manager who consumes the Gold layer.
   # Gold only contains these accounts; change both values to serve another KAM.
   portfolio_segment: Furniture
-  portfolio_region: Europe
+  portfolio_nation: United Kingdom
 
   # Business thresholds of the account-health score (Key Account Managers can tune them)
   overdue_factor: 2         # overdue = no order for more than 2x the customer's usual interval

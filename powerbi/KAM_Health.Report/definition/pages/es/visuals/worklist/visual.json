@@ -4,10 +4,10 @@
   "position": {
     "x": 784,
     "y": 392,
-    "z": 24000,
+    "z": 23000,
     "width": 472,
     "height": 238,
-    "tabOrder": 24000
+    "tabOrder": 23000
   },
   "visual": {
     "visualType": "tableEx",
@@ -29,21 +29,6 @@
               "queryRef": "Customer.Customer",
               "nativeQueryRef": "Customer",
               "displayName": "Cliente"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Customer"
-                    }
-                  },
-                  "Property": "Nation ES"
-                }
-              },
-              "queryRef": "Customer.Nation ES",
-              "nativeQueryRef": "Nation ES",
-              "displayName": "País"
             },
             {
               "field": {
@@ -169,7 +154,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "9D"
                 }
               }
             },
@@ -214,7 +199,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "9D"
                 }
               }
             },
