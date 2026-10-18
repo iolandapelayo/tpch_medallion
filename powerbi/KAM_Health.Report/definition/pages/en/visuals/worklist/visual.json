@@ -73,7 +73,7 @@
               },
               "queryRef": "Account Health.Revenue change %",
               "nativeQueryRef": "Revenue change %",
-              "displayName": "Change 12m"
+              "displayName": "Change 12 months"
             },
             {
               "field": {

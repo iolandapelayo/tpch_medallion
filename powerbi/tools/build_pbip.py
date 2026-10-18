@@ -71,8 +71,8 @@ T = {
     "customer": {"en": "Customer", "es": "Cliente", "ca": "Client"},
     "flag_tip": {"en": "English", "es": "Español", "ca": "Català"},
     "why": {"en": "Why", "es": "Por qué", "ca": "Per què"},
-    "chg_12m": {"en": "12m revenue vs previous 12m", "es": "Ingresos 12m vs 12m anteriores",
-                "ca": "Ingressos 12m vs 12m anteriors"},
+    "chg_12m": {"en": "Last 12 months vs previous 12 months", "es": "Últimos 12 meses vs 12 anteriores",
+                "ca": "Últims 12 mesos vs 12 anteriors"},
     "of_revenue": {"en": "of last-12-month revenue", "es": "de los ingresos de 12 meses",
                    "ca": "dels ingressos de 12 mesos"},
     "c_trend_risk": {"en": "Monthly revenue by risk level", "es": "Ingresos mensuales por nivel de riesgo",
@@ -87,7 +87,7 @@ T = {
                    "ca": "Com més fosc, més risc"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
-    "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},
+    "change_short": {"en": "Change 12 months", "es": "Variación 12 meses", "ca": "Variació 12 mesos"},
     "story": {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
               "rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late "

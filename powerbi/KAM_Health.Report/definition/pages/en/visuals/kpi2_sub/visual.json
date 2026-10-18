@@ -28,7 +28,7 @@
               },
               "queryRef": "Account Health.Revenue change high-risk",
               "nativeQueryRef": "Revenue change high-risk",
-              "displayName": "12m revenue vs previous 12m"
+              "displayName": "Last 12 months vs previous 12 months"
             }
           ]
         }

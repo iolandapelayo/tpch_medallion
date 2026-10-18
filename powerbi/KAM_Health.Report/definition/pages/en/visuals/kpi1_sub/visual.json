@@ -28,7 +28,7 @@
               },
               "queryRef": "Account Health.Revenue change active",
               "nativeQueryRef": "Revenue change active",
-              "displayName": "12m revenue vs previous 12m"
+              "displayName": "Last 12 months vs previous 12 months"
             }
           ]
         }
