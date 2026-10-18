@@ -575,7 +575,9 @@ def build_page(lang):
     for i, (icon, label, value, spark, sub, sub_label, sub_color) in enumerate(kpis):
         x, y, w, h = 24, 110 + i * 202, 276, 190
         textbox(f"kpi{i + 1}_card", x, y, w, h,
-                [{"textRuns": [run(f"{icon}  ", 13, ACCENT, bold=True), run(label, 12, DARK, bold=True, font=FONT_HEAD)]}],
+                # warning-type icons (high risk, revenue at risk) in red, like the traffic light
+                [{"textRuns": [run(f"{icon}  ", 13, ACCENT if i == 0 else BAD, bold=True),
+                               run(label, 12, DARK, bold=True, font=FONT_HEAD)]}],
                 container={"padding": [{"properties": {"top": lit("16D"), "left": lit("18D")}}]})
         visual(f"kpi{i + 1}", x + 14, y + 50, 160, 56, "card",
                query={"Values": {"projections": [meas("Account Health", value, label)]}},
