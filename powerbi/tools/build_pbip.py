@@ -45,13 +45,14 @@ T = {
     "title": {"en": "Key Account Health Cockpit", "es": "Panel de salud de cuentas clave",
               "ca": "Quadre de salut dels comptes clau"},
     "subtitle": {
-        "en": "Which accounts are cooling down, why, and how much revenue is at stake - TPC-H SF1, as of 1998-08-02",
-        "es": "Qué cuentas se están enfriando, por qué y cuántos ingresos están en juego - TPC-H SF1, a 1998-08-02",
-        "ca": "Quins comptes s'estan refredant, per què i quants ingressos hi ha en joc - TPC-H SF1, a 1998-08-02"},
+        "en": "Furniture accounts in Europe · which are cooling down, why, and how much revenue is at stake · as of 1998-08-02",
+        "es": "Cuentas de mobiliario en Europa · cuáles se enfrían, por qué y cuántos ingresos están en juego · a 1998-08-02",
+        "ca": "Comptes de mobiliari a Europa · quins es refreden, per què i quants ingressos hi ha en joc · a 1998-08-02"},
     "tier": {"en": "Account tier", "es": "Categoría de cuenta", "ca": "Categoria del compte"},
     "risk": {"en": "Risk level", "es": "Nivel de riesgo", "ca": "Nivell de risc"},
     "segment": {"en": "Market segment", "es": "Segmento", "ca": "Segment"},
     "region": {"en": "Region", "es": "Región", "ca": "Regió"},
+    "nation": {"en": "Country", "es": "País", "ca": "País"},
     "active": {"en": "Active accounts", "es": "Cuentas activas", "ca": "Comptes actius"},
     "highrisk": {"en": "High-risk accounts", "es": "Cuentas en riesgo alto", "ca": "Comptes en risc alt"},
     "atrisk": {"en": "Revenue at risk", "es": "Ingresos en riesgo", "ca": "Ingressos en risc"},
@@ -61,8 +62,8 @@ T = {
     "month": {"en": "Month", "es": "Mes", "ca": "Mes"},
     "c_tierrisk": {"en": "Accounts by tier and risk level", "es": "Cuentas por categoría y nivel de riesgo",
                    "ca": "Comptes per categoria i nivell de risc"},
-    "c_region": {"en": "Revenue at risk by region", "es": "Ingresos en riesgo por región",
-                 "ca": "Ingressos en risc per regió"},
+    "c_nation": {"en": "Revenue at risk by country", "es": "Ingresos en riesgo por país",
+                 "ca": "Ingressos en risc per país"},
     "c_trend": {"en": "Monthly revenue (click an account in the table to see its history)",
                 "es": "Ingresos mensuales (haz clic en una cuenta de la tabla para ver su historia)",
                 "ca": "Ingressos mensuals (fes clic en un compte de la taula per veure'n l'historial)"},
@@ -94,14 +95,15 @@ T = {
                    "ca": "Ordenada per ingressos en risc"},
     "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
                    "ca": "Risc alt destacat; la resta, en gris"},
-    "s_region": {"en": "The region with the most revenue at risk is highlighted",
-                 "es": "La región con más ingresos en riesgo, resaltada",
-                 "ca": "La regió amb més ingressos en risc, destacada"},
+    "s_nation": {"en": "The country with the most revenue at risk is highlighted",
+                 "es": "El país con más ingresos en riesgo, resaltado",
+                 "ca": "El país amb més ingressos en risc, destacat"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_tier": {"en": "Tier", "es": "Categoría", "ca": "Categoria"},
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
     "f_segment": {"en": "Segment", "es": "Segmento", "ca": "Segment"},
     "f_region": {"en": "Region", "es": "Región", "ca": "Regió"},
+    "f_nation": {"en": "Country", "es": "País", "ca": "País"},
     "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},
     "story": {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
@@ -128,6 +130,9 @@ VALUES = {  # data values translated with DAX calculated columns
                 "Machinery": ("Maquinaria", "Maquinària")},
     "region": {"Africa": ("África", "Àfrica"), "America": ("América", "Amèrica"), "Asia": ("Asia", "Àsia"),
                "Europe": ("Europa", "Europa"), "Middle East": ("Oriente Medio", "Orient Mitjà")},
+    # the five European nations of TPC-H (the portfolio is Furniture in Europe)
+    "nation": {"France": ("Francia", "França"), "Germany": ("Alemania", "Alemanya"), "Romania": ("Rumanía", "Romania"),
+               "Russia": ("Rusia", "Rússia"), "United Kingdom": ("Reino Unido", "Regne Unit")},
 }
 YES_NO = {"en": ("Yes", "No"), "es": ("Sí", "No"), "ca": ("Sí", "No")}
 
@@ -209,7 +214,7 @@ for lang in LANGS:  # e.g. "Overdue · Declining" for the worklist
                     f"IF('Account Health'[Service issues], \"{s}\")), \" \", \" · \")", {}))
 
 CU_CALC = []
-for key, col in [("segment", "Market segment"), ("region", "Region")]:
+for key, col in [("segment", "Market segment"), ("region", "Region"), ("nation", "Nation")]:
     for idx, lang in enumerate(["ES", "CA"]):
         CU_CALC.append((f"{col} {lang}", switch(f"Customer[{col}]", VALUES[key], idx), {}))
 
@@ -240,10 +245,10 @@ TABLES = [
          CHANGE_FMT, "Revenue change 12m of the active accounts."),
         ("Revenue change high-risk", "CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = \"High\")",
          CHANGE_FMT, "Revenue change 12m of the high-risk accounts."),
-        # bar colour: the top region in blue, the rest in pale blue (works for the EN, ES and CA region columns)
-        ("Region bar color", "VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Region], Customer[Region ES], Customer[Region CA]), "
+        # bar colour: the top country in blue, the rest in pale blue (works for the EN, ES and CA nation columns)
+        ("Nation bar color", "VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Nation], Customer[Nation ES], Customer[Nation CA]), "
          "[Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, \"" + BLUE + "\", \"" + BAR_GREY + "\")",
-         None, "Highlights the region with the most revenue at risk."),
+         None, "Highlights the country with the most revenue at risk."),
     ], AH_EXTRA_STEP),
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
@@ -569,8 +574,9 @@ def build_page(lang):
                   "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("560D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
+    # segment and region have a single value in the portfolio (Furniture, Europe): filter by country instead
     slicers = [("Account Health", "Account tier", t["f_tier"]), ("Account Health", f"Risk level{suffix}", t["f_risk"]),
-               ("Customer", f"Market segment{suffix}", t["f_segment"]), ("Customer", f"Region{suffix}", t["f_region"])]
+               ("Customer", f"Nation{suffix}", t["f_nation"])]
     for i, (entity, prop, label) in enumerate(slicers):
         visual(f"slicer{i + 1}", 704 + i * 112, 24, 104, 54, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
@@ -646,16 +652,16 @@ def build_page(lang):
            container=title(t["c_tierrisk"], t["s_tierrisk"]),
            sort={"field": field("Column", "Account Health", "Account tier"), "direction": "Ascending"})
     bar_color = {"solid": {"color": {"expr": {"Measure": {
-        "Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Region bar color"}}}}}
-    visual("riskRegion", 316, 392, 452, 238, "clusteredBarChart",
-           query={"Category": {"projections": [col("Customer", f"Region{suffix}", t["region"])]},
+        "Expression": {"SourceRef": {"Entity": "Account Health"}}, "Property": "Nation bar color"}}}}}
+    visual("riskNation", 316, 392, 452, 238, "clusteredBarChart",
+           query={"Category": {"projections": [col("Customer", f"Nation{suffix}", t["nation"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
            objects={"dataPoint": [{"properties": {"fill": bar_color},
                                    "selector": {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}}],
                     "labels": [{"properties": {"show": lit("true")}}],
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
                     "valueAxis": [{"properties": {"show": lit("false")}}]},
-           container=title(t["c_region"], t["s_region"]),
+           container=title(t["c_nation"], t["s_nation"]),
            sort={"field": field("Measure", "Account Health", "Total revenue at risk"), "direction": "Descending"})
 
     # ---- right column: trend by risk level and the worklist

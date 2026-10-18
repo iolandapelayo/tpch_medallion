@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "riskRegion",
+  "name": "riskNation",
   "position": {
     "x": 316,
     "y": 392,
-    "z": 23000,
+    "z": 22000,
     "width": 452,
     "height": 238,
-    "tabOrder": 23000
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,12 +23,12 @@
                       "Entity": "Customer"
                     }
                   },
-                  "Property": "Region"
+                  "Property": "Nation CA"
                 }
               },
-              "queryRef": "Customer.Region",
-              "nativeQueryRef": "Region",
-              "displayName": "Region"
+              "queryRef": "Customer.Nation CA",
+              "nativeQueryRef": "Nation CA",
+              "displayName": "País"
             }
           ]
         },
@@ -47,7 +47,7 @@
               },
               "queryRef": "Account Health.Total revenue at risk",
               "nativeQueryRef": "Total revenue at risk",
-              "displayName": "Revenue at risk"
+              "displayName": "Ingressos en risc"
             }
           ]
         }
@@ -85,7 +85,7 @@
                           "Entity": "Account Health"
                         }
                       },
-                      "Property": "Region bar color"
+                      "Property": "Nation bar color"
                     }
                   }
                 }
@@ -157,7 +157,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue at risk by region'"
+                  "Value": "'Ingressos en risc per país'"
                 }
               }
             }
@@ -177,7 +177,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'The region with the most revenue at risk is highlighted'"
+                  "Value": "'El país amb més ingressos en risc, destacat'"
                 }
               }
             }

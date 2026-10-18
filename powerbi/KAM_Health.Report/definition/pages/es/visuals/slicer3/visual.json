@@ -23,12 +23,12 @@
                       "Entity": "Customer"
                     }
                   },
-                  "Property": "Market segment ES"
+                  "Property": "Nation ES"
                 }
               },
-              "queryRef": "Customer.Market segment ES",
-              "nativeQueryRef": "Market segment ES",
-              "displayName": "Segmento"
+              "queryRef": "Customer.Nation ES",
+              "nativeQueryRef": "Nation ES",
+              "displayName": "País"
             }
           ]
         }

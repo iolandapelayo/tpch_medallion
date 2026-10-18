@@ -84,6 +84,20 @@ table Customer
 
 		annotation SummarizationSetBy = User
 
+	column 'Nation ES' = SWITCH(Customer[Nation], "France", "Francia", "Germany", "Alemania", "Romania", "Rumanía", "Russia", "Rusia", "United Kingdom", "Reino Unido", Customer[Nation])
+		dataType: string
+		displayFolder: Translations
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column 'Nation CA' = SWITCH(Customer[Nation], "France", "França", "Germany", "Alemanya", "Romania", "Romania", "Russia", "Rússia", "United Kingdom", "Regne Unit", Customer[Nation])
+		dataType: string
+		displayFolder: Translations
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
 	partition Customer = m
 		mode: import
 		source =

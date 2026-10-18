@@ -1,11 +1,12 @@
--- Grain: one row per customer that has ever ordered.
--- Health of each account on the "as of" date (the last order date in the data),
+-- Grain: one row per customer of the Key Account Manager's portfolio that has ever ordered.
+-- Health of each account on the "as of" date (the last order date in the whole data set),
 -- with three simple, explainable risk signals and a final risk level.
+-- Rankings (tier, service issues) compare the accounts of the portfolio with each other.
 
 with as_of as (
 
     select max(order_date) as as_of_date
-    from {{ ref('fct_orders') }}
+    from {{ ref('slv_orders') }}
 
 ),
 

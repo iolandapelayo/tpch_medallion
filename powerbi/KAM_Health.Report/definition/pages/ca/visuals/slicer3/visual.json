@@ -23,12 +23,12 @@
                       "Entity": "Customer"
                     }
                   },
-                  "Property": "Market segment CA"
+                  "Property": "Nation CA"
                 }
               },
-              "queryRef": "Customer.Market segment CA",
-              "nativeQueryRef": "Market segment CA",
-              "displayName": "Segment"
+              "queryRef": "Customer.Nation CA",
+              "nativeQueryRef": "Nation CA",
+              "displayName": "País"
             }
           ]
         }

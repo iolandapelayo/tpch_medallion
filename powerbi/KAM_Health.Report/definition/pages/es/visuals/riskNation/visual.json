@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
-  "name": "riskRegion",
+  "name": "riskNation",
   "position": {
     "x": 316,
     "y": 392,
-    "z": 23000,
+    "z": 22000,
     "width": 452,
     "height": 238,
-    "tabOrder": 23000
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,12 +23,12 @@
                       "Entity": "Customer"
                     }
                   },
-                  "Property": "Region ES"
+                  "Property": "Nation ES"
                 }
               },
-              "queryRef": "Customer.Region ES",
-              "nativeQueryRef": "Region ES",
-              "displayName": "Región"
+              "queryRef": "Customer.Nation ES",
+              "nativeQueryRef": "Nation ES",
+              "displayName": "País"
             }
           ]
         },
@@ -85,7 +85,7 @@
                           "Entity": "Account Health"
                         }
                       },
-                      "Property": "Region bar color"
+                      "Property": "Nation bar color"
                     }
                   }
                 }
@@ -157,7 +157,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ingresos en riesgo por región'"
+                  "Value": "'Ingresos en riesgo por país'"
                 }
               }
             }
@@ -177,7 +177,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'La región con más ingresos en riesgo, resaltada'"
+                  "Value": "'El país con más ingresos en riesgo, resaltado'"
                 }
               }
             }

@@ -9,22 +9,34 @@ models:
         data_tests: [unique, not_null]
 
   - name: dim_customer
-    description: Customers (accounts) with segment, nation and region in one table.
+    description: >
+      The Key Account Manager's portfolio: customers of one segment and region
+      (vars portfolio_segment and portfolio_region, Furniture in Europe), with nation and region in one table.
     columns:
       - name: customer_key
         description: Customer identifier, same value as customer_id in Silver.
         data_tests: [unique, not_null]
       - name: market_segment
-        description: Industry the customer buys for (Automobile, Building, Furniture, Household, Machinery).
+        description: Industry the customer buys for. Always the portfolio segment.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["{{ var('portfolio_segment') }}"]
       - name: customer_nation
         description: Country of the customer.
       - name: customer_region
-        description: Continent of the customer's country.
+        description: Continent of the customer's country. Always the portfolio region.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["{{ var('portfolio_region') }}"]
       - name: account_balance
         description: Balance of the customer's account with us. Negative = the customer owes money.
 
   - name: fct_orders
-    description: One row per order with its revenue and delivery outcome. Used for trends and drill-down.
+    description: >
+      One row per order of the portfolio's customers, with its revenue and delivery outcome.
+      Used for trends and drill-down.
     columns:
       - name: order_id
         data_tests: [unique, not_null]
@@ -53,8 +65,9 @@ models:
 
   - name: fct_account_health
     description: >
-      One row per customer that has ever ordered: activity, revenue trend and service
+      One row per portfolio customer that has ever ordered: activity, revenue trend and service
       quality on the as-of date, three risk signals and the resulting risk level.
+      Tier and service issues rank the portfolio's accounts against each other.
       The Key Account Manager's weekly worklist.
     columns:
       - name: customer_key
@@ -68,7 +81,7 @@ models:
       - name: as_of_date
         description: Reference date of the snapshot (last order date in the data).
       - name: account_tier
-        description: A = top 20% of accounts by lifetime revenue, B = next 30%, C = rest.
+        description: A = top 20% of the portfolio's accounts by lifetime revenue, B = next 30%, C = rest.
         data_tests:
           - accepted_values:
               arguments:
@@ -94,7 +107,7 @@ models:
         description: Last-12-month revenue fell more than decline_threshold.
       - name: has_service_issues
         description: >
-          Account is in the worst 25% by share of late lines in the last 12 months,
+          Account is in the worst 25% of the portfolio by share of late lines in the last 12 months,
           ranked only against the accounts that have a late_line_rate_12m.
       - name: risk_signals
         description: How many of the three signals (overdue, declining, service issues) are on.
@@ -133,6 +146,9 @@ unit_tests:
       for service quality.
     model: fct_account_health
     given:
+      - input: ref('slv_orders')
+        rows:
+          - {order_date: 1998-08-02}
       - input: ref('fct_orders')
         rows:
           - {customer_key: 1, order_date: 1996-09-01, net_revenue: 100, order_lines: 4, late_lines: 0, delivered_date: 1996-09-20}
@@ -161,12 +177,12 @@ exposures:
     label: Key Account Health Cockpit
     type: dashboard
     description: >
-      Weekly worklist for Key Account Managers: which accounts are at risk, why,
-      and how much revenue is at stake.
+      Weekly worklist for the Key Account Manager of Furniture accounts in Europe:
+      which accounts are at risk, why, and how much revenue is at stake.
     depends_on:
       - ref('fct_account_health')
       - ref('fct_orders')
       - ref('dim_customer')
       - ref('dim_date')
     owner:
-      name: Key Account Management
+      name: Key Account Manager - Furniture, Europe

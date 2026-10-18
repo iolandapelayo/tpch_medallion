@@ -47,8 +47,8 @@ table 'Account Health'
 	measure 'Revenue change high-risk' = CALCULATE([Revenue change 12m], 'Account Health'[Risk level] = "High")
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
 
-	/// Highlights the region with the most revenue at risk.
-	measure 'Region bar color' = VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Region], Customer[Region ES], Customer[Region CA]), [Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, "#2B7BB9", "#C9D6DF")
+	/// Highlights the country with the most revenue at risk.
+	measure 'Nation bar color' = VAR MaxRevenueAtRisk = MAXX(ALLSELECTED(Customer[Nation], Customer[Nation ES], Customer[Nation CA]), [Total revenue at risk]) RETURN IF([Total revenue at risk] = MaxRevenueAtRisk, "#2B7BB9", "#C9D6DF")
 
 	column 'Customer key'
 		dataType: int64
