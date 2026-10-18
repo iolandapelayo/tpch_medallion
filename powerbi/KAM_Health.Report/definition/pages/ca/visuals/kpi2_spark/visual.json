@@ -3,11 +3,11 @@
   "name": "kpi2_spark",
   "position": {
     "x": 200,
-    "y": 358,
-    "z": 12000,
+    "y": 352,
+    "z": 14000,
     "width": 88,
-    "height": 64,
-    "tabOrder": 12000
+    "height": 56,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "areaChart",

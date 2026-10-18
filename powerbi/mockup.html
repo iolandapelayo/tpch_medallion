@@ -33,6 +33,7 @@
   .kpi-head .icon { color: var(--blue); margin-right: 8px; }
   .kpi-value { position: absolute; font: 700 32px var(--head); color: var(--navy); }
   .kpi-spark { position: absolute; }
+  .spark-cap { position: absolute; width: 96px; font-size: 9px; line-height: 1.25; color: var(--muted); }
   .kpi-sub { position: absolute; }
   .kpi-sub b { display: block; font: 700 18px var(--head); color: var(--blue); }
   .kpi-sub span { font-size: 10.5px; color: var(--muted); }
@@ -70,17 +71,20 @@
   <!-- KPI cards: icon + label, big number, sparkline, comparison line -->
   <div class="box" style="left:24px; top:110px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon">◎</span>Active accounts</div></div>
   <div class="kpi-value" style="left:38px; top:160px;">155</div>
-  <svg class="kpi-spark" style="left:200px; top:156px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,30 L11,26 L22,32 L33,24 L44,28 L55,22 L66,27 L77,25 L88,46 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,30 11,26 22,32 33,24 44,28 55,22 66,27 77,25 88,46" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
+  <div class="spark-cap" style="left:196px; top:206px;"><b>Monthly revenue</b><br>Aug 1997 - Jul 1998</div>
+  <svg class="kpi-spark" style="left:200px; top:150px;" width="88" height="56" viewBox="0 0 88 64" preserveAspectRatio="none"><path d="M0,30 L11,26 L22,32 L33,24 L44,28 L55,22 L66,27 L77,25 L88,46 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,30 11,26 22,32 33,24 44,28 55,22 66,27 77,25 88,46" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
   <div class="kpi-sub" style="left:38px; top:230px;"><b style="color:var(--bad)">▼ -6.4%</b><span>Last 12 months vs previous 12 months</span></div>
 
   <div class="box" style="left:24px; top:312px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon" style="color:var(--bad)">⚠</span>High-risk accounts</div></div>
   <div class="kpi-value" style="left:38px; top:362px;">26</div>
-  <svg class="kpi-spark" style="left:200px; top:358px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,22 L11,24 L22,20 L33,26 L44,25 L55,30 L66,36 L77,44 L88,52 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,22 11,24 22,20 33,26 44,25 55,30 66,36 77,44 88,52" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
+  <div class="spark-cap" style="left:196px; top:408px;"><b>Monthly revenue</b><br>Aug 1997 - Jul 1998</div>
+  <svg class="kpi-spark" style="left:200px; top:352px;" width="88" height="56" viewBox="0 0 88 64" preserveAspectRatio="none"><path d="M0,22 L11,24 L22,20 L33,26 L44,25 L55,30 L66,36 L77,44 L88,52 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,22 11,24 22,20 33,26 44,25 55,30 66,36 77,44 88,52" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
   <div class="kpi-sub" style="left:38px; top:432px;"><b style="color:var(--bad)">▼ -41.8%</b><span>Last 12 months vs previous 12 months</span></div>
 
   <div class="box" style="left:24px; top:514px; width:276px; height:190px; padding:16px 18px;"><div class="kpi-head"><span class="icon" style="color:var(--bad)">◆</span>Revenue at risk</div></div>
   <div class="kpi-value" style="left:38px; top:564px;">$31M</div>
-  <svg class="kpi-spark" style="left:200px; top:560px;" width="88" height="64" viewBox="0 0 88 64"><path d="M0,26 L11,24 L22,28 L33,23 L44,27 L55,26 L66,31 L77,35 L88,40 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,26 11,24 22,28 33,23 44,27 55,26 66,31 77,35 88,40" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
+  <div class="spark-cap" style="left:196px; top:610px;"><b>Monthly revenue</b><br>Aug 1997 - Jul 1998</div>
+  <svg class="kpi-spark" style="left:200px; top:554px;" width="88" height="56" viewBox="0 0 88 64" preserveAspectRatio="none"><path d="M0,26 L11,24 L22,28 L33,23 L44,27 L55,26 L66,31 L77,35 L88,40 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,26 11,24 22,28 33,23 44,27 55,26 66,31 77,35 88,40" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
   <div class="kpi-sub" style="left:38px; top:634px;"><b style="color:var(--bad)">36.1%</b><span>of last-12-month revenue</span></div>
 
   <!-- Bar: key accounts by risk level (darker = higher risk, no legend needed) -->
@@ -113,12 +117,15 @@
     <div class="sub">Aug 1997 - Jul 1998 · click an account to see its months</div>
     <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--medium)"></i>Medium</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--inactive)"></i>Inactive</span></div>
     <svg width="444" height="160" viewBox="0 0 444 160" font-size="10" fill="#7A7575">
-      <line x1="0" y1="138" x2="444" y2="138" stroke="#E7ECEF"/>
+      <g font-size="9"><text x="0" y="141">$0</text><text x="0" y="97">$2M</text><text x="0" y="53">$4M</text></g>
+      <line x1="34" y1="94" x2="444" y2="94" stroke="#EDEBEB"/><line x1="34" y1="50" x2="444" y2="50" stroke="#EDEBEB"/>
+      <g transform="translate(34,0) scale(0.923,1)"><line x1="0" y1="138" x2="444" y2="138" stroke="#E7ECEF"/>
       <polyline fill="none" stroke="#AAE9EC" stroke-width="2" points="0,40 40,37 81,41 121,38 161,42 202,36 242,40 283,37 323,41 363,39 404,38 444,40"/>
       <polyline fill="none" stroke="#6BD9DE" stroke-width="2" points="0,60 40,62 81,61 121,64 161,63 202,66 242,64 283,67 323,65 363,69 404,68 444,70"/>
       <polyline fill="none" stroke="#176366" stroke-width="2" points="0,96 40,98 81,99 121,101 161,103 202,104 242,106 283,108 323,109 363,112 404,113 444,116"/>
       <polyline fill="none" stroke="#DDF5F6" stroke-width="2" points="0,128 40,130 81,131 121,133 161,134 202,135 242,136 283,137 323,137 363,138 404,138 444,138"/>
       <text x="0" y="154">Aug</text><text x="32" y="154">Sep</text><text x="73" y="154">Oct</text><text x="113" y="154">Nov</text><text x="153" y="154">Dec</text><text x="194" y="154">Jan</text><text x="234" y="154">Feb</text><text x="275" y="154">Mar</text><text x="315" y="154">Apr</text><text x="355" y="154">May</text><text x="396" y="154">Jun</text><text x="424" y="154">Jul</text>
+    </g>
     </svg>
   </div>
 

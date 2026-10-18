@@ -73,6 +73,8 @@ T = {
     "why": {"en": "Why", "es": "Por qué", "ca": "Per què"},
     "chg_12m": {"en": "Last 12 months vs previous 12 months", "es": "Últimos 12 meses vs 12 anteriores",
                 "ca": "Últims 12 mesos vs 12 anteriors"},
+    "spark_cap": {"en": "Monthly revenue", "es": "Ingresos mensuales", "ca": "Ingressos mensuals"},
+    "spark_period": {"en": "Aug 1997 - Jul 1998", "es": "ago 1997 - jul 1998", "ca": "ago 1997 - jul 1998"},
     "of_revenue": {"en": "of last-12-month revenue", "es": "de los ingresos de 12 meses",
                    "ca": "dels ingressos de 12 mesos"},
     "c_trend_risk": {"en": "Monthly revenue by risk level", "es": "Ingresos mensuales por nivel de riesgo",
@@ -585,7 +587,12 @@ def build_page(lang):
                                                    "fontFamily": text_lit(FONT_HEAD)}}],
                         "categoryLabels": [{"properties": {"show": lit("false")}}]},
                container=BARE)
-        visual(f"kpi{i + 1}_spark", x + 176, y + 46, 88, 64, "areaChart",
+        # caption under the sparkline: what it shows and for which period
+        textbox(f"kpi{i + 1}_spark_cap", x + 172, y + 96, 96, 26, [
+            {"textRuns": [run(t["spark_cap"], 7, "#7A7575", bold=True)]},
+            {"textRuns": [run(t["spark_period"], 7, "#7A7575")]},
+        ], container=BARE)
+        visual(f"kpi{i + 1}_spark", x + 176, y + 40, 88, 56, "areaChart",
                query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
                       "Y": {"projections": [meas("Orders", spark, t["revenue"])]}},
                objects={"categoryAxis": [{"properties": {
@@ -632,8 +639,9 @@ def build_page(lang):
                   "Y": {"projections": [meas("Orders", "Revenue", t["revenue"])]}},
            objects={**MONTH_AXIS,
                     "legend": [{"properties": {"position": lit("'Top'"), "showTitle": lit("false")}}],
-                    # from zero, so ups and downs are not exaggerated; units come from the axis labels (K / M)
-                    "valueAxis": [{"properties": {"showAxisTitle": lit("false"), "start": lit("0D")}}],
+                    # visible Y axis from zero, so ups and downs are not exaggerated; labels carry the units ($K / $M)
+                    "valueAxis": [{"properties": {"show": lit("true"), "showAxisTitle": lit("false"),
+                                                  "start": lit("0D"), "gridlineShow": lit("true")}}],
                     "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
            container=title(t["c_trend_risk"], t["s_trend_risk"]), filters=LAST_12_MONTHS)
     visual("worklist", 784, 392, 472, 238, "tableEx",
