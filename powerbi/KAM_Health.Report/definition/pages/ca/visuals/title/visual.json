@@ -19,10 +19,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Quadre de salut dels comptes clau",
+                    "value": "Mobiliari · Regne Unit: salut dels comptes i risc de pèrdua",
                     "textStyle": {
                       "fontFamily": "Roboto, 'Segoe UI Semibold', sans-serif",
-                      "fontSize": "20pt",
+                      "fontSize": "18pt",
                       "color": "#0E3A5B",
                       "fontWeight": "bold"
                     }
@@ -32,7 +32,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Comptes de mobiliari del Regne Unit · quins es refreden, per què i quants ingressos hi ha en joc · a 1998-08-02",
+                    "value": "Quadre del KAM · últims 12 mesos (ago 1997 - jul 1998) · quins comptes es refreden, per què i quants ingressos hi ha en joc",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "10pt",
@@ -129,7 +129,7 @@
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "500D"
+                  "Value": "392D"
                 }
               }
             }

@@ -22,7 +22,7 @@
   .box { position: absolute; background: var(--card); border-radius: 22px; padding: 12px 14px; }
   .frame { background: var(--frame); border-radius: 28px; padding: 0; }
   .band { border-radius: 28px; padding: 16px 26px; }
-  .band h1 { margin: 0; font: 700 26px/1.2 var(--head); color: var(--navy); }
+  .band h1 { margin: 0; font: 700 24px/1.2 var(--head); color: var(--navy); }
   .band p { margin: 4px 0 0; font-size: 13px; color: var(--blue); }
   .slicer { border: 1px solid var(--pale); border-radius: 10px; padding: 4px 8px; }
   .slicer .label { font-size: 10.5px; font-weight: 600; color: var(--blue); margin-bottom: 3px; }
@@ -57,8 +57,8 @@
   <!-- Grey rounded frame and white header band -->
   <div class="box frame" style="left:8px; top:8px; width:1264px; height:704px;"></div>
   <div class="box band" style="left:8px; top:8px; width:1264px; height:86px;">
-    <h1>Key Account Health Cockpit</h1>
-    <p>Furniture accounts in the United Kingdom · which are cooling down, why, and how much revenue is at stake · as of 1998-08-02</p>
+    <h1>Furniture · United Kingdom: account health and churn risk</h1>
+    <p>Key Account Manager cockpit · last 12 months (Aug 1997 - Jul 1998) · which accounts are cooling down, why, and what revenue is at stake</p>
   </div>
 
   <!-- Filter pills (short labels, so they are never cut with "...") -->
@@ -112,16 +112,16 @@
 
   <!-- Lines: monthly revenue by risk level, continuous date axis with whole years -->
   <div class="box" style="left:784px; top:110px; width:472px; height:268px;">
-    <h3>Monthly revenue by risk level, 1998</h3>
-    <div class="sub">Data until 2 Aug 1998 · click an account to see its months</div>
+    <h3>Monthly revenue by risk level</h3>
+    <div class="sub">Aug 1997 - Jul 1998 · click an account to see its months</div>
     <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--medium)"></i>Medium</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--inactive)"></i>Inactive</span></div>
     <svg width="444" height="160" viewBox="0 0 444 160" font-size="10" fill="#7A7575">
       <line x1="0" y1="138" x2="444" y2="138" stroke="#E7ECEF"/>
-      <polyline fill="none" stroke="#B8C6D1" stroke-width="2" points="0,38 40,42 81,36 121,40 161,37 202,41 242,39 283,120"/>
-      <polyline fill="none" stroke="#8FA3B3" stroke-width="2" points="0,64 40,66 81,62 121,67 161,65 202,69 242,68 283,126"/>
-      <polyline fill="none" stroke="#0E3A5B" stroke-width="2" points="0,104 40,106 81,108 121,109 161,112 202,113 242,116 283,134"/>
-      <polyline fill="none" stroke="#DDE5EB" stroke-width="2" points="0,132 40,134 81,135 121,136 161,137 202,137 242,138 283,138"/>
-      <text x="0" y="154">Jan</text><text x="32" y="154">Feb</text><text x="73" y="154">Mar</text><text x="113" y="154">Apr</text><text x="153" y="154">May</text><text x="194" y="154">Jun</text><text x="234" y="154">Jul</text><text x="275" y="154">Aug</text><text x="315" y="154">Sep</text><text x="355" y="154">Oct</text><text x="396" y="154">Nov</text><text x="424" y="154">Dec</text>
+      <polyline fill="none" stroke="#B8C6D1" stroke-width="2" points="0,40 40,37 81,41 121,38 161,42 202,36 242,40 283,37 323,41 363,39 404,38 444,40"/>
+      <polyline fill="none" stroke="#8FA3B3" stroke-width="2" points="0,60 40,62 81,61 121,64 161,63 202,66 242,64 283,67 323,65 363,69 404,68 444,70"/>
+      <polyline fill="none" stroke="#0E3A5B" stroke-width="2" points="0,96 40,98 81,99 121,101 161,103 202,104 242,106 283,108 323,109 363,112 404,113 444,116"/>
+      <polyline fill="none" stroke="#DDE5EB" stroke-width="2" points="0,128 40,130 81,131 121,133 161,134 202,135 242,136 283,137 323,137 363,138 404,138 444,138"/>
+      <text x="0" y="154">Aug</text><text x="32" y="154">Sep</text><text x="73" y="154">Oct</text><text x="113" y="154">Nov</text><text x="153" y="154">Dec</text><text x="194" y="154">Jan</text><text x="234" y="154">Feb</text><text x="275" y="154">Mar</text><text x="315" y="154">Apr</text><text x="355" y="154">May</text><text x="396" y="154">Jun</text><text x="424" y="154">Jul</text>
     </svg>
   </div>
 
@@ -143,7 +143,7 @@
 
   <!-- How to read it -->
   <div class="box story" style="left:316px; top:644px; width:940px; height:56px;">
-    How to read it: every account gets three warning signals - overdue (much later than its usual ordering rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late deliveries). Two or more signals = High risk. Start with Tier A accounts in navy: they hold most of the revenue at stake.
+    How to read it: every account gets three warning signals - overdue (much later than its usual ordering rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late deliveries). Two or more signals = High risk. Start with the High-risk accounts (navy) of the highlighted tier: it holds the most revenue at stake.
   </div>
 </div>
 </body>

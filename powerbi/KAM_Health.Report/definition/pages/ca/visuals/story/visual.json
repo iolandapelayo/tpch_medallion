@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % en lliuraments tardans). Dos o més senyals = risc alt. Comença pels comptes de categoria A en blau marí: concentren la major part dels ingressos en joc.",
+                    "value": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % en lliuraments tardans). Dos o més senyals = risc alt. Comença pels comptes de risc alt (blau marí) de la categoria destacada: és la que té més ingressos en joc.",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "8pt",

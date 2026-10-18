@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "slicer2",
   "position": {
     "x": 1008,
     "y": 24,
     "z": 4000,
-    "height": 54,
     "width": 104,
+    "height": 54,
     "tabOrder": 4000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Risk level",
               "nativeQueryRef": "Risk level",
-              "active": true,
               "displayName": "Risk"
             }
           ]
@@ -56,6 +55,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
                 }
               }
             },
@@ -87,6 +93,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
                 }
               }
             }

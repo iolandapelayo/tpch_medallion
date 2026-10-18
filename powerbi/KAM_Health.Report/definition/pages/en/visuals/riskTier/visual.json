@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "riskTier",
   "position": {
     "x": 316,
     "y": 392,
     "z": 21000,
-    "height": 238,
     "width": 452,
+    "height": 238,
     "tabOrder": 21000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Account tier",
               "nativeQueryRef": "Account tier",
-              "active": true,
               "displayName": "Account tier"
             }
           ]
@@ -68,7 +67,8 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {

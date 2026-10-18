@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "kpi2_spark",
   "position": {
     "x": 200,
     "y": 358,
     "z": 14000,
-    "height": 64,
     "width": 88,
+    "height": 64,
     "tabOrder": 14000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Date.Month start",
               "nativeQueryRef": "Month start",
-              "active": true,
               "displayName": "Mes"
             }
           ]
@@ -75,14 +74,14 @@
             "start": {
               "expr": {
                 "Literal": {
-                  "Value": "datetime'1998-01-01T00:00:00'"
+                  "Value": "datetime'1997-08-01T00:00:00'"
                 }
               }
             },
             "end": {
               "expr": {
                 "Literal": {
-                  "Value": "datetime'1998-12-01T00:00:00'"
+                  "Value": "datetime'1998-07-01T00:00:00'"
                 }
               }
             },
@@ -233,7 +232,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "lastYear",
+        "name": "last12Months",
         "field": {
           "Column": {
             "Expression": {
@@ -241,10 +240,10 @@
                 "Entity": "Date"
               }
             },
-            "Property": "Year"
+            "Property": "Month start"
           }
         },
-        "type": "Categorical",
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [
@@ -257,28 +256,47 @@
           "Where": [
             {
               "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "d"
-                          }
-                        },
-                        "Property": "Year"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
+                "And": {
+                  "Left": {
+                    "Comparison": {
+                      "ComparisonKind": 2,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "d"
+                            }
+                          },
+                          "Property": "Month start"
+                        }
+                      },
+                      "Right": {
                         "Literal": {
-                          "Value": "1998L"
+                          "Value": "datetime'1997-08-01T00:00:00'"
                         }
                       }
-                    ]
-                  ]
+                    }
+                  },
+                  "Right": {
+                    "Comparison": {
+                      "ComparisonKind": 4,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "d"
+                            }
+                          },
+                          "Property": "Month start"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "datetime'1998-07-01T00:00:00'"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }

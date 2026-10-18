@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de categoría A en azul marino: concentran la mayor parte de los ingresos en juego.",
+                    "value": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de riesgo alto (azul marino) de la categoría resaltada: es la que tiene más ingresos en juego.",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "8pt",

@@ -42,12 +42,13 @@ def write(path, content):
 LANGS = ["en", "es", "ca"]
 T = {
     "page": {"en": "Account health", "es": "Salud de cuentas", "ca": "Salut dels comptes"},
-    "title": {"en": "Key Account Health Cockpit", "es": "Panel de salud de cuentas clave",
-              "ca": "Quadre de salut dels comptes clau"},
+    "title": {"en": "Furniture · United Kingdom: account health and churn risk",
+              "es": "Mobiliario · Reino Unido: salud de cuentas y riesgo de pérdida",
+              "ca": "Mobiliari · Regne Unit: salut dels comptes i risc de pèrdua"},
     "subtitle": {
-        "en": "Furniture accounts in the United Kingdom · which are cooling down, why, and how much revenue is at stake · as of 1998-08-02",
-        "es": "Cuentas de mobiliario del Reino Unido · cuáles se enfrían, por qué y cuántos ingresos están en juego · a 1998-08-02",
-        "ca": "Comptes de mobiliari del Regne Unit · quins es refreden, per què i quants ingressos hi ha en joc · a 1998-08-02"},
+        "en": "Key Account Manager cockpit · last 12 months (Aug 1997 - Jul 1998) · which accounts are cooling down, why, and what revenue is at stake",
+        "es": "Panel del KAM · últimos 12 meses (ago 1997 - jul 1998) · qué cuentas se enfrían, por qué y cuántos ingresos están en juego",
+        "ca": "Quadre del KAM · últims 12 mesos (ago 1997 - jul 1998) · quins comptes es refreden, per què i quants ingressos hi ha en joc"},
     "tier": {"en": "Account tier", "es": "Categoría de cuenta", "ca": "Categoria del compte"},
     "risk": {"en": "Risk level", "es": "Nivel de riesgo", "ca": "Nivell de risc"},
     "segment": {"en": "Market segment", "es": "Segmento", "ca": "Segment"},
@@ -85,11 +86,11 @@ T = {
                 "ca": "Ingressos 12m vs 12m anteriors"},
     "of_revenue": {"en": "of last-12-month revenue", "es": "de los ingresos de 12 meses",
                    "ca": "dels ingressos de 12 mesos"},
-    "c_trend_risk": {"en": "Monthly revenue by risk level, 1998", "es": "Ingresos mensuales por nivel de riesgo, 1998",
-                     "ca": "Ingressos mensuals per nivell de risc, 1998"},
-    "s_trend_risk": {"en": "Data until 2 Aug 1998 · click an account to see its months",
-                     "es": "Datos hasta el 2 ago 1998 · clic en una cuenta para ver sus meses",
-                     "ca": "Dades fins al 2 ago 1998 · clic en un compte per veure'n els mesos"},
+    "c_trend_risk": {"en": "Monthly revenue by risk level", "es": "Ingresos mensuales por nivel de riesgo",
+                     "ca": "Ingressos mensuals per nivell de risc"},
+    "s_trend_risk": {"en": "Aug 1997 - Jul 1998 · click an account to see its months",
+                     "es": "Ago 1997 - jul 1998 · clic en una cuenta para ver sus meses",
+                     "ca": "Ago 1997 - jul 1998 · clic en un compte per veure'n els mesos"},
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
     "s_worklist": {"en": "Ordered by revenue at risk", "es": "Ordenada por ingresos en riesgo",
                    "ca": "Ordenada per ingressos en risc"},
@@ -108,16 +109,16 @@ T = {
     "story": {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
               "rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late "
-              "deliveries). Two or more signals = High risk. Start with Tier A accounts in navy: they hold most of "
-              "the revenue at stake.",
+              "deliveries). Two or more signals = High risk. Start with the High-risk accounts (navy) of the "
+              "highlighted tier: it holds the most revenue at stake.",
         "es": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), "
               "caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas "
-              "tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de categoría A en azul marino: concentran "
-              "la mayor parte de los ingresos en juego.",
+              "tardías). Dos o más señales = riesgo alto. Empieza por las cuentas de riesgo alto (azul marino) "
+              "de la categoría resaltada: es la que tiene más ingresos en juego.",
         "ca": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és "
               "habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % "
-              "en lliuraments tardans). Dos o més senyals = risc alt. Comença pels comptes de categoria A en blau marí: "
-              "concentren la major part dels ingressos en joc."},
+              "en lliuraments tardans). Dos o més senyals = risc alt. Comença pels comptes de risc alt (blau marí) de la "
+              "categoria destacada: és la que té més ingressos en joc."},
 }
 # short words for the "Why" column (one word each, joined with " · ")
 SIGNAL_WORDS = {"en": ("Overdue", "Declining", "Service"), "es": ("Retraso", "Caída", "Servicio"),
@@ -500,20 +501,28 @@ BARE = {"background": [{"properties": {"show": lit("false")}}],
         "title": [{"properties": {"show": lit("false")}}],
         "padding": [{"properties": {"top": lit("0D"), "bottom": lit("0D"), "left": lit("0D"), "right": lit("0D")}}]}
 
-# Month charts show only the last year of the data. Orders end on 1998-08-02, so the lines stop in August,
-# but the continuous axis still spans January to December.
-LAST_YEAR = 1998
+# Month charts show the last 12 complete months: Aug 1997 - Jul 1998. Orders end on 1998-08-02, so August 1998
+# (2 days) is left out: an incomplete month would look like a crash in revenue.
+FIRST_MONTH, LAST_MONTH = "1997-08-01", "1998-07-01"
 MONTH_AXIS = {"categoryAxis": [{"properties": {
     "axisType": lit("'Continuous'"), "showAxisTitle": lit("false"),
-    "start": lit(f"datetime'{LAST_YEAR}-01-01T00:00:00'"), "end": lit(f"datetime'{LAST_YEAR}-12-01T00:00:00'")}}]}
-YEAR_FILTER = {"filters": [{
-    "name": "lastYear",
-    "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Year"}},
-    "type": "Categorical",
+    "start": lit(f"datetime'{FIRST_MONTH}T00:00:00'"), "end": lit(f"datetime'{LAST_MONTH}T00:00:00'")}}]}
+
+
+def _month_bound(kind, day):
+    """Date[Month start] compared with a date (ComparisonKind 2 = >=, 4 = <=)."""
+    return {"Comparison": {"ComparisonKind": kind,
+                           "Left": {"Column": {"Expression": {"SourceRef": {"Source": "d"}}, "Property": "Month start"}},
+                           "Right": {"Literal": {"Value": f"datetime'{day}T00:00:00'"}}}}
+
+
+LAST_12_MONTHS = {"filters": [{
+    "name": "last12Months",
+    "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month start"}},
+    "type": "Advanced",
     "filter": {"Version": 2, "From": [{"Name": "d", "Entity": "Date", "Type": 0}],
-               "Where": [{"Condition": {"In": {
-                   "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "d"}}, "Property": "Year"}}],
-                   "Values": [[{"Literal": {"Value": f"{LAST_YEAR}L"}}]]}}}]},
+               "Where": [{"Condition": {"And": {"Left": _month_bound(2, FIRST_MONTH),
+                                                "Right": _month_bound(4, LAST_MONTH)}}}]},
 }]}
 
 
@@ -568,10 +577,10 @@ def build_page(lang):
     # ---- frame and white header band (drawn first, so they sit behind everything)
     textbox("frame", 8, 8, 1264, 704, [{"textRuns": [run(" ", 8)]}], container=box(FRAME, 28))
     textbox("title", 8, 8, 1264, 86, [
-        {"textRuns": [run(t["title"], 20, NAVY, bold=True, font=FONT_HEAD)]},
+        {"textRuns": [run(t["title"], 18, NAVY, bold=True, font=FONT_HEAD)]},
         {"textRuns": [run(t["subtitle"], 10, BLUE)]},
     ], container={**box("#FFFFFF", 28),
-                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("500D")}}]})
+                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("392D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
     # segment and country have a single value in the portfolio (Furniture, United Kingdom): only tier and risk
@@ -631,7 +640,7 @@ def build_page(lang):
                         "legend": [{"properties": {"show": lit("false")}}],
                         "dataPoint": [{"properties": {"fill": color(BLUE)}}],
                         "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
-               container=BARE, filters=YEAR_FILTER)
+               container=BARE, filters=LAST_12_MONTHS)
         visual(f"kpi{i + 1}_sub", x + 14, y + 120, 248, 58, "card",
                query={"Values": {"projections": [meas("Account Health", sub, sub_label)]}},
                objects={"labels": [{"properties": {"color": color(BLUE), "fontSize": lit("14D"),
@@ -674,7 +683,7 @@ def build_page(lang):
                     # from zero, so ups and downs are not exaggerated; units come from the axis labels (K / M)
                     "valueAxis": [{"properties": {"showAxisTitle": lit("false"), "start": lit("0D")}}],
                     "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
-           container=title(t["c_trend_risk"], t["s_trend_risk"]), filters=YEAR_FILTER)
+           container=title(t["c_trend_risk"], t["s_trend_risk"]), filters=LAST_12_MONTHS)
     visual("worklist", 784, 392, 472, 238, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),

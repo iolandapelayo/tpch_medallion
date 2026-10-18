@@ -27,7 +27,7 @@ Result: [`mockup.html`](mockup.html). The mockup was later restyled together wit
 - a white header band with the title, the portfolio (Furniture accounts in the United Kingdom), 2 filter pills (tier and risk) and the language flags;
 - 3 KPI cards on the left (active accounts, high-risk accounts and revenue at risk). Each card has a sparkline and a comparison line;
 - in the centre: accounts by tier and risk level, and revenue at risk by tier, with the top tier highlighted;
-- on the right: monthly revenue by risk level (1998), and a compact worklist with a "Why" column;
+- on the right: monthly revenue by risk level for the last 12 complete months (Aug 1997 - Jul 1998; August 1998 has only 2 days of orders, so it is left out), and a compact worklist with a "Why" column;
 - a "how to read it" card at the bottom.
 
 ## Step 2 - Power BI Project generated from the mockup

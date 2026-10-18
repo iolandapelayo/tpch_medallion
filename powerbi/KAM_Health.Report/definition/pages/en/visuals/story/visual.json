@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late deliveries). Two or more signals = High risk. Start with Tier A accounts in navy: they hold most of the revenue at stake.",
+                    "value": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late deliveries). Two or more signals = High risk. Start with the High-risk accounts (navy) of the highlighted tier: it holds the most revenue at stake.",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "8pt",
