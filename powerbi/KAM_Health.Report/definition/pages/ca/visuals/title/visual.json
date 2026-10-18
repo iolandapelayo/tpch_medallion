@@ -4,10 +4,10 @@
   "position": {
     "x": 8,
     "y": 8,
-    "z": 2000,
+    "z": 1000,
     "width": 1264,
     "height": 86,
-    "tabOrder": 2000
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "textbox",
@@ -23,7 +23,7 @@
                     "textStyle": {
                       "fontFamily": "Roboto, 'Segoe UI Semibold', sans-serif",
                       "fontSize": "18pt",
-                      "color": "#0E3A5B",
+                      "color": "#2D3540",
                       "fontWeight": "bold"
                     }
                   }
@@ -36,7 +36,7 @@
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "10pt",
-                      "color": "#2B7BB9"
+                      "color": "#176366"
                     }
                   }
                 ]
@@ -93,7 +93,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#FFFFFF'"
+                      "Value": "'#EDEBEB'"
                     }
                   }
                 }

@@ -4,10 +4,10 @@
   "position": {
     "x": 784,
     "y": 392,
-    "z": 22000,
+    "z": 21000,
     "width": 472,
     "height": 238,
-    "tabOrder": 22000
+    "tabOrder": 21000
   },
   "visual": {
     "visualType": "tableEx",
@@ -103,6 +103,19 @@
                     "Entity": "Account Health"
                   }
                 },
+                "Property": "Risk level CA"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Account Health"
+                  }
+                },
                 "Property": "Revenue at risk"
               }
             },
@@ -139,7 +152,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
                 }
               }
             },
@@ -148,7 +161,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#0E3A5B'"
+                      "Value": "'#2D3540'"
                     }
                   }
                 }
@@ -184,7 +197,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "9D"
+                  "Value": "8D"
                 }
               }
             },
@@ -260,7 +273,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ordenada per ingressos en risc'"
+                  "Value": "'Primer risc alt, després per ingressos en risc'"
                 }
               }
             }

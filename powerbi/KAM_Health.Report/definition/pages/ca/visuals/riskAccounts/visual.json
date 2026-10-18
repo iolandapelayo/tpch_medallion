@@ -4,10 +4,10 @@
   "position": {
     "x": 316,
     "y": 110,
-    "z": 19000,
+    "z": 18000,
     "width": 452,
     "height": 268,
-    "tabOrder": 19000
+    "tabOrder": 18000
   },
   "visual": {
     "visualType": "barChart",
@@ -165,7 +165,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Risc alt destacat; la resta, en gris'"
+                  "Value": "'Com més fosc, més risc'"
                 }
               }
             }

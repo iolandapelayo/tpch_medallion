@@ -4,10 +4,10 @@
   "position": {
     "x": 1008,
     "y": 24,
-    "z": 3000,
+    "z": 2000,
     "width": 104,
     "height": 54,
-    "tabOrder": 3000
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "slicer",
@@ -70,7 +70,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#2B7BB9'"
+                      "Value": "'#176366'"
                     }
                   }
                 }
@@ -123,7 +123,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#C9D6DF'"
+                      "Value": "'#AAE9EC'"
                     }
                   }
                 }

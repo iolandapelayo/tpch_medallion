@@ -4,10 +4,10 @@
   "position": {
     "x": 316,
     "y": 644,
-    "z": 23000,
+    "z": 22000,
     "width": 940,
     "height": 56,
-    "tabOrder": 23000
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "textbox",
@@ -19,11 +19,11 @@
               {
                 "textRuns": [
                   {
-                    "value": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % en lliuraments tardans). Dos o més senyals = risc alt. Només es mostren els comptes de categoria A (el 20 % que més compra): comença pels de risc alt (blau marí).",
+                    "value": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % en lliuraments tardans). Dos o més senyals = risc alt. Només es mostren els comptes de categoria A (el 20 % que més compra): comença pels de risc alt (turquesa fosc).",
                     "textStyle": {
                       "fontFamily": "Inter, 'Segoe UI', sans-serif",
                       "fontSize": "8pt",
-                      "color": "#0E3A5B"
+                      "color": "#2D3540"
                     }
                   }
                 ]

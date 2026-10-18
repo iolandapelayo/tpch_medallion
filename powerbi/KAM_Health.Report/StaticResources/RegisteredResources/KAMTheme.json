@@ -1,33 +1,33 @@
 {
   "name": "Propelling KAM Health",
   "dataColors": [
-    "#0E3A5B",
-    "#8FA3B3",
-    "#B8C6D1",
-    "#DDE5EB",
-    "#1B5F8C",
-    "#4FA9D6",
+    "#176366",
+    "#6BD9DE",
     "#AAE9EC",
-    "#2D3540"
+    "#DDF5F6",
+    "#80DEE3",
+    "#2E8C91",
+    "#2D3540",
+    "#AAA4A4"
   ],
   "foreground": "#292626",
   "background": "#FFFFFF",
-  "tableAccent": "#2B7BB9",
+  "tableAccent": "#176366",
   "textClasses": {
     "callout": {
       "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
       "fontSize": 26,
-      "color": "#0E3A5B"
+      "color": "#2D3540"
     },
     "title": {
       "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
       "fontSize": 12,
-      "color": "#0E3A5B"
+      "color": "#2D3540"
     },
     "header": {
       "fontFace": "Roboto, 'Segoe UI Semibold', sans-serif",
       "fontSize": 10,
-      "color": "#0E3A5B"
+      "color": "#2D3540"
     },
     "label": {
       "fontFace": "Inter, 'Segoe UI', sans-serif",
@@ -54,7 +54,7 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#FFFFFF"
+                "color": "#EDEBEB"
               }
             },
             "radius": 22
@@ -79,7 +79,7 @@
             "fontSize": 12,
             "fontColor": {
               "solid": {
-                "color": "#0E3A5B"
+                "color": "#2D3540"
               }
             },
             "bold": true

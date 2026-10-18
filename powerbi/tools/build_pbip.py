@@ -17,11 +17,12 @@ S = "https://developer.microsoft.com/json-schemas/fabric"
 # Propelling Tech brand (careers.propellingtech.com)
 SLATE, TURQUOISE, TEAL, TURQ_LIGHT = "#2D3540", "#6BD9DE", "#176366", "#AAE9EC"
 TEXT, GREY, BG = "#292626", "#AAA4A4", "#EDEBEB"
-# Chart palette (decluttering rule: everything grey except what we want to highlight).
-# Blues match the turquoise of the Propelling logo (#6BD9DE); the greys are blue-tinted to stay in the family.
-NAVY, BLUE, BLUE_PALE = "#0E3A5B", "#2B7BB9", "#C9D6DF"
-# High risk is the message, so it is the only coloured level; the rest go from dark to light grey (still ordinal)
-RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = NAVY, "#8FA3B3", "#B8C6D1", "#DDE5EB"
+# Palette taken from the site's own colour variables: white background, dark grey #2D3540 (its dark bands)
+# for titles and numbers, and shades of its turquoise (buttons and logo, #6BD9DE) for the charts.
+DARK, ACCENT, ACCENT_PALE = SLATE, TEAL, TURQ_LIGHT
+CARD_BORDER = BG          # the site's lightest grey: separates the white cards from the white page
+# Risk is ordinal, so the darker the turquoise, the higher the risk
+RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, TURQUOISE, TURQ_LIGHT, "#DDF5F6"
 # the site uses Inter for text and Roboto for big headings; Segoe UI is the fallback where they are not installed
 FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
 FONT_HEAD = "Roboto, 'Segoe UI Semibold', sans-serif"
@@ -75,10 +76,10 @@ T = {
                      "es": "Ago 1997 - jul 1998 · clic en una cuenta para ver sus meses",
                      "ca": "Ago 1997 - jul 1998 · clic en un compte per veure'n els mesos"},
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
-    "s_worklist": {"en": "Ordered by revenue at risk", "es": "Ordenada por ingresos en riesgo",
-                   "ca": "Ordenada per ingressos en risc"},
-    "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
-                   "ca": "Risc alt destacat; la resta, en gris"},
+    "s_worklist": {"en": "High risk first, then by revenue at risk", "es": "Primero riesgo alto, después por ingresos en riesgo",
+                   "ca": "Primer risc alt, després per ingressos en risc"},
+    "s_tierrisk": {"en": "The darker the colour, the higher the risk", "es": "Cuanto más oscuro, más riesgo",
+                   "ca": "Com més fosc, més risc"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
     "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},
@@ -86,15 +87,15 @@ T = {
         "en": "How to read it: every account gets three warning signals - overdue (much later than its usual ordering "
               "rhythm), declining (12-month revenue down more than 30%) and service issues (worst 25% for late "
               "deliveries). Two or more signals = High risk. Only tier A accounts (the top 20% by revenue) are "
-              "shown: start with the High-risk ones (navy).",
+              "shown: start with the High-risk ones (dark turquoise).",
         "es": "Cómo leerlo: cada cuenta tiene tres señales de alarma - retraso (pide mucho más tarde de lo habitual), "
               "caída (los ingresos de 12 meses bajan más de un 30 %) y problemas de servicio (peor 25 % en entregas "
               "tardías). Dos o más señales = riesgo alto. Solo se muestran las cuentas de categoría A (el 20 % "
-              "que más compra): empieza por las de riesgo alto (azul marino).",
+              "que más compra): empieza por las de riesgo alto (turquesa oscuro).",
         "ca": "Com llegir-ho: cada compte té tres senyals d'alarma - retard (demana molt més tard del que és "
               "habitual), caiguda (els ingressos de 12 mesos baixen més d'un 30 %) i problemes de servei (pitjor 25 % "
               "en lliuraments tardans). Dos o més senyals = risc alt. Només es mostren els comptes de categoria A (el "
-              "20 % que més compra): comença pels de risc alt (blau marí)."},
+              "20 % que més compra): comença pels de risc alt (turquesa fosc)."},
 }
 # short words for the "Why" column (one word each, joined with " · ")
 SIGNAL_WORDS = {"en": ("Overdue", "Declining", "Service"), "es": ("Retraso", "Caída", "Servicio"),
@@ -348,27 +349,25 @@ for f in FLAG_FILES.values():
     (STATIC / "RegisteredResources").mkdir(parents=True, exist_ok=True)
     shutil.copy(FLAGS / f, STATIC / "RegisteredResources" / f)
 
-# Look of the reference dashboard: dark header band, light grey rounded frame, white cards with big
-# rounded corners and no shadow, one accent colour (turquoise) and grey for the rest.
-FRAME, CARD_RADIUS = "#DEDADA", 22
-# Risk levels are sorted High, Medium, Low, Inactive (via 'Risk order') -> navy, then three greys
+# White page; white cards with big rounded corners, a light grey border and no shadow.
+CARD_RADIUS = 22
+# Risk levels are sorted High, Medium, Low, Inactive (via 'Risk order') -> dark to light turquoise
 write(STATIC / "RegisteredResources/KAMTheme.json", {
     "name": "Propelling KAM Health",
-    "dataColors": [RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE, "#1B5F8C", "#4FA9D6", TURQ_LIGHT, SLATE],
-    "foreground": TEXT, "background": "#FFFFFF", "tableAccent": BLUE,
+    "dataColors": [RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE, "#80DEE3", "#2E8C91", SLATE, GREY],
+    "foreground": TEXT, "background": "#FFFFFF", "tableAccent": ACCENT,
     "textClasses": {
-        "callout": {"fontFace": FONT_HEAD, "fontSize": 26, "color": NAVY},
-        "title": {"fontFace": FONT_HEAD, "fontSize": 12, "color": NAVY},
-        "header": {"fontFace": FONT_HEAD, "fontSize": 10, "color": NAVY},
+        "callout": {"fontFace": FONT_HEAD, "fontSize": 26, "color": DARK},
+        "title": {"fontFace": FONT_HEAD, "fontSize": 12, "color": DARK},
+        "header": {"fontFace": FONT_HEAD, "fontSize": 10, "color": DARK},
         "label": {"fontFace": FONT_TEXT, "fontSize": 9, "color": TEXT},
     },
     "visualStyles": {"*": {"*": {
         "background": [{"show": True, "color": {"solid": {"color": "#FFFFFF"}}, "transparency": 0}],
-        # a border in the card's own colour makes the rounded corners visible in every Desktop version
-        "border": [{"show": True, "color": {"solid": {"color": "#FFFFFF"}}, "radius": CARD_RADIUS}],
+        "border": [{"show": True, "color": {"solid": {"color": CARD_BORDER}}, "radius": CARD_RADIUS}],
         "dropShadow": [{"show": False}],
         "padding": [{"top": 12, "bottom": 10, "left": 14, "right": 14}],
-        "title": [{"fontFamily": FONT_HEAD, "fontSize": 12, "fontColor": {"solid": {"color": NAVY}}, "bold": True}],
+        "title": [{"fontFamily": FONT_HEAD, "fontSize": 12, "fontColor": {"solid": {"color": DARK}}, "bold": True}],
         "subTitle": [{"fontFamily": FONT_TEXT, "fontSize": 8, "fontColor": {"solid": {"color": "#7A7575"}}}],
     }}},
 })
@@ -420,10 +419,10 @@ def title(text, subtitle=None):
     return out
 
 
-def box(hex_, radius=CARD_RADIUS):
-    """A plain coloured, rounded rectangle (frame, header band)."""
+def box(hex_, radius=CARD_RADIUS, border=CARD_BORDER):
+    """A plain coloured, rounded rectangle (header band)."""
     return {"background": [{"properties": {"show": lit("true"), "color": color(hex_), "transparency": lit("0D")}}],
-            "border": [{"properties": {"show": lit("true"), "color": color(hex_), "radius": lit(f"{radius}D")}}]}
+            "border": [{"properties": {"show": lit("true"), "color": color(border), "radius": lit(f"{radius}D")}}]}
 
 
 # for visuals drawn on top of a card: no background, border, title or padding of their own
@@ -485,7 +484,8 @@ def build_page(lang):
         if query is not None:
             v["query"] = {"queryState": query}
             if sort:
-                v["query"]["sortDefinition"] = {"sort": [sort], "isDefaultSort": False}
+                v["query"]["sortDefinition"] = {"sort": sort if isinstance(sort, list) else [sort],
+                                                "isDefaultSort": False}
         if objects:
             v["objects"] = objects
         if container:
@@ -505,11 +505,10 @@ def build_page(lang):
         visual(name, x, y, w, h, "textbox",
                objects={"general": [{"properties": {"paragraphs": paragraphs}}]}, container=container)
 
-    # ---- frame and white header band (drawn first, so they sit behind everything)
-    textbox("frame", 8, 8, 1264, 704, [{"textRuns": [run(" ", 8)]}], container=box(FRAME, 28))
+    # ---- white header band
     textbox("title", 8, 8, 1264, 86, [
-        {"textRuns": [run(t["title"], 18, NAVY, bold=True, font=FONT_HEAD)]},
-        {"textRuns": [run(t["subtitle"], 10, BLUE)]},
+        {"textRuns": [run(t["title"], 18, DARK, bold=True, font=FONT_HEAD)]},
+        {"textRuns": [run(t["subtitle"], 10, ACCENT)]},
     ], container={**box("#FFFFFF", 28),
                   "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("392D")}}]})
 
@@ -522,9 +521,9 @@ def build_page(lang):
                query={"Values": {"projections": [col(entity, prop, label)]}},
                objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}],
                         "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
-                                                   "fontColor": color(BLUE), "bold": lit("true")}}],
+                                                   "fontColor": color(ACCENT), "bold": lit("true")}}],
                         "items": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D")}}]},
-               container={"border": [{"properties": {"show": lit("true"), "color": color(BLUE_PALE),
+               container={"border": [{"properties": {"show": lit("true"), "color": color(ACCENT_PALE),
                                                      "radius": lit("10D")}}],
                           "padding": [{"properties": {"top": lit("4D"), "bottom": lit("4D"),
                                                       "left": lit("8D"), "right": lit("8D")}}]})
@@ -554,11 +553,11 @@ def build_page(lang):
     for i, (icon, label, value, spark, sub, sub_label) in enumerate(kpis):
         x, y, w, h = 24, 110 + i * 202, 276, 190
         textbox(f"kpi{i + 1}_card", x, y, w, h,
-                [{"textRuns": [run(f"{icon}  ", 13, BLUE, bold=True), run(label, 12, NAVY, bold=True, font=FONT_HEAD)]}],
+                [{"textRuns": [run(f"{icon}  ", 13, ACCENT, bold=True), run(label, 12, DARK, bold=True, font=FONT_HEAD)]}],
                 container={"padding": [{"properties": {"top": lit("16D"), "left": lit("18D")}}]})
         visual(f"kpi{i + 1}", x + 14, y + 50, 160, 56, "card",
                query={"Values": {"projections": [meas("Account Health", value, label)]}},
-               objects={"labels": [{"properties": {"color": color(NAVY), "fontSize": lit("24D"),
+               objects={"labels": [{"properties": {"color": color(DARK), "fontSize": lit("24D"),
                                                    "fontFamily": text_lit(FONT_HEAD)}}],
                         "categoryLabels": [{"properties": {"show": lit("false")}}]},
                container=BARE)
@@ -569,12 +568,12 @@ def build_page(lang):
                             **MONTH_AXIS["categoryAxis"][0]["properties"], "show": lit("false")}}],
                         "valueAxis": [{"properties": {"show": lit("false")}}],
                         "legend": [{"properties": {"show": lit("false")}}],
-                        "dataPoint": [{"properties": {"fill": color(BLUE)}}],
+                        "dataPoint": [{"properties": {"fill": color(TURQUOISE)}}],
                         "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
                container=BARE, filters=LAST_12_MONTHS)
         visual(f"kpi{i + 1}_sub", x + 14, y + 120, 248, 58, "card",
                query={"Values": {"projections": [meas("Account Health", sub, sub_label)]}},
-               objects={"labels": [{"properties": {"color": color(BLUE), "fontSize": lit("14D"),
+               objects={"labels": [{"properties": {"color": color(ACCENT), "fontSize": lit("14D"),
                                                    "fontFamily": text_lit(FONT_HEAD)}}],
                         "categoryLabels": [{"properties": {"show": lit("true"), "color": color("#7A7575"),
                                                            "fontSize": lit("8D"),
@@ -622,18 +621,19 @@ def build_page(lang):
                col("Account Health", f"Signals {lang.upper()}", t["why"]),
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
-                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
-                                                      "fontColor": color(NAVY), "bold": lit("true"),
+                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                                                      "fontColor": color(DARK), "bold": lit("true"),
                                                       "wordWrap": lit("true")}}],
-                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D"),
+                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
                                                "wordWrap": lit("true")}}],
                     "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
                                              "rowPadding": lit("3D")}}]},
            container=title(t["c_worklist"], t["s_worklist"]),
-           sort={"field": field("Column", "Account Health", "Revenue at risk"), "direction": "Descending"})
+           sort=[{"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"},
+                 {"field": field("Column", "Account Health", "Revenue at risk"), "direction": "Descending"}])
 
     # ---- bottom card: how to read the cockpit
-    textbox("story", 316, 644, 940, 56, [{"textRuns": [run(t["story"], 8, NAVY)]}],
+    textbox("story", 316, 644, 940, 56, [{"textRuns": [run(t["story"], 8, DARK)]}],
             container={"padding": [{"properties": {"top": lit("8D"), "bottom": lit("6D"),
                                                    "left": lit("16D"), "right": lit("16D")}}]})
 

@@ -4,10 +4,10 @@
   "position": {
     "x": 200,
     "y": 358,
-    "z": 13000,
+    "z": 12000,
     "width": 88,
     "height": 64,
-    "tabOrder": 13000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "areaChart",
@@ -129,7 +129,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#2B7BB9'"
+                      "Value": "'#6BD9DE'"
                     }
                   }
                 }
