@@ -25,8 +25,9 @@ CARD_BORDER = BG          # the site's lightest grey: separates the white cards 
 RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, TURQUOISE, TURQ_LIGHT, "#DDF5F6"
 # the site uses Inter for text and Roboto for big headings; Segoe UI is the fallback where they are not installed
 FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
-# TPC-H amounts have no currency in the spec; by convention (US benchmark) they are shown as US dollars
-MONEY = "$#,0"
+# TPC-H amounts have no currency in the spec. The portfolio is the United Kingdom, so they are shown
+# in pounds sterling (only the symbol: the numbers are not converted)
+MONEY = "£#,0"
 FONT_HEAD = "Roboto, 'Segoe UI Semibold', sans-serif"
 
 if OUT.exists():
