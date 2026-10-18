@@ -21,9 +21,8 @@ TEXT, GREY, BG = "#292626", "#AAA4A4", "#EDEBEB"
 # for titles and numbers, and shades of its turquoise (buttons and logo, #6BD9DE) for the charts.
 DARK, ACCENT, ACCENT_PALE = SLATE, TEAL, TURQ_LIGHT
 CARD_BORDER = BG          # the site's lightest grey: separates the white cards from the white page
-# Same logic as the reference dashboard: one accent colour for what matters (High risk, in the site's dark
-# turquoise) and everything else in grey, from dark to light so the order of the levels is still readable.
-RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, "#B5B5B5", "#CFCFCF", "#E6E6E6"
+# Risk is ordinal, so the darker the turquoise, the higher the risk
+RISK_HIGH, RISK_MEDIUM, RISK_LOW, RISK_INACTIVE = TEAL, TURQUOISE, TURQ_LIGHT, "#DDF5F6"
 # Traffic light only on "good or bad" numbers: green when it goes well, red when it goes badly
 GOOD, BAD = "#3A9E5F", "#C0392B"
 AT_RISK_ALERT = 0.25      # share of revenue at risk from which the KPI turns red
@@ -84,8 +83,8 @@ T = {
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
     "s_worklist": {"en": "High risk first, then by revenue at risk", "es": "Primero riesgo alto, después por ingresos en riesgo",
                    "ca": "Primer risc alt, després per ingressos en risc"},
-    "s_tierrisk": {"en": "High risk highlighted; other levels in grey", "es": "Riesgo alto resaltado; el resto, en gris",
-                   "ca": "Risc alt destacat; la resta, en gris"},
+    "s_tierrisk": {"en": "The darker the colour, the higher the risk", "es": "Cuanto más oscuro, más riesgo",
+                   "ca": "Com més fosc, més risc"},
     # short labels for the filter pills, so they are never cut with "..."
     "f_risk": {"en": "Risk", "es": "Riesgo", "ca": "Risc"},
     "change_short": {"en": "Change 12m", "es": "Variación 12m", "ca": "Variació 12m"},

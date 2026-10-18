@@ -57,6 +57,10 @@ What was generated:
   - Medium `#6BD9DE`;
   - Low `#AAE9EC`;
   - Inactive `#DDF5F6`.
+- **Traffic light only on good/bad numbers** (same logic as the reference dashboard):
+  - the 12-month revenue change on the KPI cards and in the worklist is green if it grew and red if it fell;
+  - the share of revenue at risk turns red from 25%.
+  - Four DAX measures return the colour and are used as conditional formatting. The charts keep the turquoise scale.
 - **Currency:** amounts are shown in US dollars (`$#,0`, e.g. $31M). The TPC-H specification gives no currency; dollars are the usual convention for this US benchmark.
 - **Worklist order:** High risk first, then by revenue at risk.
   - Sorting only by revenue put medium-risk accounts on top: high-risk ones have already lost about 61% of their revenue, so less of it is left "at risk".
