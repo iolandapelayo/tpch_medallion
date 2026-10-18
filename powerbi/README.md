@@ -49,10 +49,18 @@ What was generated:
   - **Lean model:** only what the report uses. Power Query downloads only those columns (`Table.SelectColumns`); everything else (order dates, lifetime figures, late lines...) stays available in the Gold layer.
   - Relationship between `Account Health` and `Customer` in both directions. This way the tier A report filter and the risk slicer also filter the orders behind the monthly revenue line.
 - **Report:** visuals placed at the mockup's coordinates. Clicking an account in the worklist shows that account's monthly revenue in the line chart.
-- **Look:** a grey rounded frame, white cards with large rounded corners, and Inter / Roboto fonts (with Segoe UI as fallback). All of it is taken from careers.propellingtech.com.
-- **Colours and decluttering:** the charts follow the rule "everything in grey except what we want to highlight". The blues match the turquoise of the Propelling logo (`#6BD9DE`).
-  - Risk level: only High is coloured (navy `#0E3A5B`). Medium, Low and Inactive are blue-tinted greys (`#8FA3B3`, `#B8C6D1` and `#DDE5EB`), from dark to light, so the order is still readable.
-  - Both centre charts use the risk colours: only High in navy, the other levels in grey.
+- **Look:** the colours and fonts of careers.propellingtech.com, taken from the site's own colour variables. Fonts are Inter and Roboto, with Segoe UI as fallback.
+  - White page. White cards with large rounded corners and the site's light grey border (`#EDEBEB`).
+  - Title in bold, in the site's dark grey (`#2D3540`, the colour of its dark bands).
+- **Chart colours:** shades of the site's turquoise (its buttons and logo, `#6BD9DE`). Risk is ordinal, so the darker the colour, the higher the risk:
+  - High `#176366`;
+  - Medium `#6BD9DE`;
+  - Low `#AAE9EC`;
+  - Inactive `#DDF5F6`.
+- **Worklist order:** High risk first, then by revenue at risk.
+  - Sorting only by revenue put medium-risk accounts on top: high-risk ones have already lost about 61% of their revenue, so less of it is left "at risk".
+  - Calling the high-risk ones first is what the "how to read it" card recommends.
+- **Decluttering:**
   - Legends are kept only where the title and the axis do not say what each colour is.
   - Data labels are shown only on the revenue-at-risk chart, which has no value axis.
   - The monthly line starts its Y axis at zero, so that changes are not exaggerated.
