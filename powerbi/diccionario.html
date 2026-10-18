@@ -15,17 +15,17 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --page: #1B2027; --text: #E8E6E6; --muted: #A6A1A1; --card: #232A33; --line: #343C47;
-      --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE;
+      --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
     --page: #1B2027; --text: #E8E6E6; --muted: #A6A1A1; --card: #232A33; --line: #343C47;
-    --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE;
+    --soft: #2A323C; --code: #1B2027; --head: #E8E6E6; --teal: #6BD9DE; color-scheme: dark;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--page); color: var(--text); font: 16px/1.6 Inter, 'Segoe UI', system-ui, sans-serif; }
-  .inner { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  .inner { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 
   /* hero: slate band like the career site */
   .hero { background: var(--slate); color: #fff; position: relative; overflow: hidden; }
@@ -50,7 +50,7 @@
                        font: 15px Inter, sans-serif; }
   input[type=search]:focus { outline: 3px solid var(--turq); }
 
-  nav { position: sticky; top: 0; z-index: 2; background: var(--page); border-bottom: 1px solid var(--line); }
+  nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--page); border-bottom: 1px solid var(--line); }
   nav .inner { display: flex; gap: 8px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; scrollbar-width: none; }
   nav a { flex: none; text-decoration: none; font: 600 14px Inter, sans-serif; color: var(--head);
           border: 2px solid var(--turq); border-radius: 40px; padding: 6px 16px; }
