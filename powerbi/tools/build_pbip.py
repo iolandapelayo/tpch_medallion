@@ -638,7 +638,8 @@ def build_page(lang):
                         "categoryLabels": [{"properties": {"show": lit("false")}}]},
                container=BARE)
         # caption under the sparkline: what it shows and for which period
-        textbox(f"kpi{i + 1}_spark_cap", x + 172, y + 96, 96, 26, [
+        # tall enough for its two lines, so the text box never shows a scrollbar
+        textbox(f"kpi{i + 1}_spark_cap", x + 172, y + 96, 96, 36, [
             {"textRuns": [run(t["spark_cap"], 7, "#7A7575", bold=True)]},
             {"textRuns": [run(t["spark_period"], 7, "#7A7575")]},
         ], container=BARE)
@@ -646,7 +647,9 @@ def build_page(lang):
                query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
                       "Y": {"projections": [meas("Orders", spark, t["revenue"])]}},
                objects={"categoryAxis": [{"properties": {
-                            **MONTH_AXIS["categoryAxis"][0]["properties"], "show": lit("false")}}],
+                            **MONTH_AXIS["categoryAxis"][0]["properties"], "show": lit("false"),
+                            # 12 months in 88 px: narrow categories, so the chart never adds a scrollbar
+                            "minCategoryWidth": lit("4D")}}],
                         "valueAxis": [{"properties": {"show": lit("false")}}],
                         "legend": [{"properties": {"show": lit("false")}}],
                         "dataPoint": [{"properties": {"fill": color(TURQUOISE)}}],

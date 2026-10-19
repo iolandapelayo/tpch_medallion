@@ -91,6 +91,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "minCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "4D"
+                }
+              }
             }
           }
         }
