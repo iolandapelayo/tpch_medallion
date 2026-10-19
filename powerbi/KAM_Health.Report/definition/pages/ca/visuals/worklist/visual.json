@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "worklist",
   "position": {
-    "x": 784,
-    "y": 392,
+    "x": 316,
+    "y": 338,
     "z": 24000,
-    "width": 472,
-    "height": 238,
+    "width": 940,
+    "height": 292,
     "tabOrder": 24000
   },
   "visual": {
@@ -152,7 +152,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             },
@@ -197,7 +197,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "10D"
                 }
               }
             },
@@ -254,7 +254,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "3D"
+                  "Value": "5D"
                 }
               }
             }
@@ -279,6 +279,13 @@
                   "Value": "'Llista de la setmana'"
                 }
               }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
             }
           }
         }
@@ -296,7 +303,45 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Primer risc alt, després per ingressos en risc'"
+                  "Value": "'Primer risc alt, després per ingressos en risc · clic dret en un compte per obrir-ne la fitxa (Fitxa del compte)'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6BD9DE'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "22D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
                 }
               }
             }

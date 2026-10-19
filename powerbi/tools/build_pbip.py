@@ -83,8 +83,37 @@ T = {
                      "es": "Ago 1997 - jul 1998 · clic en una cuenta para ver sus meses",
                      "ca": "Ago 1997 - jul 1998 · clic en un compte per veure'n els mesos"},
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
-    "s_worklist": {"en": "High risk first, then by revenue at risk", "es": "Primero riesgo alto, después por ingresos en riesgo",
-                   "ca": "Primer risc alt, després per ingressos en risc"},
+    "s_worklist": {"en": "High risk first, then by revenue at risk · right-click an account → Drill through → "
+                         "Account detail",
+                   "es": "Primero riesgo alto, después por ingresos en riesgo · clic derecho en una cuenta → "
+                         "Obtener detalles → Ficha de la cuenta",
+                   "ca": "Primer risc alt, després per ingressos en risc · clic dret en un compte per obrir-ne "
+                         "la fitxa (Fitxa del compte)"},
+    # drill-through page (one per language)
+    "d_page": {"en": "Account detail", "es": "Ficha de la cuenta", "ca": "Fitxa del compte"},
+    "d_subtitle": {"en": "Why this account is at risk and how its revenue has moved over the last 24 months",
+                   "es": "Por qué esta cuenta está en riesgo y cómo han ido sus ingresos en los últimos 24 meses",
+                   "ca": "Per què aquest compte està en risc i com han anat els seus ingressos els últims 24 mesos"},
+    "back": {"en": "Back to the cockpit", "es": "Volver al panel", "ca": "Tornar al quadre"},
+    "rev_12m": {"en": "Revenue 12 months", "es": "Ingresos 12 meses", "ca": "Ingressos 12 mesos"},
+    "c_account_trend": {"en": "Monthly revenue of the account", "es": "Ingresos mensuales de la cuenta",
+                        "ca": "Ingressos mensuals del compte"},
+    "s_account_trend": {"en": "Aug 1996 - Jul 1998 · the last 12 months are the right half",
+                        "es": "Ago 1996 - jul 1998 · los últimos 12 meses son la mitad derecha",
+                        "ca": "Ago 1996 - jul 1998 · els últims 12 mesos són la meitat dreta"},
+    "c_orders": {"en": "Orders", "es": "Pedidos", "ca": "Comandes"},
+    "s_orders": {"en": "Most recent first", "es": "Los más recientes primero", "ca": "Els més recents primer"},
+    "date": {"en": "Date", "es": "Fecha", "ca": "Data"},
+    "d_story": {
+        "en": "To prepare the call: the top row says why the account is flagged (overdue, declining, service). "
+              "The bars show if the drop is recent or long-standing, and the orders list shows when it last "
+              "ordered. Arrow at the top left: back to the cockpit (Ctrl+click in Desktop).",
+        "es": "Para preparar la llamada: la fila de arriba dice por qué se marca la cuenta (retraso, caída, "
+              "servicio). Las barras muestran si la caída es reciente o viene de lejos, y la lista dice cuándo "
+              "pidió por última vez. Flecha arriba a la izquierda: volver al panel (Ctrl+clic en Desktop).",
+        "ca": "Per preparar la trucada: la fila de dalt diu per què es marca el compte (retard, caiguda, servei). "
+              "Les barres mostren si la caiguda és recent o ve de lluny, i la llista diu quan va demanar per "
+              "última vegada. Fletxa a dalt a l'esquerra: tornar al quadre (Ctrl+clic a Desktop)."},
     "s_tierrisk": {"en": "The darker the colour, the higher the risk", "es": "Cuanto más oscuro, más riesgo",
                    "ca": "Com més fosc, més risc"},
     # short labels for the filter pills, so they are never cut with "..."
@@ -207,11 +236,20 @@ TABLES = [
         ("Row change color", "VAR RowChange = SELECTEDVALUE('Account Health'[Revenue change %]) RETURN "
          f"IF(ISBLANK(RowChange), BLANK(), IF(RowChange >= 0, \"{GOOD}\", \"{BAD}\"))", None,
          "Green or red for the 12-month change of each account in the worklist."),
+        # cards of the drill-through page (a single account): text values need a measure, not a column
+        *[(f"Selected risk level{'' if lang == 'en' else ' ' + lang.upper()}",
+           f"SELECTEDVALUE('Account Health'[Risk level{'' if lang == 'en' else ' ' + lang.upper()}])", None,
+           "Risk level of the account on the detail page.") for lang in LANGS],
+        *[(f"Selected signals {lang.upper()}",
+           f"VAR SignalText = SELECTEDVALUE('Account Health'[Signals {lang.upper()}]) "
+           "RETURN IF(SignalText = \"\", \"-\", SignalText)", None,
+           "Warning signals of the account on the detail page (- when it has none).") for lang in LANGS],
     ], AH_EXTRA_STEP),
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Customer", "CUSTOMER_NAME", "string", None, False, {}),
-    ], [], [], None),
+    ], [], [("Selected customer", "SELECTEDVALUE(Customer[Customer])", None,
+             "Name of the account on the detail page.")], None),
     ("Orders", "FCT_ORDERS", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Order date key", "ORDER_DATE_KEY", "int64", "0", True, {}),
@@ -390,7 +428,8 @@ write(STATIC / "RegisteredResources/KAMTheme.json", {
 })
 
 write(R / "pages/pages.json", {"$schema": f"{S}/item/report/definition/pagesMetadata/1.0.0/schema.json",
-                               "pageOrder": LANGS, "activePageName": "en"})
+                               "pageOrder": LANGS + [f"detail_{lang}" for lang in LANGS],
+                               "activePageName": "en"})
 
 
 def lit(value):
@@ -435,8 +474,10 @@ def measure_color(measure, entity="Account Health"):
                                                      "Property": measure}}}}}
 
 
-def title(text, subtitle=None):
+def title(text, subtitle=None, size=None):
     out = {"title": [{"properties": {"show": lit("true"), "text": text_lit(text)}}]}
+    if size:
+        out["title"][0]["properties"]["fontSize"] = lit(f"{size}D")
     if subtitle:
         out["subTitle"] = [{"properties": {"show": lit("true"), "text": text_lit(subtitle)}}]
     return out
@@ -486,17 +527,17 @@ def run(text, size, color_=TEXT, bold=False, font=FONT_TEXT):
     return {"value": text, "textStyle": style}
 
 
-def build_page(lang):
-    t = {k: v[lang] for k, v in T.items()}
-    suffix = "" if lang == "en" else f" {lang.upper()}"
-    page_dir = R / "pages" / lang
+def new_page(name, display_name, hidden, **extra):
+    """Writes page.json and returns the helpers that add visuals to that page."""
+    page_dir = R / "pages" / name
     page = {
         "$schema": f"{S}/item/report/definition/page/1.4.0/schema.json",
-        "name": lang, "displayName": t["page"], "displayOption": "FitToPage", "height": 720, "width": 1280,
+        "name": name, "displayName": display_name, "displayOption": "FitToPage", "height": 720, "width": 1280,
         "objects": {"background": [{"properties": {"color": color("#FFFFFF"), "transparency": lit("0D")}}]},
+        **extra,
     }
-    if lang != "en":
-        page["visibility"] = "HiddenInViewMode"   # the flags are the language switch
+    if hidden:
+        page["visibility"] = "HiddenInViewMode"
     write(page_dir / "page.json", page)
 
     z = [0]
@@ -527,6 +568,15 @@ def build_page(lang):
     def textbox(name, x, y, w, h, paragraphs, container=None):
         visual(name, x, y, w, h, "textbox",
                objects={"general": [{"properties": {"paragraphs": paragraphs}}]}, container=container)
+
+    return visual, textbox
+
+
+def build_page(lang):
+    t = {k: v[lang] for k, v in T.items()}
+    suffix = "" if lang == "en" else f" {lang.upper()}"
+    # the flags are the language switch, so only the English page shows in the page list
+    visual, textbox = new_page(lang, t["page"], hidden=lang != "en")
 
     # ---- white header band
     textbox("title", 8, 8, 1264, 86, [
@@ -611,8 +661,8 @@ def build_page(lang):
                                                            "fontFamily": text_lit(FONT_TEXT)}}]},
                container=BARE)
 
-    # ---- centre: where the risk sits
-    visual("riskAccounts", 316, 110, 452, 268, "barChart",
+    # ---- top row: where the risk sits and how revenue moves (the worklist below gets the most space)
+    visual("riskAccounts", 316, 110, 300, 214, "barChart",
            query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Accounts", t["accounts"])]}},
@@ -621,7 +671,7 @@ def build_page(lang):
                     "valueAxis": [{"properties": {"showAxisTitle": lit("false")}}]},
            container=title(t["c_risk_accounts"], t["s_tierrisk"]),
            sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
-    visual("riskRevenue", 316, 392, 452, 238, "barChart",
+    visual("riskRevenue", 628, 110, 300, 214, "barChart",
            query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
@@ -632,8 +682,7 @@ def build_page(lang):
            container=title(t["c_risk_revenue"], t["s_risk_revenue"]),
            sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
 
-    # ---- right column: trend by risk level and the worklist
-    visual("revenueTrend", 784, 110, 472, 268, "lineChart",
+    visual("revenueTrend", 940, 110, 316, 214, "lineChart",
            query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Orders", "Revenue", t["revenue"])]}},
@@ -644,7 +693,9 @@ def build_page(lang):
                                                   "start": lit("0D"), "gridlineShow": lit("true")}}],
                     "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
            container=title(t["c_trend_risk"], t["s_trend_risk"]), filters=LAST_12_MONTHS)
-    visual("worklist", 784, 392, 472, 238, "tableEx",
+    # ---- the worklist: the main visual of the page, full width, bigger text and a turquoise frame.
+    # Right-click an account -> Drill through -> account detail page of the same language.
+    visual("worklist", 316, 338, 940, 292, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),
                col("Account Health", f"Risk level{suffix}", t["f_risk"]),
@@ -653,16 +704,19 @@ def build_page(lang):
                col("Account Health", f"Signals {lang.upper()}", t["why"]),
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
-                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
                                                       "fontColor": color(DARK), "bold": lit("true"),
                                                       "wordWrap": lit("true")}}],
-                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
                                                "wordWrap": lit("true")}},
                                {"properties": {"fontColor": measure_color("Row change color")},
                                 "selector": {"metadata": "Account Health.Revenue change %"}}],
                     "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
-                                             "rowPadding": lit("3D")}}]},
-           container=title(t["c_worklist"], t["s_worklist"]),
+                                             "rowPadding": lit("5D")}}]},
+           container={**title(t["c_worklist"], t["s_worklist"], size=15),
+                      # stands out from the other cards: bigger title and a turquoise frame
+                      "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
+                                                 "radius": lit(f"{CARD_RADIUS}D"), "width": lit("2D")}}]},
            sort=[{"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"},
                  {"field": field("Column", "Account Health", "Revenue at risk"), "direction": "Descending"}])
 
@@ -672,6 +726,96 @@ def build_page(lang):
                                                    "left": lit("16D"), "right": lit("16D")}}]})
 
 
+FIRST_MONTH_24 = "1996-08-01"   # account detail: last 24 complete months, so last year can be compared with the one before
+LAST_24_MONTHS = {"filters": [{
+    "name": "last24Months",
+    "field": LAST_12_MONTHS["filters"][0]["field"],
+    "type": "Advanced",
+    "filter": {"Version": 2, "From": [{"Name": "d", "Entity": "Date", "Type": 0}],
+               "Where": [{"Condition": {"And": {"Left": _month_bound(2, FIRST_MONTH_24),
+                                                "Right": _month_bound(4, LAST_MONTH)}}}]},
+}]}
+
+
+def build_detail_page(lang):
+    """Drill-through target of the worklist: one account, its signals, its monthly revenue and its orders."""
+    t = {k: v[lang] for k, v in T.items()}
+    suffix = "" if lang == "en" else f" {lang.upper()}"
+    # Drill fields: the customer plus this language's risk column. A page is offered only from visuals that have
+    # all its drill fields, so each worklist (EN / ES / CA) only offers the detail page of its own language.
+    drill_fields = [("Customer", "Customer"), ("Account Health", f"Risk level{suffix}")]
+    filters, params = [], []
+    for i, (entity, prop) in enumerate(drill_fields):
+        fname = f"drill_{lang}_{i + 1}"
+        filters.append({"name": fname, "field": field("Column", entity, prop), "type": "Categorical",
+                        "howCreated": "Drillthrough"})
+        params.append({"name": f"{fname}_param", "boundFilter": fname, "fieldExpr": field("Column", entity, prop)})
+    visual, textbox = new_page(f"detail_{lang}", t["d_page"], hidden=True,
+                               filterConfig={"filters": filters},
+                               pageBinding={"name": f"drill_{lang}", "type": "Drillthrough", "parameters": params})
+
+    # ---- header band with a back arrow
+    textbox("title", 8, 8, 1264, 86, [
+        {"textRuns": [run(t["d_page"], 18, DARK, bold=True, font=FONT_HEAD)]},
+        {"textRuns": [run(t["d_subtitle"], 10, ACCENT)]},
+    ], container={**box("#FFFFFF", 28),
+                  "padding": [{"properties": {"top": lit("16D"), "left": lit("84D"), "right": lit("26D")}}]})
+    visual("back", 26, 28, 44, 44, "actionButton",
+           objects={"icon": [{"properties": {"shapeType": lit("'back'"), "lineColor": color(ACCENT),
+                                             "lineWeight": lit("3D")}, "selector": {"id": "default"}}],
+                    "outline": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}]},
+           container={**BARE, "visualLink": [{"properties": {"show": lit("true"), "type": lit("'Back'"),
+                                                             "tooltip": text_lit(t["back"])}}]})
+
+    # ---- top row: who the account is and why it is flagged
+    cards = [  # (entity, measure, label, value colour)
+        ("Customer", "Selected customer", t["customer"], color(DARK)),
+        ("Account Health", f"Selected risk level{suffix}", t["risk"], color(ACCENT)),
+        ("Account Health", f"Selected signals {lang.upper()}", t["why"], color(DARK)),
+        ("Account Health", "Revenue last 12m total", t["rev_12m"], color(DARK)),
+        ("Account Health", "Revenue change 12m", t["chg_12m"], measure_color("Row change color")),
+        ("Account Health", "Total revenue at risk", t["atrisk"], color(DARK)),
+    ]
+    for i, (entity, measure, label, value_color) in enumerate(cards):
+        visual(f"card{i + 1}", 24 + i * 207, 110, 196, 96, "card",
+               query={"Values": {"projections": [meas(entity, measure, label)]}},
+               objects={"labels": [{"properties": {"color": value_color, "fontSize": lit("13D" if i == 0 else "16D"),
+                                                   "fontFamily": text_lit(FONT_HEAD)}}],
+                        "categoryLabels": [{"properties": {"show": lit("true"), "color": color("#7A7575"),
+                                                           "fontSize": lit("8D"),
+                                                           "fontFamily": text_lit(FONT_TEXT)}}]})
+
+    # ---- monthly revenue of the account (24 months) and its orders
+    visual("accountTrend", 24, 220, 812, 410, "columnChart",
+           query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
+                  "Y": {"projections": [meas("Orders", "Revenue", t["revenue"])]}},
+           objects={"categoryAxis": [{"properties": {
+                        "axisType": lit("'Continuous'"), "showAxisTitle": lit("false"),
+                        "start": lit(f"datetime'{FIRST_MONTH_24}T00:00:00'"),
+                        "end": lit(f"datetime'{LAST_MONTH}T00:00:00'")}}],
+                    "valueAxis": [{"properties": {"show": lit("true"), "showAxisTitle": lit("false"),
+                                                  "start": lit("0D"), "gridlineShow": lit("true")}}],
+                    "legend": [{"properties": {"show": lit("false")}}],
+                    "dataPoint": [{"properties": {"fill": color(TURQUOISE)}}]},
+           container=title(t["c_account_trend"], t["s_account_trend"]), filters=LAST_24_MONTHS)
+    visual("orders", 850, 220, 406, 410, "tableEx",
+           query={"Values": {"projections": [col("Date", "Date", t["date"]),
+                                             meas("Orders", "Revenue", t["revenue"])]}},
+           objects={"total": [{"properties": {"totals": lit("false")}}],
+                    "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
+                                                      "fontColor": color(DARK), "bold": lit("true")}}],
+                    "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D")}}],
+                    "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
+                                             "rowPadding": lit("4D")}}]},
+           container=title(t["c_orders"], t["s_orders"]),
+           sort={"field": field("Column", "Date", "Date"), "direction": "Descending"})
+
+    textbox("story", 24, 644, 1232, 56, [{"textRuns": [run(t["d_story"], 8, DARK)]}],
+            container={"padding": [{"properties": {"top": lit("8D"), "bottom": lit("6D"),
+                                                   "left": lit("16D"), "right": lit("16D")}}]})
+
+
 for lang in LANGS:
     build_page(lang)
+    build_detail_page(lang)
 print("PBIP written to", OUT)

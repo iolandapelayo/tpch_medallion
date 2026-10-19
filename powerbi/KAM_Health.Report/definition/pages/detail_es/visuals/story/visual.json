@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "story",
+  "position": {
+    "x": 24,
+    "y": 644,
+    "z": 11000,
+    "width": 1232,
+    "height": 56,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Para preparar la llamada: la fila de arriba dice por qué se marca la cuenta (retraso, caída, servicio). Las barras muestran si la caída es reciente o viene de lejos, y la lista dice cuándo pidió por última vez. Flecha arriba a la izquierda: volver al panel (Ctrl+clic en Desktop).",
+                    "textStyle": {
+                      "fontFamily": "Inter, 'Segoe UI', sans-serif",
+                      "fontSize": "8pt",
+                      "color": "#2D3540"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

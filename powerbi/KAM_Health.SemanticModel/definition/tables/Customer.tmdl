@@ -1,6 +1,9 @@
 table Customer
 	lineageTag: ab9083e0-014b-4bc2-90e6-a9ebced9cd64
 
+	/// Name of the account on the detail page.
+	measure 'Selected customer' = SELECTEDVALUE(Customer[Customer])
+
 	column 'Customer key'
 		dataType: int64
 		isHidden

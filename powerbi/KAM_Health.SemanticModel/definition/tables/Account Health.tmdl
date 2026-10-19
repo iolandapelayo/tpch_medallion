@@ -1,6 +1,24 @@
 table 'Account Health'
 	lineageTag: ce0dcc0d-a388-46d8-8447-efb756757161
 
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level' = SELECTEDVALUE('Account Health'[Risk level])
+
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level ES' = SELECTEDVALUE('Account Health'[Risk level ES])
+
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level CA' = SELECTEDVALUE('Account Health'[Risk level CA])
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals EN' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals EN]) RETURN IF(SignalText = "", "-", SignalText)
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals ES' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals ES]) RETURN IF(SignalText = "", "-", SignalText)
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals CA' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals CA]) RETURN IF(SignalText = "", "-", SignalText)
+
 	/// Number of accounts (customers with at least one order).
 	measure Accounts = COUNTROWS('Account Health')
 		formatString: #,0

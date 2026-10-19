@@ -3,7 +3,10 @@
   "pageOrder": [
     "en",
     "es",
-    "ca"
+    "ca",
+    "detail_en",
+    "detail_es",
+    "detail_ca"
   ],
   "activePageName": "en"
 }
