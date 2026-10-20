@@ -10,6 +10,8 @@ put 'file://streamlit/kam_calls.py' @kam_input.streamlit_stage overwrite = true 
 create or replace streamlit kam_input.kam_calls
     from '@tpch_medallion.kam_input.streamlit_stage'
     main_file = 'kam_calls.py'
+    -- classic warehouse runtime: the account's default (container runtime) needs a pyproject.toml
+    runtime_name = 'SYSTEM$WAREHOUSE_RUNTIME'
     query_warehouse = tpch_wh
     title = 'KAM call log'
     comment = 'Form where the Key Account Manager marks customers as called';
