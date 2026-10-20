@@ -32,6 +32,39 @@ models:
         description: Continent of the customer's country.
       - name: account_balance
         description: Balance of the customer's account with us. Negative = the customer owes money.
+      - name: phone
+        description: Phone number, shown in the Power BI tooltip of the worklist.
+      - name: address
+        description: Address, shown in the Power BI tooltip of the worklist.
+      - name: contact_person
+        description: Initials of the contact person. SYNTHETIC (demo data, see slv_customer).
+
+  - name: dim_customer_call_status
+    description: >
+      Whether the Key Account Manager called each portfolio customer recently. View, so a call
+      logged in the Streamlit form shows up at the next Power BI refresh without running dbt.
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+      - name: last_called_at
+        description: Last call logged (empty if never called).
+      - name: recent_calls
+        description: Calls in the last called_window_days days (7).
+      - name: call_status
+        description: Called = at least one call in the last 7 days; Not called otherwise.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Called', 'Not called']
+      - name: call_status_order
+        description: 1 = Not called, 2 = Called (sorts "Not called" first in Power BI).
 
   - name: fct_orders
     description: >
@@ -185,6 +218,7 @@ exposures:
       - ref('fct_account_health')
       - ref('fct_orders')
       - ref('dim_customer')
+      - ref('dim_customer_call_status')
       - ref('dim_date')
     owner:
       name: Key Account Manager - Furniture, United Kingdom

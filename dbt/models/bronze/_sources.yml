@@ -16,3 +16,13 @@ sources:
       - name: partsupp
       - name: orders
       - name: lineitem
+
+  - name: kam_input
+    description: >
+      Data typed by people, not rebuilt by dbt: the Key Account Manager's call log, filled in
+      through the Streamlit form KAM_CALLS (see snowflake/01_kam_calls.sql).
+    database: TPCH_MEDALLION
+    schema: KAM_INPUT
+    tables:
+      - name: call_log
+        description: One row per call logged by the Key Account Manager.
