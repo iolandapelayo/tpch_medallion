@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "worklist",
   "position": {
     "x": 316,
-    "y": 338,
+    "y": 110,
     "z": 24000,
-    "height": 292,
-    "width": 940,
+    "width": 675,
+    "height": 280,
     "tabOrder": 24000
   },
   "visual": {
@@ -121,7 +121,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -152,17 +153,6 @@
               "expr": {
                 "Literal": {
                   "Value": "10D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2D3540'"
-                    }
-                  }
                 }
               }
             },
@@ -235,29 +225,7 @@
       ],
       "grid": [
         {
-          "properties": {
-            "gridHorizontal": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "gridVertical": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "rowPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "5D"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },
@@ -303,6 +271,19 @@
               "expr": {
                 "Literal": {
                   "Value": "'Primero riesgo alto, después por ingresos en riesgo · clic derecho en una cuenta → Obtener detalles → Ficha de la cuenta'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Minimal'"
                 }
               }
             }

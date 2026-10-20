@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "riskRevenue",
   "position": {
-    "x": 628,
-    "y": 110,
+    "x": 1000,
+    "y": 406,
     "z": 22000,
+    "width": 272,
     "height": 214,
-    "width": 300,
     "tabOrder": 22000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Risk level ES",
               "nativeQueryRef": "Risk level ES",
-              "active": true,
               "displayName": "Nivel de riesgo"
             }
           ]
@@ -87,7 +86,8 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -134,6 +134,13 @@
         {
           "properties": {
             "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"

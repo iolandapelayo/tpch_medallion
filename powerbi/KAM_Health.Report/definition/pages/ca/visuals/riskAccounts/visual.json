@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "riskAccounts",
   "position": {
-    "x": 316,
+    "x": 1000,
     "y": 110,
     "z": 21000,
-    "height": 214,
-    "width": 300,
+    "width": 272,
+    "height": 280,
     "tabOrder": 21000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Risk level CA",
               "nativeQueryRef": "Risk level CA",
-              "active": true,
               "displayName": "Nivell de risc"
             }
           ]
@@ -87,7 +86,8 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "slicer1",
   "position": {
-    "x": 1008,
-    "y": 24,
+    "x": 1010,
+    "y": 15,
     "z": 2000,
-    "height": 54,
-    "width": 104,
+    "width": 103,
+    "height": 71,
     "tabOrder": 2000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Risk level ES",
               "nativeQueryRef": "Risk level ES",
-              "active": true,
               "displayName": "Riesgo"
             }
           ]

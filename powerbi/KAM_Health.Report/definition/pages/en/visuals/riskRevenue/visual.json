@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "riskRevenue",
   "position": {
-    "x": 1000.3464044623863,
-    "y": 406.17631786127072,
+    "x": 1000,
+    "y": 406,
     "z": 22000,
-    "height": 214.06589725121026,
-    "width": 271.69902343422842,
+    "width": 272,
+    "height": 214,
     "tabOrder": 22000
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Account Health.Risk level",
               "nativeQueryRef": "Risk level",
-              "active": true,
               "displayName": "Risk level"
             }
           ]
@@ -87,7 +86,8 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -194,37 +194,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "3353388fb6e854ef93b3",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Risk level"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "30f7c26758cd0c89c895",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Total revenue at risk"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

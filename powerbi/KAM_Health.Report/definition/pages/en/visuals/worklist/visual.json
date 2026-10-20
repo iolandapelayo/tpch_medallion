@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "worklist",
   "position": {
-    "x": 315.60997671652791,
-    "y": 109.77738320574885,
+    "x": 316,
+    "y": 110,
     "z": 24000,
-    "height": 279.93232717465958,
-    "width": 675.13090671535542,
+    "width": 675,
+    "height": 280,
     "tabOrder": 24000
   },
   "visual": {
@@ -121,7 +121,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -276,6 +277,19 @@
           }
         }
       ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Minimal'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "border": [
         {
           "properties": {
@@ -313,95 +327,8 @@
             }
           }
         }
-      ],
-      "stylePreset": [
-        {
-          "properties": {
-            "name": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Minimal'"
-                }
-              }
-            }
-          }
-        }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "c07b7dc3cd50b97ebf16",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Customer"
-              }
-            },
-            "Property": "Customer"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "444e304a0af230a847d7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Risk level"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "30da80be710c87fe7515",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Revenue at risk"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7e62e216cb50bb53a59b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Revenue change %"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0786ceeb9f499031ae53",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Account Health"
-              }
-            },
-            "Property": "Signals EN"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

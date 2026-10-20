@@ -251,9 +251,10 @@ TABLES = [
     ], [], [("Selected customer", "SELECTEDVALUE(Customer[Customer])", None,
              "Name of the account on the detail page.")], None),
     ("Orders", "FCT_ORDERS", [
-        ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
-        ("Order date key", "ORDER_DATE_KEY", "int64", "0", True, {}),
-        ("Net revenue", "NET_REVENUE", "double", MONEY, True, {}),
+        # visible: the user unhid them in Desktop (2026-10-20)
+        ("Customer key", "CUSTOMER_KEY", "int64", "0", False, {}),
+        ("Order date key", "ORDER_DATE_KEY", "int64", "0", False, {}),
+        ("Net revenue", "NET_REVENUE", "double", MONEY, False, {}),
     ], [], [
         ("Revenue", "SUM(Orders[Net revenue])", MONEY, "Net revenue of the orders (after discount)."),
         # sparklines of the KPI cards: filters on Account Health reach Orders through Customer (both directions)
@@ -588,14 +589,14 @@ def build_page(lang):
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
     # segment, country and tier have a single value (Furniture, United Kingdom, tier A): only risk
     slicers = [("Account Health", f"Risk level{suffix}", t["f_risk"])]
-    slicer_x, slicer_w = [1008], [104]   # right-aligned next to the flags
+    slicer_x, slicer_w = [1010], [103]   # right-aligned next to the flags
     for i, (entity, prop, label) in enumerate(slicers):
-        visual(f"slicer{i + 1}", slicer_x[i], 24, slicer_w[i], 54, "slicer",
+        visual(f"slicer{i + 1}", slicer_x[i], 15, slicer_w[i], 71, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
                objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}],
-                        "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("8D"),
+                        "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT),
                                                    "fontColor": color(ACCENT), "bold": lit("true")}}],
-                        "items": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D")}}]},
+                        "items": [{"properties": {"fontFamily": text_lit(FONT_TEXT)}}]},
                container={"border": [{"properties": {"show": lit("true"), "color": color(ACCENT_PALE),
                                                      "radius": lit("10D")}}],
                           "padding": [{"properties": {"top": lit("4D"), "bottom": lit("4D"),
@@ -647,9 +648,7 @@ def build_page(lang):
                query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
                       "Y": {"projections": [meas("Orders", spark, t["revenue"])]}},
                objects={"categoryAxis": [{"properties": {
-                            **MONTH_AXIS["categoryAxis"][0]["properties"], "show": lit("false"),
-                            # 12 months in 88 px: narrow categories, so the chart never adds a scrollbar
-                            "minCategoryWidth": lit("4D")}}],
+                            **MONTH_AXIS["categoryAxis"][0]["properties"], "show": lit("false")}}],
                         "valueAxis": [{"properties": {"show": lit("false")}}],
                         "legend": [{"properties": {"show": lit("false")}}],
                         "dataPoint": [{"properties": {"fill": color(TURQUOISE)}}],
@@ -664,8 +663,9 @@ def build_page(lang):
                                                            "fontFamily": text_lit(FONT_TEXT)}}]},
                container=BARE)
 
-    # ---- top row: where the risk sits and how revenue moves (the worklist below gets the most space)
-    visual("riskAccounts", 316, 110, 300, 214, "barChart",
+    # ---- layout set by the user in Desktop (2026-10-20):
+    #      top row = worklist (wide) + accounts by risk level; bottom row = monthly trend (wide) + revenue at risk
+    visual("riskAccounts", 1000, 110, 272, 280, "barChart",
            query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Accounts", t["accounts"])]}},
@@ -674,31 +674,32 @@ def build_page(lang):
                     "valueAxis": [{"properties": {"showAxisTitle": lit("false")}}]},
            container=title(t["c_risk_accounts"], t["s_tierrisk"]),
            sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
-    visual("riskRevenue", 628, 110, 300, 214, "barChart",
+    visual("riskRevenue", 1000, 406, 272, 214, "barChart",
            query={"Category": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
            objects={"legend": [{"properties": {"show": lit("false")}}],
                     "labels": [{"properties": {"show": lit("true")}}],
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
-                    "valueAxis": [{"properties": {"show": lit("false")}}]},
+                    "valueAxis": [{"properties": {"show": lit("false"), "showAxisTitle": lit("false")}}]},
            container=title(t["c_risk_revenue"], t["s_risk_revenue"]),
            sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
 
-    visual("revenueTrend", 940, 110, 316, 214, "lineChart",
+    visual("revenueTrend", 316, 406, 675, 214, "lineChart",
            query={"Category": {"projections": [col("Date", "Month start", t["month"])]},
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Orders", "Revenue", t["revenue"])]}},
-           objects={**MONTH_AXIS,
+           objects={"categoryAxis": [{"properties": {**MONTH_AXIS["categoryAxis"][0]["properties"],
+                                                     "concatenateLabels": lit("false")}}],
                     "legend": [{"properties": {"position": lit("'Top'"), "showTitle": lit("false")}}],
                     # visible Y axis from zero, so ups and downs are not exaggerated; labels carry the units ($K / $M)
                     "valueAxis": [{"properties": {"show": lit("true"), "showAxisTitle": lit("false"),
                                                   "start": lit("0D"), "gridlineShow": lit("true")}}],
-                    "lineStyles": [{"properties": {"strokeWidth": lit("2D")}}]},
+                    "lineStyles": [{"properties": {"strokeWidth": lit("2D"), "lineChartType": lit("'smooth'")}}]},
            container=title(t["c_trend_risk"], t["s_trend_risk"]), filters=LAST_12_MONTHS)
-    # ---- the worklist: the main visual of the page, full width, bigger text and a turquoise frame.
+    # ---- the worklist: the main visual of the page (top left), bigger text, turquoise frame, 'Minimal' style.
     # Right-click an account -> Drill through -> account detail page of the same language.
-    visual("worklist", 316, 338, 940, 292, "tableEx",
+    visual("worklist", 316, 110, 675, 280, "tableEx",
            query={"Values": {"projections": [
                col("Customer", "Customer", t["customer"]),
                col("Account Health", f"Risk level{suffix}", t["f_risk"]),
@@ -708,15 +709,14 @@ def build_page(lang):
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
                     "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
-                                                      "fontColor": color(DARK), "bold": lit("true"),
-                                                      "wordWrap": lit("true")}}],
+                                                      "bold": lit("true"), "wordWrap": lit("true")}}],
                     "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
                                                "wordWrap": lit("true")}},
                                {"properties": {"fontColor": measure_color("Row change color")},
                                 "selector": {"metadata": "Account Health.Revenue change %"}}],
-                    "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
-                                             "rowPadding": lit("5D")}}]},
+                    "grid": [{"properties": {}}]},
            container={**title(t["c_worklist"], t["s_worklist"], size=15),
+                      "stylePreset": [{"properties": {"name": lit("'Minimal'")}}],
                       # stands out from the other cards: bigger title and a turquoise frame
                       "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
                                                  "radius": lit(f"{CARD_RADIUS}D"), "width": lit("2D")}}]},
@@ -806,11 +806,11 @@ def build_detail_page(lang):
                                              meas("Orders", "Revenue", t["revenue"])]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
                     "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
-                                                      "fontColor": color(DARK), "bold": lit("true")}}],
+                                                      "bold": lit("true")}}],
                     "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D")}}],
-                    "grid": [{"properties": {"gridHorizontal": lit("true"), "gridVertical": lit("false"),
-                                             "rowPadding": lit("4D")}}]},
-           container=title(t["c_orders"], t["s_orders"]),
+                    "grid": [{"properties": {}}]},
+           container={**title(t["c_orders"], t["s_orders"]),
+                      "stylePreset": [{"properties": {"name": lit("'None'")}}]},
            sort={"field": field("Column", "Date", "Date"), "direction": "Descending"})
 
     textbox("story", 24, 644, 1232, 56, [{"textRuns": [run(t["d_story"], 8, DARK)]}],

@@ -1,10 +1,36 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
   "name": "detail_en",
   "displayName": "Account detail",
   "displayOption": "FitToPage",
   "height": 720,
   "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#FFFFFF'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
   "filterConfig": {
     "filters": [
       {
@@ -20,45 +46,6 @@
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "c",
-              "Entity": "Customer",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "c"
-                          }
-                        },
-                        "Property": "Customer"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'Customer#000083761'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
         "howCreated": "Drillthrough"
       },
       {
@@ -74,45 +61,6 @@
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "a",
-              "Entity": "Account Health",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "a"
-                          }
-                        },
-                        "Property": "Risk level"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'High'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
         "howCreated": "Drillthrough"
       }
     ]
@@ -146,32 +94,6 @@
               }
             },
             "Property": "Risk level"
-          }
-        }
-      }
-    ]
-  },
-  "objects": {
-    "background": [
-      {
-        "properties": {
-          "color": {
-            "solid": {
-              "color": {
-                "expr": {
-                  "Literal": {
-                    "Value": "'#FFFFFF'"
-                  }
-                }
-              }
-            }
-          },
-          "transparency": {
-            "expr": {
-              "Literal": {
-                "Value": "0D"
-              }
-            }
           }
         }
       }

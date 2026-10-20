@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "orders",
   "position": {
     "x": 850,
     "y": 220,
     "z": 10000,
-    "height": 410,
     "width": 406,
+    "height": 410,
     "tabOrder": 10000
   },
   "visual": {
@@ -63,7 +63,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -189,37 +190,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "23a32cad7bcfca45bf53",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Date"
-              }
-            },
-            "Property": "Date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f0a59deee1fd147b6979",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Orders"
-              }
-            },
-            "Property": "Revenue"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

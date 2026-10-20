@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "orders",
   "position": {
     "x": 850,
     "y": 220,
     "z": 10000,
-    "height": 410,
     "width": 406,
+    "height": 410,
     "tabOrder": 10000
   },
   "visual": {
@@ -63,7 +63,8 @@
             },
             "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
     "objects": {
@@ -94,17 +95,6 @@
               "expr": {
                 "Literal": {
                   "Value": "10D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2D3540'"
-                    }
-                  }
                 }
               }
             },
@@ -140,29 +130,7 @@
       ],
       "grid": [
         {
-          "properties": {
-            "gridHorizontal": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "gridVertical": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "rowPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "4D"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },
@@ -201,6 +169,19 @@
               "expr": {
                 "Literal": {
                   "Value": "'Els més recents primer'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
                 }
               }
             }

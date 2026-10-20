@@ -68,7 +68,7 @@
   </div>
 
   <!-- Filter pills (short labels, so they are never cut with "...") -->
-  <div class="box slicer" style="left:1008px; top:24px; width:104px; height:54px;"><div class="label">Risk</div><div class="field">All <span>▾</span></div></div>
+  <div class="box slicer" style="left:1010px; top:15px; width:103px; height:71px;"><div class="label">Risk</div><div class="field">All <span>▾</span></div></div>
 
   <!-- Language flags (the active one has a turquoise outline) -->
   <div class="flag active" style="left:1158px; top:38px;">EN</div>
@@ -94,11 +94,11 @@
   <svg class="kpi-spark" style="left:200px; top:554px;" width="88" height="56" viewBox="0 0 88 64" preserveAspectRatio="none"><path d="M0,26 L11,24 L22,28 L33,23 L44,27 L55,26 L66,31 L77,35 L88,40 L88,64 L0,64Z" fill="#6BD9DE" opacity=".25"/><polyline points="0,26 11,24 22,28 33,23 44,27 55,26 66,31 77,35 88,40" fill="none" stroke="#6BD9DE" stroke-width="2"/></svg>
   <div class="kpi-sub" style="left:38px; top:634px;"><b style="color:var(--bad)">36.1%</b><span>of last-12-month revenue</span></div>
 
-  <!-- Top row: three compact charts (the worklist below gets the most space) -->
-  <div class="box" style="left:316px; top:110px; width:300px; height:214px;">
+  <!-- Layout set in Power BI Desktop (2026-10-20): worklist + accounts by risk on top, trend + revenue at risk below -->
+  <div class="box" style="left:1000px; top:110px; width:272px; height:280px;">
     <h3>Key accounts by risk level</h3>
     <div class="sub">The darker the colour, the higher the risk</div>
-    <svg width="272" height="150" viewBox="0 0 272 150" font-size="11" fill="#7A7575">
+    <svg width="244" height="200" viewBox="0 0 272 150" font-size="11" fill="#7A7575">
       <text x="0" y="24">High</text><rect x="56" y="8" width="60" height="22" rx="2" fill="#176366"/><text x="122" y="24" fill="#292626">26</text>
       <text x="0" y="60">Medium</text><rect x="56" y="44" width="120" height="22" rx="2" fill="#6BD9DE"/><text x="182" y="60" fill="#292626">52</text>
       <text x="0" y="96">Low</text><rect x="56" y="80" width="178" height="22" rx="2" fill="#AAE9EC"/><text x="240" y="96" fill="#292626">77</text>
@@ -106,10 +106,10 @@
     </svg>
   </div>
 
-  <div class="box" style="left:628px; top:110px; width:300px; height:214px;">
+  <div class="box" style="left:1000px; top:406px; width:272px; height:214px;">
     <h3>Revenue at risk by risk level</h3>
     <div class="sub">Only accounts with warning signals have revenue at risk</div>
-    <svg width="272" height="150" viewBox="0 0 272 150" font-size="11" fill="#7A7575">
+    <svg width="244" height="134" viewBox="0 0 272 150" font-size="11" fill="#7A7575">
       <text x="0" y="24">High</text><rect x="56" y="8" width="52" height="22" rx="2" fill="#176366"/><text x="114" y="24" fill="#292626">$7.3M</text>
       <text x="0" y="60">Medium</text><rect x="56" y="44" width="168" height="22" rx="2" fill="#6BD9DE"/><text x="230" y="60" fill="#292626">$23.7M</text>
       <text x="0" y="96">Low</text><text x="62" y="96" fill="#292626">$0</text>
@@ -117,11 +117,11 @@
     </svg>
   </div>
 
-  <div class="box" style="left:940px; top:110px; width:316px; height:214px;">
+  <div class="box" style="left:316px; top:406px; width:675px; height:214px;">
     <h3>Monthly revenue by risk level</h3>
     <div class="sub">Aug 1997 - Jul 1998 · click an account to see its months</div>
     <div class="legend"><span><i style="background:var(--high)"></i>High</span><span><i style="background:var(--medium)"></i>Medium</span><span><i style="background:var(--low)"></i>Low</span><span><i style="background:var(--inactive)"></i>Inactive</span></div>
-    <svg width="288" height="110" viewBox="0 0 288 110" font-size="9" fill="#7A7575">
+    <svg width="647" height="110" viewBox="0 0 288 110" preserveAspectRatio="none" font-size="9" fill="#7A7575">
       <text x="0" y="96">$0</text><text x="0" y="52">$2M</text><text x="0" y="12">$4M</text>
       <line x1="28" y1="49" x2="288" y2="49" stroke="#EDEBEB"/><line x1="28" y1="93" x2="288" y2="93" stroke="#E7ECEF"/>
       <polyline fill="none" stroke="#AAE9EC" stroke-width="2" points="28,18 52,16 76,19 100,17 124,20 148,15 172,18 196,16 220,19 244,17 268,16 288,18"/>
@@ -133,7 +133,7 @@
   </div>
 
   <!-- Worklist: the main visual, full width, bigger text, turquoise frame, drill through to the account detail -->
-  <div class="box worklist" style="left:316px; top:338px; width:940px; height:292px;">
+  <div class="box worklist" style="left:316px; top:110px; width:675px; height:280px;">
     <h3>Worklist for this week</h3>
     <div class="sub">High risk first, then by revenue at risk · right-click an account → Drill through → Account detail</div>
     <table>
@@ -145,8 +145,6 @@
         <tr><td>Customer#000083761</td><td>High</td><td class="num">$493,908</td><td class="num" style="color:var(--bad)">-47.5%</td><td>Overdue · Declining</td></tr>
         <tr><td>Customer#000039796</td><td>High</td><td class="num">$461,265</td><td class="num" style="color:var(--bad)">-40.2%</td><td>Overdue · Declining</td></tr>
         <tr><td>Customer#000…</td><td>High</td><td class="num">$…</td><td class="num" style="color:var(--bad)">-…%</td><td>Overdue · Declining</td></tr>
-        <tr><td>Customer#000…</td><td>High</td><td class="num">$…</td><td class="num" style="color:var(--bad)">-…%</td><td>Declining</td></tr>
-        <tr><td>Customer#000…</td><td>High</td><td class="num">$…</td><td class="num" style="color:var(--bad)">-…%</td><td>Overdue · Service</td></tr>
       </tbody>
     </table>
   </div>
