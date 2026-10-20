@@ -1,0 +1,8 @@
+# Packages of the KAM_CALLS Streamlit app (warehouse runtime, Snowflake Anaconda channel).
+# Without a pinned version the runtime uses an old Streamlit that has no st.toggle.
+name: sf_env
+channels:
+  - snowflake
+dependencies:
+  - streamlit=1.52.1
+  - snowflake-snowpark-python

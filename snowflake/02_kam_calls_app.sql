@@ -6,6 +6,7 @@ use role transformer;
 use database tpch_medallion;
 
 put 'file://streamlit/kam_calls.py' @kam_input.streamlit_stage overwrite = true auto_compress = false;
+put 'file://streamlit/environment.yml' @kam_input.streamlit_stage overwrite = true auto_compress = false;
 
 create or replace streamlit kam_input.kam_calls
     from '@tpch_medallion.kam_input.streamlit_stage'
