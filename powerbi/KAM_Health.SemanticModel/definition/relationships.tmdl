@@ -11,3 +11,9 @@ relationship fc6e911b-6032-4c10-a91f-f7dee5ee5d29
 	fromColumn: Orders.'Order date key'
 	toColumn: Date.'Date key'
 
+relationship 8c2ba703-0ec5-4027-98db-b5cce081fa13
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Call status'.'Customer key'
+	toColumn: Customer.'Customer key'
+

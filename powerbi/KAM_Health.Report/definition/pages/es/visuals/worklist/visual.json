@@ -89,6 +89,21 @@
               "queryRef": "Account Health.Signals ES",
               "nativeQueryRef": "Signals ES",
               "displayName": "Por qué"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Call status"
+                    }
+                  },
+                  "Property": "Last call"
+                }
+              },
+              "queryRef": "Call status.Last call",
+              "nativeQueryRef": "Last call",
+              "displayName": "Última llamada"
             }
           ]
         }
@@ -270,7 +285,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Primero riesgo alto, después por ingresos en riesgo · clic derecho en una cuenta → Obtener detalles → Ficha de la cuenta'"
+                  "Value": "'Primero riesgo alto, luego por ingresos en riesgo · ratón = contacto · clic derecho = ficha'"
                 }
               }
             }
@@ -322,6 +337,33 @@
               "expr": {
                 "Literal": {
                   "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Canvas'"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'tooltip_es'"
                 }
               }
             }

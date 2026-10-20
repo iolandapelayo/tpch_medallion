@@ -7,7 +7,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_QueryOrder = ["SnowflakeServer","Account Health","Customer","Orders","Date"]
+annotation PBI_QueryOrder = ["SnowflakeServer","Account Health","Customer","Orders","Date","Call status"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
@@ -17,6 +17,7 @@ ref table 'Account Health'
 ref table Customer
 ref table Orders
 ref table Date
+ref table 'Call status'
 
 ref cultureInfo en-US
 

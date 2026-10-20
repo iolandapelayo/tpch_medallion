@@ -6,7 +6,10 @@
     "ca",
     "detail_en",
     "detail_es",
-    "detail_ca"
+    "detail_ca",
+    "tooltip_en",
+    "tooltip_es",
+    "tooltip_ca"
   ],
   "activePageName": "en"
 }

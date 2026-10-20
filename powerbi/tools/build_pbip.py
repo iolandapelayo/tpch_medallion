@@ -83,12 +83,17 @@ T = {
                      "es": "Ago 1997 - jul 1998 · clic en una cuenta para ver sus meses",
                      "ca": "Ago 1997 - jul 1998 · clic en un compte per veure'n els mesos"},
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
-    "s_worklist": {"en": "High risk first, then by revenue at risk · right-click an account → Drill through → "
-                         "Account detail",
-                   "es": "Primero riesgo alto, después por ingresos en riesgo · clic derecho en una cuenta → "
-                         "Obtener detalles → Ficha de la cuenta",
-                   "ca": "Primer risc alt, després per ingressos en risc · clic dret en un compte per obrir-ne "
-                         "la fitxa (Fitxa del compte)"},
+    # short, so it ends before the call-status filter at the top right of the card
+    "s_worklist": {"en": "High risk first, then by revenue at risk · hover = contact · right-click = detail",
+                   "es": "Primero riesgo alto, luego por ingresos en riesgo · ratón = contacto · clic derecho = ficha",
+                   "ca": "Primer risc alt, després per ingressos en risc · ratolí = contacte · clic dret = fitxa"},
+    # call log (2026-10-20): tooltip with the contact details and the call-status filter of the worklist
+    "tooltip_page": {"en": "Customer contact", "es": "Contacto del cliente", "ca": "Contacte del client"},
+    "phone": {"en": "Phone", "es": "Teléfono", "ca": "Telèfon"},
+    "address": {"en": "Address", "es": "Dirección", "ca": "Adreça"},
+    "contact": {"en": "Contact person", "es": "Persona de contacto", "ca": "Persona de contacte"},
+    "last_call": {"en": "Last call", "es": "Última llamada", "ca": "Última trucada"},
+    "call_status": {"en": "Call status", "es": "Estado de la llamada", "ca": "Estat de la trucada"},
     # drill-through page (one per language)
     "d_page": {"en": "Account detail", "es": "Ficha de la cuenta", "ca": "Fitxa del compte"},
     "d_subtitle": {"en": "Why this account is at risk and how its revenue has moved over the last 24 months",
@@ -137,6 +142,7 @@ T = {
 SIGNAL_WORDS = {"en": ("Overdue", "Declining", "Service"), "es": ("Retraso", "Caída", "Servicio"),
                 "ca": ("Retard", "Caiguda", "Servei")}
 VALUES = {  # data values translated with DAX calculated columns
+    "call": {"Not called": ("No llamado", "No trucat"), "Called": ("Llamado", "Trucat")},
     "risk": {"High": ("Alto", "Alt"), "Medium": ("Medio", "Mitjà"), "Low": ("Bajo", "Baix"),
              "Inactive": ("Inactivo", "Inactiu")},
 }
@@ -248,8 +254,18 @@ TABLES = [
     ("Customer", "DIM_CUSTOMER", [
         ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
         ("Customer", "CUSTOMER_NAME", "string", None, False, {}),
+        ("Phone", "PHONE", "string", None, False, {}),
+        ("Address", "ADDRESS", "string", None, False, {"description": "Random text in TPC-H."}),
+        ("Contact person", "CONTACT_PERSON", "string", None, False,
+         {"description": "Initials. SYNTHETIC demo data: TPC-H has no contact person."}),
     ], [], [("Selected customer", "SELECTEDVALUE(Customer[Customer])", None,
-             "Name of the account on the detail page.")], None),
+             "Name of the account on the detail page."),
+            # contact tooltip of the worklist (one customer)
+            ("Selected phone", "SELECTEDVALUE(Customer[Phone])", None, "Phone of the customer in the tooltip."),
+            ("Selected address", "SELECTEDVALUE(Customer[Address])", None, "Address of the customer in the tooltip."),
+            ("Selected contact person", "SELECTEDVALUE(Customer[Contact person])", None,
+             "Contact person of the customer in the tooltip."),
+            ], None),
     ("Orders", "FCT_ORDERS", [
         # visible: the user unhid them in Desktop (2026-10-20)
         ("Customer key", "CUSTOMER_KEY", "int64", "0", False, {}),
@@ -271,6 +287,27 @@ TABLES = [
         ("Month start", "MONTH_START", "dateTime", "mmm yyyy", False,
          {"description": "First day of the month: a real date, so charts get a continuous axis with whole labels."}),
     ], [], [], 'WithMonth = Table.AddColumn(Typed, "MONTH_START", each Date.StartOfMonth(Date.From([FULL_DATE])), type date)'),
+    # whether the KAM called the customer in the last 7 days (Gold view over the Streamlit call log)
+    ("Call status", "DIM_CUSTOMER_CALL_STATUS", [
+        ("Customer key", "CUSTOMER_KEY", "int64", "0", True, {}),
+        ("Last call", "LAST_CALLED_AT", "dateTime", "yyyy-mm-dd", False,
+         {"description": "Last call logged in the Streamlit form (empty if never called)."}),
+        ("Recent calls", "RECENT_CALLS", "int64", "0", False, {"description": "Calls in the last 7 days."}),
+        ("Call status", "CALL_STATUS", "string", None, False,
+         {"sortByColumn": "'Call status order'",
+          "description": "Called = at least one call in the last 7 days; Not called otherwise."}),
+        ("Call status order", "CALL_STATUS_ORDER", "int64", "0", True, {}),
+    ], [
+        ("Call status ES", switch("'Call status'[Call status]", VALUES["call"], 0), {"sortByColumn": "'Call status order'"}),
+        ("Call status CA", switch("'Call status'[Call status]", VALUES["call"], 1), {"sortByColumn": "'Call status order'"}),
+    ], [
+        ("Selected last call", "VAR LastCall = SELECTEDVALUE('Call status'[Last call]) "
+         "RETURN IF(ISBLANK(LastCall), \"-\", FORMAT(LastCall, \"yyyy-mm-dd hh:nn\"))", None,
+         "Date and time of the last call in the tooltip (- if never called)."),
+        *[(f"Selected call status{'' if lang == 'en' else ' ' + lang.upper()}",
+           f"SELECTEDVALUE('Call status'[Call status{'' if lang == 'en' else ' ' + lang.upper()}])", None,
+           "Call status of the customer in the tooltip.") for lang in LANGS],
+    ], None),
 ]
 
 
@@ -332,7 +369,7 @@ write(D / "model.tmdl", "\n".join([
     "model Model", "\tculture: en-US", "\tdefaultPowerBIDataSourceVersion: powerBI_V3",
     "\tdiscourageImplicitMeasures", "\tsourceQueryCulture: en-US",
     "\tdataAccessOptions", "\t\tlegacyRedirects", "\t\treturnErrorValuesAsNull", "",
-    'annotation PBI_QueryOrder = ["SnowflakeServer","Account Health","Customer","Orders","Date"]', "",
+    'annotation PBI_QueryOrder = ["SnowflakeServer","Account Health","Customer","Orders","Date","Call status"]', "",
     # no auto date/time: the model already has the Date table from dbt
     "annotation __PBI_TimeIntelligenceEnabled = 0", "",
     *[f"ref table {q(t[0])}" for t in TABLES], "",
@@ -347,10 +384,12 @@ for t in TABLES:
     write(D / "tables" / f"{t[0]}.tmdl", table_tmdl(*t))
 
 
-def rel(from_col, to_col, both=False):
+def rel(from_col, to_col, both=False, one_to_one=False):
     out = [f"relationship {uuid.uuid4()}"]
     if both:
         out.append("\tcrossFilteringBehavior: bothDirections")
+    if one_to_one:
+        out.append("\tfromCardinality: one")
     return "\n".join(out + [f"\tfromColumn: {from_col}", f"\ttoColumn: {to_col}", ""])
 
 
@@ -358,6 +397,8 @@ write(D / "relationships.tmdl", "\n".join([
     rel("'Account Health'.'Customer key'", "Customer.'Customer key'", both=True),
     rel("Orders.'Customer key'", "Customer.'Customer key'"),
     rel("Orders.'Order date key'", "'Date'.'Date key'"),
+    # one row per customer on both sides; both directions so the call-status filter reaches the worklist
+    rel("'Call status'.'Customer key'", "Customer.'Customer key'", both=True, one_to_one=True),
 ]))
 
 # ============================================================================ report (PBIR)
@@ -429,7 +470,8 @@ write(STATIC / "RegisteredResources/KAMTheme.json", {
 })
 
 write(R / "pages/pages.json", {"$schema": f"{S}/item/report/definition/pagesMetadata/1.0.0/schema.json",
-                               "pageOrder": LANGS + [f"detail_{lang}" for lang in LANGS],
+                               "pageOrder": LANGS + [f"detail_{lang}" for lang in LANGS]
+                                            + [f"tooltip_{lang}" for lang in LANGS],
                                "activePageName": "en"})
 
 
@@ -528,12 +570,12 @@ def run(text, size, color_=TEXT, bold=False, font=FONT_TEXT):
     return {"value": text, "textStyle": style}
 
 
-def new_page(name, display_name, hidden, **extra):
+def new_page(name, display_name, hidden, width=1280, height=720, display="FitToPage", **extra):
     """Writes page.json and returns the helpers that add visuals to that page."""
     page_dir = R / "pages" / name
     page = {
         "$schema": f"{S}/item/report/definition/page/1.4.0/schema.json",
-        "name": name, "displayName": display_name, "displayOption": "FitToPage", "height": 720, "width": 1280,
+        "name": name, "displayName": display_name, "displayOption": display, "height": height, "width": width,
         "objects": {"background": [{"properties": {"color": color("#FFFFFF"), "transparency": lit("0D")}}]},
         **extra,
     }
@@ -716,6 +758,7 @@ def build_page(lang):
                col("Account Health", "Revenue at risk", t["atrisk"]),
                col("Account Health", "Revenue change %", t["change_short"]),
                col("Account Health", f"Signals {lang.upper()}", t["why"]),
+               col("Call status", "Last call", t["last_call"]),
            ]}},
            objects={"total": [{"properties": {"totals": lit("false")}}],
                     "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
@@ -729,14 +772,73 @@ def build_page(lang):
                       "stylePreset": [{"properties": {"name": lit("'Minimal'")}}],
                       # stands out from the other cards: bigger title and a turquoise frame
                       "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
-                                                 "radius": lit(f"{CARD_RADIUS}D"), "width": lit("2D")}}]},
+                                                 "radius": lit(f"{CARD_RADIUS}D"), "width": lit("2D")}}],
+                      # hovering a row shows the contact page of the same language
+                      "visualTooltip": [{"properties": {"show": lit("true"), "type": lit("'Canvas'"),
+                                                        "section": lit(f"'tooltip_{lang}'")}}]},
            sort=[{"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"},
                  {"field": field("Column", "Account Health", "Revenue at risk"), "direction": "Descending"}])
+
+    # ---- call-status filter at the top right of the worklist card (after it, so it is drawn on top).
+    # Opens on "Not called", can be changed to see the called accounts too; it only filters the worklist.
+    call_col = f"Call status{suffix}"
+    not_called = "Not called" if lang == "en" else VALUES["call"]["Not called"][LANGS.index(lang) - 1]
+    visual("callFilter", 841, 118, 142, 50, "slicer",
+           query={"Values": {"projections": [col("Call status", call_col, t["call_status"])]}},
+           objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}],
+                    "general": [{"properties": {"filter": {"filter": {
+                        "Version": 2, "From": [{"Name": "s", "Entity": "Call status", "Type": 0}],
+                        "Where": [{"Condition": {"In": {
+                            "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "s"}},
+                                                        "Property": call_col}}],
+                            "Values": [[{"Literal": {"Value": f"'{not_called}'"}}]]}}}]}}}}],
+                    "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontColor": color(ACCENT),
+                                               "bold": lit("true"), "fontSize": lit("8D")}}],
+                    "items": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("9D")}}]},
+           container={"border": [{"properties": {"show": lit("true"), "color": color(ACCENT_PALE),
+                                                 "radius": lit("10D")}}],
+                      "padding": [{"properties": {"top": lit("2D"), "bottom": lit("2D"),
+                                                  "left": lit("8D"), "right": lit("8D")}}]})
 
     # ---- bottom card: how to read the cockpit
     textbox("story", 316, 644, 940, 56, [{"textRuns": [run(t["story"], 8, DARK)]}],
             container={"padding": [{"properties": {"top": lit("8D"), "bottom": lit("6D"),
                                                    "left": lit("16D"), "right": lit("16D")}}]})
+
+    # the call-status filter only filters the worklist: every other visual ignores it
+    page_json = R / "pages" / lang / "page.json"
+    page = json.loads(page_json.read_text(encoding="utf-8"))
+    page["visualInteractions"] = [{"source": "callFilter", "target": v.name, "type": "NoFilter"}
+                                  for v in sorted((R / "pages" / lang / "visuals").iterdir())
+                                  if v.name not in ("callFilter", "worklist")]
+    write(page_json, page)
+
+
+def build_tooltip_page(lang):
+    """Contact card shown when hovering a row of the worklist."""
+    t = {k: v[lang] for k, v in T.items()}
+    suffix = "" if lang == "en" else f" {lang.upper()}"
+    visual, _ = new_page(f"tooltip_{lang}", t["tooltip_page"], hidden=True, width=320, height=240,
+                         display="ActualSize", type="Tooltip",
+                         pageBinding={"name": f"tooltip_{lang}", "type": "Tooltip"})
+    cards = [  # (name, entity, measure, label, x, y, w, value size)
+        ("name", "Customer", "Selected customer", None, 8, 4, 304, 14),
+        ("contact", "Customer", "Selected contact person", t["contact"], 8, 58, 148, 11),
+        ("phone", "Customer", "Selected phone", t["phone"], 164, 58, 148, 11),
+        ("address", "Customer", "Selected address", t["address"], 8, 118, 304, 11),
+        ("lastCall", "Call status", "Selected last call", t["last_call"], 8, 178, 148, 11),
+        ("callStatus", "Call status", f"Selected call status{suffix}", t["call_status"], 164, 178, 148, 11),
+    ]
+    for name, entity, measure, label, x, y, w, size in cards:
+        visual(name, x, y, w, 56, "card",
+               query={"Values": {"projections": [meas(entity, measure, label)]}},
+               objects={"labels": [{"properties": {"color": color(ACCENT if name == "callStatus" else DARK),
+                                                   "fontSize": lit(f"{size}D"),
+                                                   "fontFamily": text_lit(FONT_HEAD)}}],
+                        "categoryLabels": [{"properties": {"show": lit("false" if label is None else "true"),
+                                                           "color": color("#7A7575"), "fontSize": lit("8D"),
+                                                           "fontFamily": text_lit(FONT_TEXT)}}]},
+               container=BARE)
 
 
 FIRST_MONTH_24 = "1996-08-01"   # account detail: last 24 complete months, so last year can be compared with the one before
@@ -831,4 +933,5 @@ def build_detail_page(lang):
 for lang in LANGS:
     build_page(lang)
     build_detail_page(lang)
+    build_tooltip_page(lang)
 print("PBIP written to", OUT)

@@ -30,5 +30,132 @@
         }
       }
     ]
-  }
+  },
+  "visualInteractions": [
+    {
+      "source": "callFilter",
+      "target": "flag_ca",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "flag_en",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "flag_es",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi1_card",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi1_spark",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi1_spark_cap",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi1_sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi2_card",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi2_spark",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi2_spark_cap",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi2_sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi3_card",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi3_spark",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi3_spark_cap",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "kpi3_sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "revenueTrend",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "riskAccounts",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "riskRevenue",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "slicer1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "slicer2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "story",
+      "type": "NoFilter"
+    },
+    {
+      "source": "callFilter",
+      "target": "title",
+      "type": "NoFilter"
+    }
+  ]
 }

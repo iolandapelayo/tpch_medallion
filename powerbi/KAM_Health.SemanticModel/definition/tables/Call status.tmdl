@@ -1,0 +1,87 @@
+table 'Call status'
+
+	/// Date and time of the last call in the tooltip (- if never called).
+	measure 'Selected last call' = VAR LastCall = SELECTEDVALUE('Call status'[Last call]) RETURN IF(ISBLANK(LastCall), "-", FORMAT(LastCall, "yyyy-mm-dd hh:nn"))
+
+	/// Call status of the customer in the tooltip.
+	measure 'Selected call status' = SELECTEDVALUE('Call status'[Call status])
+
+	/// Call status of the customer in the tooltip.
+	measure 'Selected call status ES' = SELECTEDVALUE('Call status'[Call status ES])
+
+	/// Call status of the customer in the tooltip.
+	measure 'Selected call status CA' = SELECTEDVALUE('Call status'[Call status CA])
+
+	column 'Customer key'
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: CUSTOMER_KEY
+
+		annotation SummarizationSetBy = User
+
+	/// Last call logged in the Streamlit form (empty if never called).
+	column 'Last call'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: LAST_CALLED_AT
+
+		annotation SummarizationSetBy = User
+
+	/// Calls in the last 7 days.
+	column 'Recent calls'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: RECENT_CALLS
+
+		annotation SummarizationSetBy = User
+
+	/// Called = at least one call in the last 7 days; Not called otherwise.
+	column 'Call status'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CALL_STATUS
+		sortByColumn: 'Call status order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Call status order'
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: CALL_STATUS_ORDER
+
+		annotation SummarizationSetBy = User
+
+	column 'Call status ES' = SWITCH('Call status'[Call status], "Not called", "No llamado", "Called", "Llamado", 'Call status'[Call status])
+		dataType: string
+		summarizeBy: none
+		displayFolder: Translations
+		sortByColumn: 'Call status order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Call status CA' = SWITCH('Call status'[Call status], "Not called", "No trucat", "Called", "Trucat", 'Call status'[Call status])
+		dataType: string
+		summarizeBy: none
+		displayFolder: Translations
+		sortByColumn: 'Call status order'
+
+		annotation SummarizationSetBy = User
+
+	partition 'Call status' = m
+		mode: import
+		source =
+				let
+				    Source = Snowflake.Databases(SnowflakeServer, "TPCH_WH", [Role = "TRANSFORMER"]),
+				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
+				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
+				    Data = Gold{[Name = "DIM_CUSTOMER_CALL_STATUS", Kind = "Table"]}[Data],
+				    Kept = Table.SelectColumns(Data, {"CUSTOMER_KEY", "LAST_CALLED_AT", "RECENT_CALLS", "CALL_STATUS", "CALL_STATUS_ORDER"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"CUSTOMER_KEY", Int64.Type}, {"RECENT_CALLS", Int64.Type}, {"CALL_STATUS_ORDER", Int64.Type}})
+				in
+				    Typed

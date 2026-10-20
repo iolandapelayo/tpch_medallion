@@ -5,6 +5,15 @@ table Customer
 	measure 'Selected customer' = SELECTEDVALUE(Customer[Customer])
 		lineageTag: 5a78777a-be04-4d53-8647-41e20a47b9ec
 
+	/// Phone of the customer in the tooltip.
+	measure 'Selected phone' = SELECTEDVALUE(Customer[Phone])
+
+	/// Address of the customer in the tooltip.
+	measure 'Selected address' = SELECTEDVALUE(Customer[Address])
+
+	/// Contact person of the customer in the tooltip.
+	measure 'Selected contact person' = SELECTEDVALUE(Customer[Contact person])
+
 	column 'Customer key'
 		dataType: int64
 		isHidden
@@ -23,6 +32,29 @@ table Customer
 
 		annotation SummarizationSetBy = User
 
+	column Phone
+		dataType: string
+		summarizeBy: none
+		sourceColumn: PHONE
+
+		annotation SummarizationSetBy = User
+
+	/// Random text in TPC-H.
+	column Address
+		dataType: string
+		summarizeBy: none
+		sourceColumn: ADDRESS
+
+		annotation SummarizationSetBy = User
+
+	/// Initials. SYNTHETIC demo data: TPC-H has no contact person.
+	column 'Contact person'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: CONTACT_PERSON
+
+		annotation SummarizationSetBy = User
+
 	partition Customer = m
 		mode: import
 		source =
@@ -31,7 +63,7 @@ table Customer
 				    Database = Source{[Name = "TPCH_MEDALLION", Kind = "Database"]}[Data],
 				    Gold = Database{[Name = "GOLD", Kind = "Schema"]}[Data],
 				    Data = Gold{[Name = "DIM_CUSTOMER", Kind = "Table"]}[Data],
-				    Kept = Table.SelectColumns(Data, {"CUSTOMER_KEY", "CUSTOMER_NAME"}),
+				    Kept = Table.SelectColumns(Data, {"CUSTOMER_KEY", "CUSTOMER_NAME", "PHONE", "ADDRESS", "CONTACT_PERSON"}),
 				    Typed = Table.TransformColumnTypes(Kept, {{"CUSTOMER_KEY", Int64.Type}})
 				in
 				    Typed

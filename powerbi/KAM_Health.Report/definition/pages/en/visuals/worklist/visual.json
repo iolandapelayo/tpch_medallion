@@ -89,6 +89,21 @@
               "queryRef": "Account Health.Signals EN",
               "nativeQueryRef": "Signals EN",
               "displayName": "Why"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Call status"
+                    }
+                  },
+                  "Property": "Last call"
+                }
+              },
+              "queryRef": "Call status.Last call",
+              "nativeQueryRef": "Last call",
+              "displayName": "Last call"
             }
           ]
         }
@@ -270,7 +285,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'High risk first, then by revenue at risk · right-click an account → Drill through → Account detail'"
+                  "Value": "'High risk first, then by revenue at risk · hover = contact · right-click = detail'"
                 }
               }
             }
@@ -322,6 +337,33 @@
               "expr": {
                 "Literal": {
                   "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Canvas'"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'tooltip_en'"
                 }
               }
             }
