@@ -584,16 +584,19 @@ def build_page(lang):
         {"textRuns": [run(t["title"], 18, DARK, bold=True, font=FONT_HEAD)]},
         {"textRuns": [run(t["subtitle"], 10, ACCENT)]},
     ], container={**box("#FFFFFF", 28),
-                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("392D")}}]})
+                  "padding": [{"properties": {"top": lit("16D"), "left": lit("26D"), "right": lit("440D")}}]})
 
     # filters as pills with a pale blue outline inside the band (short labels: never cut with "...")
-    # segment, country and tier have a single value (Furniture, United Kingdom, tier A): only risk
-    slicers = [("Account Health", f"Risk level{suffix}", t["f_risk"])]
-    slicer_x, slicer_w = [1010], [103]   # right-aligned next to the flags
+    # segment, country and tier have a single value (Furniture, United Kingdom, tier A): risk and customer.
+    # The customer filter (2026-10-20) sits left of risk and has a search box (160 key accounts).
+    slicers = [("Account Health", f"Risk level{suffix}", t["f_risk"]), ("Customer", "Customer", t["customer"])]
+    slicer_x, slicer_w = [1010, 842], [103, 160]   # right-aligned next to the flags
     for i, (entity, prop, label) in enumerate(slicers):
+        general = [{"properties": {"selfFilterEnabled": lit("true")}}] if entity == "Customer" else []
         visual(f"slicer{i + 1}", slicer_x[i], 15, slicer_w[i], 71, "slicer",
                query={"Values": {"projections": [col(entity, prop, label)]}},
-               objects={"data": [{"properties": {"mode": lit("'Dropdown'")}}],
+               objects={**({"general": general} if general else {}),
+                        "data": [{"properties": {"mode": lit("'Dropdown'")}}],
                         "header": [{"properties": {"fontFamily": text_lit(FONT_TEXT),
                                                    "fontColor": color(ACCENT), "bold": lit("true")}}],
                         "items": [{"properties": {"fontFamily": text_lit(FONT_TEXT)}}]},
@@ -663,6 +666,11 @@ def build_page(lang):
                                                            "fontFamily": text_lit(FONT_TEXT)}}]},
                container=BARE)
 
+    # data labels of the two bar charts: the exact number at the end of each bar, in dark grey
+    BAR_LABELS = [{"properties": {"show": lit("true"), "labelPosition": lit("'OutsideEnd'"),
+                                  "color": color(DARK), "fontSize": lit("9D"),
+                                  "fontFamily": text_lit(FONT_TEXT)}}]
+
     # ---- layout set by the user in Desktop (2026-10-20):
     #      top row = worklist (wide) + accounts by risk level; bottom row = monthly trend (wide) + revenue at risk
     visual("riskAccounts", 1000, 110, 272, 280, "barChart",
@@ -670,8 +678,10 @@ def build_page(lang):
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Accounts", t["accounts"])]}},
            objects={"legend": [{"properties": {"show": lit("false")}}],
+                    "labels": BAR_LABELS,
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
-                    "valueAxis": [{"properties": {"showAxisTitle": lit("false")}}]},
+                    # the data labels give the exact number, so the value axis would only repeat it
+                    "valueAxis": [{"properties": {"show": lit("false"), "showAxisTitle": lit("false")}}]},
            container=title(t["c_risk_accounts"], t["s_tierrisk"]),
            sort={"field": field("Column", "Account Health", f"Risk level{suffix}"), "direction": "Ascending"})
     visual("riskRevenue", 1000, 406, 272, 214, "barChart",
@@ -679,7 +689,7 @@ def build_page(lang):
                   "Series": {"projections": [col("Account Health", f"Risk level{suffix}", t["risk"])]},
                   "Y": {"projections": [meas("Account Health", "Total revenue at risk", t["atrisk"])]}},
            objects={"legend": [{"properties": {"show": lit("false")}}],
-                    "labels": [{"properties": {"show": lit("true")}}],
+                    "labels": BAR_LABELS,
                     "categoryAxis": [{"properties": {"showAxisTitle": lit("false")}}],
                     "valueAxis": [{"properties": {"show": lit("false"), "showAxisTitle": lit("false")}}]},
            container=title(t["c_risk_revenue"], t["s_risk_revenue"]),

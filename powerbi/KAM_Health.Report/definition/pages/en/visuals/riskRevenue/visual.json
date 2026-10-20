@@ -4,10 +4,10 @@
   "position": {
     "x": 1000,
     "y": 406,
-    "z": 22000,
+    "z": 23000,
     "width": 272,
     "height": 214,
-    "tabOrder": 22000
+    "tabOrder": 23000
   },
   "visual": {
     "visualType": "barChart",
@@ -111,6 +111,38 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'OutsideEnd'"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2D3540'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inter, ''Segoe UI'', sans-serif'"
                 }
               }
             }
