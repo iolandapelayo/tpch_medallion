@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "orders",
   "position": {
     "x": 850,
     "y": 220,
     "z": 10000,
-    "width": 406,
     "height": 410,
+    "width": 406,
     "tabOrder": 10000
   },
   "visual": {
@@ -63,8 +63,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

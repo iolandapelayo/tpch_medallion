@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "worklist",
   "position": {
     "x": 316,
     "y": 338,
     "z": 24000,
-    "width": 940,
     "height": 292,
+    "width": 940,
     "tabOrder": 24000
   },
   "visual": {
@@ -121,8 +121,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {

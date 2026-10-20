@@ -36,7 +36,7 @@ table Date
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	partition 'Date' = m
+	partition Date = m
 		mode: import
 		source =
 				let

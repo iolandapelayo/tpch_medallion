@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "worklist",
   "position": {
-    "x": 316,
-    "y": 338,
+    "x": 315.60997671652791,
+    "y": 109.77738320574885,
     "z": 24000,
-    "width": 940,
-    "height": 292,
+    "height": 279.93232717465958,
+    "width": 675.13090671535542,
     "tabOrder": 24000
   },
   "visual": {
@@ -121,8 +121,7 @@
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": false
+        ]
       }
     },
     "objects": {
@@ -153,17 +152,6 @@
               "expr": {
                 "Literal": {
                   "Value": "10D"
-                }
-              }
-            },
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#2D3540'"
-                    }
-                  }
                 }
               }
             },
@@ -236,29 +224,7 @@
       ],
       "grid": [
         {
-          "properties": {
-            "gridHorizontal": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "gridVertical": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "rowPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "5D"
-                }
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },
@@ -347,8 +313,95 @@
             }
           }
         }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Minimal'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c07b7dc3cd50b97ebf16",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "Customer"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "444e304a0af230a847d7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Risk level"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "30da80be710c87fe7515",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Revenue at risk"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7e62e216cb50bb53a59b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Revenue change %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0786ceeb9f499031ae53",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Signals EN"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

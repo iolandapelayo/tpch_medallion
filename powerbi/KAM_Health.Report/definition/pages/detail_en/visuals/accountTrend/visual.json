@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "accountTrend",
   "position": {
     "x": 24,
     "y": 220,
     "z": 9000,
-    "width": 812,
     "height": 410,
+    "width": 812,
     "tabOrder": 9000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Date.Month start",
               "nativeQueryRef": "Month start",
+              "active": true,
               "displayName": "Month"
             }
           ]
@@ -270,6 +271,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "50ff8490e590f2f0d9d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Orders"
+              }
+            },
+            "Property": "Revenue"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

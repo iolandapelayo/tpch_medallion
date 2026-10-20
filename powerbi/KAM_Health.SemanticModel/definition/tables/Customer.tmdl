@@ -3,6 +3,7 @@ table Customer
 
 	/// Name of the account on the detail page.
 	measure 'Selected customer' = SELECTEDVALUE(Customer[Customer])
+		lineageTag: 5a78777a-be04-4d53-8647-41e20a47b9ec
 
 	column 'Customer key'
 		dataType: int64

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "revenueTrend",
   "position": {
-    "x": 940,
-    "y": 110,
+    "x": 315.60997671652791,
+    "y": 406.17631786127072,
     "z": 23000,
-    "width": 316,
-    "height": 214,
+    "height": 214.06589725121026,
+    "width": 675.13090671535542,
     "tabOrder": 23000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Date.Month start",
               "nativeQueryRef": "Month start",
+              "active": true,
               "displayName": "Month"
             }
           ]
@@ -103,6 +104,13 @@
                   "Value": "datetime'1998-07-01T00:00:00'"
                 }
               }
+            },
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -168,6 +176,13 @@
               "expr": {
                 "Literal": {
                   "Value": "2D"
+                }
+              }
+            },
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'smooth'"
                 }
               }
             }
@@ -292,6 +307,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "1c73b3b97260ba45a86d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Risk level"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "77d64f7ee3c781245999",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Orders"
+              }
+            },
+            "Property": "Revenue"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

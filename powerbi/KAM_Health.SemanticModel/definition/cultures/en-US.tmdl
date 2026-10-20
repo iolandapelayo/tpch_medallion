@@ -176,69 +176,7 @@ cultureInfo en-US
 			          "ConceptualProperty": "Account tier"
 			        }
 			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "Account tier": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Tier": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Categoría de cuenta": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Categoría": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Categoria del compte": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "Categoria": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        }
-			      ]
+			      "State": "Generated"
 			    },
 			    "account_health.risk_level": {
 			      "Definition": {
@@ -363,7 +301,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Change 12m": {
+			          "Change 12 months": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -373,7 +311,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Variación 12m": {
+			          "Variación 12 meses": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -383,7 +321,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Variació 12m": {
+			          "Variació 12 mesos": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -548,7 +486,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "12m revenue vs previous 12m": {
+			          "Last 12 months vs previous 12 months": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -558,7 +496,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Ingresos 12m vs 12m anteriores": {
+			          "Últimos 12 meses vs 12 anteriores": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -568,7 +506,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Ingressos 12m vs 12m anteriors": {
+			          "Últims 12 mesos vs 12 anteriors": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -589,7 +527,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "12m revenue vs previous 12m": {
+			          "Last 12 months vs previous 12 months": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -599,7 +537,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Ingresos 12m vs 12m anteriores": {
+			          "Últimos 12 meses vs 12 anteriores": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -609,7 +547,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Ingressos 12m vs 12m anteriors": {
+			          "Últims 12 mesos vs 12 anteriors": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -827,6 +765,296 @@ cultureInfo en-US
 			        },
 			        {
 			          "Ingressos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_risk_level": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected risk level"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Risk level": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_signals_en": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected signals EN"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Why": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.revenue_last_12m_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Revenue last 12m total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Revenue 12 months": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingresos 12 meses": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ingressos 12 mesos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.revenue_change_12m": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Revenue change 12m"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Last 12 months vs previous 12 months": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Últimos 12 meses vs 12 anteriores": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Últims 12 mesos vs 12 anteriors": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_risk_level_es": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected risk level ES"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivel de riesgo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_signals_es": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected signals ES"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Por qué": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_risk_level_ca": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected risk level CA"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivell de risc": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "account_health.selected_signals_ca": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Account Health",
+			          "ConceptualProperty": "Selected signals CA"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Per què": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "Date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Date": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Fecha": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Data": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "customer.selected_customer": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Customer",
+			          "ConceptualProperty": "Selected customer"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Customer": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Cliente": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Client": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "slicer1",
   "position": {
-    "x": 1008,
-    "y": 24,
+    "x": 1009.9519254928894,
+    "y": 15.094390190790467,
     "z": 2000,
-    "width": 104,
-    "height": 54,
+    "height": 71.355299083736753,
+    "width": 102.91629675538954,
     "tabOrder": 2000
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "Account Health.Risk level",
               "nativeQueryRef": "Risk level",
+              "active": true,
               "displayName": "Risk"
             }
           ]
@@ -55,13 +56,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
                 }
               }
             },
@@ -93,13 +87,6 @@
               "expr": {
                 "Literal": {
                   "Value": "'Inter, ''Segoe UI'', sans-serif'"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "9D"
                 }
               }
             }
@@ -175,5 +162,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "78f638588433bc1661bd",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Account Health"
+              }
+            },
+            "Property": "Risk level"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

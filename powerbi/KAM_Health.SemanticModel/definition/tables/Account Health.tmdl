@@ -1,24 +1,6 @@
 table 'Account Health'
 	lineageTag: ce0dcc0d-a388-46d8-8447-efb756757161
 
-	/// Risk level of the account on the detail page.
-	measure 'Selected risk level' = SELECTEDVALUE('Account Health'[Risk level])
-
-	/// Risk level of the account on the detail page.
-	measure 'Selected risk level ES' = SELECTEDVALUE('Account Health'[Risk level ES])
-
-	/// Risk level of the account on the detail page.
-	measure 'Selected risk level CA' = SELECTEDVALUE('Account Health'[Risk level CA])
-
-	/// Warning signals of the account on the detail page (- when it has none).
-	measure 'Selected signals EN' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals EN]) RETURN IF(SignalText = "", "-", SignalText)
-
-	/// Warning signals of the account on the detail page (- when it has none).
-	measure 'Selected signals ES' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals ES]) RETURN IF(SignalText = "", "-", SignalText)
-
-	/// Warning signals of the account on the detail page (- when it has none).
-	measure 'Selected signals CA' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals CA]) RETURN IF(SignalText = "", "-", SignalText)
-
 	/// Number of accounts (customers with at least one order).
 	measure Accounts = COUNTROWS('Account Health')
 		formatString: #,0
@@ -69,17 +51,45 @@ table 'Account Health'
 		formatString: ▲ +0.0%;▼ -0.0%;0.0%
 		lineageTag: 73504135-7686-4d8c-a7e5-f80cc52efe74
 
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level' = SELECTEDVALUE('Account Health'[Risk level])
+		lineageTag: 49c013ed-cc07-4acd-80e9-a8eea0024568
+
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level ES' = SELECTEDVALUE('Account Health'[Risk level ES])
+		lineageTag: 6a1b85d5-8a6f-494f-b7d4-59dbd19b1f34
+
+	/// Risk level of the account on the detail page.
+	measure 'Selected risk level CA' = SELECTEDVALUE('Account Health'[Risk level CA])
+		lineageTag: 95aa0e3e-e0c8-4651-83cd-b1aae2dbf8f3
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals EN' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals EN]) RETURN IF(SignalText = "", "-", SignalText)
+		lineageTag: 56e33ee4-1849-443c-825b-877c067a207f
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals ES' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals ES]) RETURN IF(SignalText = "", "-", SignalText)
+		lineageTag: 5ba223a2-661a-475b-a530-3d8ae0156c55
+
+	/// Warning signals of the account on the detail page (- when it has none).
+	measure 'Selected signals CA' = VAR SignalText = SELECTEDVALUE('Account Health'[Signals CA]) RETURN IF(SignalText = "", "-", SignalText)
+		lineageTag: 530fda09-c801-4ae8-9015-b888e8369219
+
 	/// Green if the active accounts' revenue grew, red if it fell.
 	measure 'Change active color' = IF([Revenue change active] >= 0, "#3A9E5F", "#C0392B")
+		lineageTag: 96023ca8-1452-4260-98aa-29d3764d7e8e
 
 	/// Green if the high-risk accounts' revenue grew, red if it fell.
 	measure 'Change high-risk color' = IF([Revenue change high-risk] >= 0, "#3A9E5F", "#C0392B")
+		lineageTag: 7f465a30-e4d7-4317-b81a-069b16da4032
 
 	/// Red from 25% of revenue at risk, green below.
 	measure 'At risk share color' = IF([% of revenue at risk] >= 0.25, "#C0392B", "#3A9E5F")
+		lineageTag: a5cf6d79-159e-4c52-9552-0dfb883cf073
 
 	/// Green or red for the 12-month change of each account in the worklist.
 	measure 'Row change color' = VAR RowChange = SELECTEDVALUE('Account Health'[Revenue change %]) RETURN IF(ISBLANK(RowChange), BLANK(), IF(RowChange >= 0, "#3A9E5F", "#C0392B"))
+		lineageTag: 7571dff9-6463-4530-85fb-a9aabcf8037e
 
 	column 'Customer key'
 		dataType: int64

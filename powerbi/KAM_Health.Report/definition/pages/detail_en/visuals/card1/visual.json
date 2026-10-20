@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "card1",
   "position": {
     "x": 24,
     "y": 110,
     "z": 3000,
-    "width": 196,
     "height": 96,
+    "width": 196,
     "tabOrder": 3000
   },
   "visual": {
@@ -106,5 +106,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "116fda6ff34e18614ee7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer"
+              }
+            },
+            "Property": "Selected customer"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
