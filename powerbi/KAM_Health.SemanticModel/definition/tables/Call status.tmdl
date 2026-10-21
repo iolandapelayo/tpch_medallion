@@ -1,5 +1,8 @@
 table 'Call status'
 
+	/// Light turquoise background for the worklist rows of the accounts called in the last 7 days.
+	measure 'Row call color' = VAR RowCallStatus = SELECTEDVALUE('Call status'[Call status]) RETURN IF(RowCallStatus = "Called", "#AAE9EC")
+
 	/// Date and time of the last call in the tooltip (- if never called).
 	measure 'Selected last call' = VAR LastCall = SELECTEDVALUE('Call status'[Last call]) RETURN IF(ISBLANK(LastCall), "-", FORMAT(LastCall, "yyyy-mm-dd hh:nn"))
 

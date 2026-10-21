@@ -9,10 +9,18 @@ from snowflake.snowpark.context import get_active_session
 
 session = get_active_session()
 CALLED_WINDOW_DAYS = 7      # same as the dbt var called_window_days
+# Power BI Desktop has no web address, so a web page cannot bring it back to the front.
+# If the report is published to Power BI Service, put its URL here and a "Back to Power BI" button appears.
+POWER_BI_REPORT_URL = ""
 
 st.title("KAM call log")
 st.caption("Furniture · United Kingdom · key accounts (tier A). "
            f"An account counts as **Called** if it was called in the last {CALLED_WINDOW_DAYS} days.")
+if POWER_BI_REPORT_URL:
+    st.link_button("← Back to Power BI", POWER_BI_REPORT_URL, type="primary")
+else:
+    st.info("**Back to Power BI:** close this tab (or press Alt+Tab) and click **Refresh** in Power BI "
+            "to see the new call status.")
 
 # Same order as the Power BI worklist: High risk first, then by revenue at risk
 WORKLIST = """
@@ -47,7 +55,7 @@ with st.form("log_call", clear_on_submit=True):
     if st.form_submit_button("Mark as called", type="primary") and customer is not None:
         session.sql("insert into tpch_medallion.kam_input.call_log (customer_key, notes) values (?, ?)",
                     params=[int(customer), notes or None]).collect()
-        st.success(f"Call logged: {labels[customer].split(' · ')[0]}. Refresh Power BI to see it.")
+        st.success(f"Call logged: {labels[customer].split(' · ')[0]}. Go back to Power BI and click Refresh.")
         st.rerun()
 
 st.subheader("Latest calls")

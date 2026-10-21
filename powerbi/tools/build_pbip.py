@@ -91,6 +91,7 @@ T = {
                    "es": "Primero riesgo alto, luego por ingresos en riesgo · clic derecho = ficha",
                    "ca": "Primer risc alt, després per ingressos en risc · clic dret = fitxa"},
     "log_call": {"en": "Log a call", "es": "Anotar llamada", "ca": "Anotar trucada"},
+    "call_form": {"en": "Call log", "es": "Registro de llamadas", "ca": "Registre de trucades"},
     "log_call_tip": {"en": "Opens the KAM call log form in Snowflake (then refresh Power BI)",
                      "es": "Abre el formulario de llamadas en Snowflake (después, actualiza Power BI)",
                      "ca": "Obre el formulari de trucades a Snowflake (després, actualitza Power BI)"},
@@ -308,6 +309,9 @@ TABLES = [
         ("Call status ES", switch("'Call status'[Call status]", VALUES["call"], 0), {"sortByColumn": "'Call status order'"}),
         ("Call status CA", switch("'Call status'[Call status]", VALUES["call"], 1), {"sortByColumn": "'Call status order'"}),
     ], [
+        ("Row call color", "VAR RowCallStatus = SELECTEDVALUE('Call status'[Call status]) "
+         "RETURN IF(RowCallStatus = \"Called\", \"" + TURQ_LIGHT + "\")", None,
+         "Light turquoise background for the worklist rows of the accounts called in the last 7 days."),
         ("Selected last call", "VAR LastCall = SELECTEDVALUE('Call status'[Last call]) "
          "RETURN IF(ISBLANK(LastCall), \"-\", FORMAT(LastCall, \"yyyy-mm-dd hh:nn\"))", None,
          "Date and time of the last call in the tooltip (- if never called)."),
@@ -771,9 +775,16 @@ def build_page(lang):
                     "columnHeaders": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
                                                       "bold": lit("true"), "wordWrap": lit("true")}}],
                     "values": [{"properties": {"fontFamily": text_lit(FONT_TEXT), "fontSize": lit("10D"),
-                                               "wordWrap": lit("true")}},
-                               {"properties": {"fontColor": measure_color("Row change color")},
-                                "selector": {"metadata": "Account Health.Revenue change %"}}],
+                                               "wordWrap": lit("true")}}]
+                              # every cell of a called account gets the light turquoise background;
+                              # the 12-month change also keeps its green / red text
+                              + [{"properties": {"backColor": measure_color("Row call color", "Call status"),
+                                                 **({"fontColor": measure_color("Row change color")}
+                                                    if ref == "Account Health.Revenue change %" else {})},
+                                  "selector": {"metadata": ref}}
+                                 for ref in ["Customer.Customer", f"Account Health.Risk level{suffix}",
+                                             "Account Health.Revenue at risk", "Account Health.Revenue change %",
+                                             f"Account Health.Signals {lang.upper()}", "Call status.Last call"]],
                     "grid": [{"properties": {}}]},
            container={**title(t["c_worklist"], t["s_worklist"], size=15),
                       "stylePreset": [{"properties": {"name": lit("'Minimal'")}}],
@@ -809,7 +820,7 @@ def build_page(lang):
 
     # ---- "Log a call" button left of the call-status filter: opens the Streamlit form in the browser
     # (Ctrl+click in Desktop). After logging the call, Refresh brings the new status to the worklist.
-    visual("logCall", 724, 126, 110, 34, "actionButton",
+    visual("logCall", 724, 118, 110, 50, "actionButton",
            objects={"icon": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
                     "outline": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
                     "fill": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
@@ -817,12 +828,15 @@ def build_page(lang):
                                              "fontColor": color(DARK), "fontSize": lit("9D"),
                                              "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)},
                               "selector": {"id": "default"}}]},
-           container={"background": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
+           container={"title": [{"properties": {"show": lit("true"), "text": text_lit(t["call_form"]),
+                                                 "fontSize": lit("8D"), "fontColor": color(ACCENT),
+                                                 "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)}}],
+                      "background": [{"properties": {"show": lit("true"), "color": color("#FFFFFF"),
                                                       "transparency": lit("0D")}}],
                       "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
                                                  "radius": lit("10D")}}],
-                      "padding": [{"properties": {"top": lit("0D"), "bottom": lit("0D"),
-                                                  "left": lit("0D"), "right": lit("0D")}}],
+                      "padding": [{"properties": {"top": lit("2D"), "bottom": lit("2D"),
+                                                  "left": lit("8D"), "right": lit("8D")}}],
                       "visualLink": [{"properties": {"show": lit("true"), "type": lit("'WebUrl'"),
                                                      "webUrl": text_lit(CALL_FORM_URL),
                                                      "tooltip": text_lit(t["log_call_tip"])}}]})

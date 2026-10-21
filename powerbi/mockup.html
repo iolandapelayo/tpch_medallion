@@ -55,7 +55,8 @@
   .dcard b { display: block; font: 700 19px var(--head); color: var(--navy); }
   .dcard span { font-size: 10.5px; color: var(--muted); }
   .tip { box-shadow: 0 6px 18px rgba(0,0,0,.18); border: 2px solid var(--turq); border-radius: 12px; padding: 6px 12px; }
-  .logcall { position: absolute; z-index: 2; background: var(--turq); border-radius: 10px; font: 700 12px/34px var(--text); color: var(--navy); text-align: center; }
+  .logcall { z-index: 2; border-color: var(--turq); }
+  .logcall .field { font-weight: 700; justify-content: center; }
   .tname { font: 700 17px var(--head); color: var(--navy); }
   .tgrid { display: grid; grid-template-columns: 120px 150px 120px; gap: 6px 10px; margin-top: 6px; }
   .tgrid .wide { grid-column: span 2; }
@@ -143,7 +144,7 @@
   <!-- Call-status filter of the worklist (opens on "Not called"; only filters the table) -->
   <div class="box slicer" style="left:841px; top:118px; width:142px; height:50px; z-index:2;"><div class="label">Call status</div><div class="field">Not called <span>▾</span></div></div>
   <!-- "Log a call" button: opens the Streamlit form in Snowflake -->
-  <div class="logcall" style="left:724px; top:126px; width:110px; height:34px;">Log a call</div>
+  <div class="box slicer logcall" style="left:724px; top:118px; width:110px; height:50px;"><div class="label">Call log</div><div class="field">Log a call</div></div>
   <!-- Contact tooltip shown when hovering a worklist row (illustrative position) -->
   <div class="box tip" style="left:520px; top:196px; width:420px; height:150px; z-index:3;">
     <b class="tname">Customer#000086233</b>
