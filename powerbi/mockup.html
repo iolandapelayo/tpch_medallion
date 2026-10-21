@@ -54,9 +54,10 @@
   .dcard { padding: 18px 16px; }
   .dcard b { display: block; font: 700 19px var(--head); color: var(--navy); }
   .dcard span { font-size: 10.5px; color: var(--muted); }
-  .tip { box-shadow: 0 6px 18px rgba(0,0,0,.18); border-radius: 8px; padding: 6px 12px; }
+  .tip { box-shadow: 0 6px 18px rgba(0,0,0,.18); border: 2px solid var(--turq); border-radius: 12px; padding: 6px 12px; }
+  .logcall { position: absolute; z-index: 2; background: var(--turq); border-radius: 10px; font: 700 12px/34px var(--text); color: var(--navy); text-align: center; }
   .tname { font: 700 17px var(--head); color: var(--navy); }
-  .tgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 10px; }
+  .tgrid { display: grid; grid-template-columns: 120px 150px 120px; gap: 6px 10px; margin-top: 6px; }
   .tgrid .wide { grid-column: span 2; }
   .tgrid b { display: block; font: 700 14px var(--head); color: var(--navy); }
   .tgrid span { font-size: 10.5px; color: var(--muted); }
@@ -141,17 +142,20 @@
 
   <!-- Call-status filter of the worklist (opens on "Not called"; only filters the table) -->
   <div class="box slicer" style="left:841px; top:118px; width:142px; height:50px; z-index:2;"><div class="label">Call status</div><div class="field">Not called <span>▾</span></div></div>
+  <!-- "Log a call" button: opens the Streamlit form in Snowflake -->
+  <div class="logcall" style="left:724px; top:126px; width:110px; height:34px;">Log a call</div>
   <!-- Contact tooltip shown when hovering a worklist row (illustrative position) -->
-  <div class="box tip" style="left:560px; top:196px; width:320px; height:240px; z-index:3;">
+  <div class="box tip" style="left:520px; top:196px; width:420px; height:150px; z-index:3;">
     <b class="tname">Customer#000086233</b>
     <div class="tgrid"><div><b>R. O.</b><span>Contact person</span></div><div><b>33-277-290-8239</b><span>Phone</span></div>
-    <div class="wide"><b>hickhibdBd Xb</b><span>Address</span></div><div><b>-</b><span>Last call</span></div>
+    <div><b>-</b><span>Last call</span></div>
+    <div class="wide"><b>hickhibdBd Xb</b><span>Address</span></div>
     <div><b style="color:#176366">Not called</b><span>Call status</span></div></div>
   </div>
   <!-- Worklist: the main visual, full width, bigger text, turquoise frame, drill through to the account detail -->
   <div class="box worklist" style="left:316px; top:110px; width:675px; height:280px;">
     <h3>Worklist for this week</h3>
-    <div class="sub">High risk first, then by revenue at risk · hover = contact · right-click = detail</div>
+    <div class="sub">High risk first, then by revenue at risk · right-click = detail</div>
     <table>
       <thead><tr><th>Customer</th><th>Risk</th><th class="num">Revenue at risk</th><th class="num">Change 12 months</th><th>Why</th><th>Last call</th></tr></thead>
       <tbody>

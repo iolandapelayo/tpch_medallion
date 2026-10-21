@@ -3,8 +3,8 @@
   "name": "tooltip_es",
   "displayName": "Contacto del cliente",
   "displayOption": "ActualSize",
-  "height": 240,
-  "width": 320,
+  "height": 150,
+  "width": 420,
   "objects": {
     "background": [
       {

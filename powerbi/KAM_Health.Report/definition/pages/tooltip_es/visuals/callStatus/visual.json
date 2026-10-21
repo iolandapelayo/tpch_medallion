@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "callStatus",
   "position": {
-    "x": 164,
-    "y": 178,
-    "z": 6000,
-    "width": 148,
-    "height": 56,
-    "tabOrder": 6000
+    "x": 290,
+    "y": 94,
+    "z": 7000,
+    "width": 120,
+    "height": 50,
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "card",

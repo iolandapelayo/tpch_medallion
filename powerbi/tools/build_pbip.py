@@ -31,6 +31,9 @@ FONT_TEXT = "Inter, 'Segoe UI', sans-serif"
 # TPC-H amounts have no currency in the spec; by convention (US benchmark) they are shown as US dollars
 MONEY = "$#,0"
 FONT_HEAD = "Roboto, 'Segoe UI Semibold', sans-serif"
+# Streamlit form where the KAM logs calls (snowflake/streamlit/kam_calls.py), opened by the "Log a call" button
+CALL_FORM_URL = ("https://app.snowflake.com/rqimbac/jl36167/#/streamlit-apps/"
+                 "TPCH_MEDALLION.KAM_INPUT.KAM_CALLS")
 
 if OUT.exists():
     shutil.rmtree(OUT)
@@ -84,9 +87,13 @@ T = {
                      "ca": "Ago 1997 - jul 1998 · clic en un compte per veure'n els mesos"},
     "c_worklist": {"en": "Worklist for this week", "es": "Lista de la semana", "ca": "Llista de la setmana"},
     # short, so it ends before the call-status filter at the top right of the card
-    "s_worklist": {"en": "High risk first, then by revenue at risk · hover = contact · right-click = detail",
-                   "es": "Primero riesgo alto, luego por ingresos en riesgo · ratón = contacto · clic derecho = ficha",
-                   "ca": "Primer risc alt, després per ingressos en risc · ratolí = contacte · clic dret = fitxa"},
+    "s_worklist": {"en": "High risk first, then by revenue at risk · right-click = detail",
+                   "es": "Primero riesgo alto, luego por ingresos en riesgo · clic derecho = ficha",
+                   "ca": "Primer risc alt, després per ingressos en risc · clic dret = fitxa"},
+    "log_call": {"en": "Log a call", "es": "Anotar llamada", "ca": "Anotar trucada"},
+    "log_call_tip": {"en": "Opens the KAM call log form in Snowflake (then refresh Power BI)",
+                     "es": "Abre el formulario de llamadas en Snowflake (después, actualiza Power BI)",
+                     "ca": "Obre el formulari de trucades a Snowflake (després, actualitza Power BI)"},
     # call log (2026-10-20): tooltip with the contact details and the call-status filter of the worklist
     "tooltip_page": {"en": "Customer contact", "es": "Contacto del cliente", "ca": "Contacte del client"},
     "phone": {"en": "Phone", "es": "Teléfono", "ca": "Telèfon"},
@@ -800,6 +807,26 @@ def build_page(lang):
                       "padding": [{"properties": {"top": lit("2D"), "bottom": lit("2D"),
                                                   "left": lit("8D"), "right": lit("8D")}}]})
 
+    # ---- "Log a call" button left of the call-status filter: opens the Streamlit form in the browser
+    # (Ctrl+click in Desktop). After logging the call, Refresh brings the new status to the worklist.
+    visual("logCall", 724, 126, 110, 34, "actionButton",
+           objects={"icon": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
+                    "outline": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
+                    "fill": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
+                    "text": [{"properties": {"show": lit("true"), "text": text_lit(t["log_call"]),
+                                             "fontColor": color(DARK), "fontSize": lit("9D"),
+                                             "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)},
+                              "selector": {"id": "default"}}]},
+           container={"background": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
+                                                      "transparency": lit("0D")}}],
+                      "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
+                                                 "radius": lit("10D")}}],
+                      "padding": [{"properties": {"top": lit("0D"), "bottom": lit("0D"),
+                                                  "left": lit("0D"), "right": lit("0D")}}],
+                      "visualLink": [{"properties": {"show": lit("true"), "type": lit("'WebUrl'"),
+                                                     "webUrl": text_lit(CALL_FORM_URL),
+                                                     "tooltip": text_lit(t["log_call_tip"])}}]})
+
     # ---- bottom card: how to read the cockpit
     textbox("story", 316, 644, 940, 56, [{"textRuns": [run(t["story"], 8, DARK)]}],
             container={"padding": [{"properties": {"top": lit("8D"), "bottom": lit("6D"),
@@ -810,7 +837,7 @@ def build_page(lang):
     page = json.loads(page_json.read_text(encoding="utf-8"))
     page["visualInteractions"] = [{"source": "callFilter", "target": v.name, "type": "NoFilter"}
                                   for v in sorted((R / "pages" / lang / "visuals").iterdir())
-                                  if v.name not in ("callFilter", "worklist")]
+                                  if v.name not in ("callFilter", "worklist", "logCall")]
     write(page_json, page)
 
 
@@ -818,19 +845,26 @@ def build_tooltip_page(lang):
     """Contact card shown when hovering a row of the worklist."""
     t = {k: v[lang] for k, v in T.items()}
     suffix = "" if lang == "en" else f" {lang.upper()}"
-    visual, _ = new_page(f"tooltip_{lang}", t["tooltip_page"], hidden=True, width=320, height=240,
-                         display="ActualSize", type="Tooltip",
-                         pageBinding={"name": f"tooltip_{lang}", "type": "Tooltip"})
-    cards = [  # (name, entity, measure, label, x, y, w, value size)
-        ("name", "Customer", "Selected customer", None, 8, 4, 304, 14),
-        ("contact", "Customer", "Selected contact person", t["contact"], 8, 58, 148, 11),
-        ("phone", "Customer", "Selected phone", t["phone"], 164, 58, 148, 11),
-        ("address", "Customer", "Selected address", t["address"], 8, 118, 304, 11),
-        ("lastCall", "Call status", "Selected last call", t["last_call"], 8, 178, 148, 11),
-        ("callStatus", "Call status", f"Selected call status{suffix}", t["call_status"], 164, 178, 148, 11),
+    # 420 x 150: a wide rectangle exactly as tall as its content (no empty band at the bottom)
+    visual, textbox = new_page(f"tooltip_{lang}", t["tooltip_page"], hidden=True, width=420, height=150,
+                               display="ActualSize", type="Tooltip",
+                               pageBinding={"name": f"tooltip_{lang}", "type": "Tooltip"})
+    # turquoise frame behind the cards (first visual, so it is drawn at the bottom)
+    textbox("frame", 0, 0, 420, 150, [{"textRuns": [run(" ", 8)]}],
+            container={"background": [{"properties": {"show": lit("true"), "color": color("#FFFFFF"),
+                                                      "transparency": lit("0D")}}],
+                       "border": [{"properties": {"show": lit("true"), "color": color(TURQUOISE),
+                                                  "radius": lit("12D"), "width": lit("2D")}}]})
+    cards = [  # (name, entity, measure, label, x, y, w, value size): name on top, then 2 rows of 3 / 2
+        ("name", "Customer", "Selected customer", None, 12, 6, 396, 13),
+        ("contact", "Customer", "Selected contact person", t["contact"], 12, 42, 120, 11),
+        ("phone", "Customer", "Selected phone", t["phone"], 136, 42, 150, 11),
+        ("lastCall", "Call status", "Selected last call", t["last_call"], 290, 42, 120, 11),
+        ("address", "Customer", "Selected address", t["address"], 12, 94, 274, 11),
+        ("callStatus", "Call status", f"Selected call status{suffix}", t["call_status"], 290, 94, 120, 11),
     ]
     for name, entity, measure, label, x, y, w, size in cards:
-        visual(name, x, y, w, 56, "card",
+        visual(name, x, y, w, 34 if label is None else 50, "card",
                query={"Values": {"projections": [meas(entity, measure, label)]}},
                objects={"labels": [{"properties": {"color": color(ACCENT if name == "callStatus" else DARK),
                                                    "fontSize": lit(f"{size}D"),

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
   "name": "contact",
   "position": {
-    "x": 8,
-    "y": 58,
-    "z": 2000,
-    "width": 148,
-    "height": 56,
-    "tabOrder": 2000
+    "x": 12,
+    "y": 42,
+    "z": 3000,
+    "width": 120,
+    "height": 50,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "card",

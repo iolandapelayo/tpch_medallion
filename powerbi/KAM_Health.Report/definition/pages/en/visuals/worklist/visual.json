@@ -285,7 +285,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'High risk first, then by revenue at risk · hover = contact · right-click = detail'"
+                  "Value": "'High risk first, then by revenue at risk · right-click = detail'"
                 }
               }
             }

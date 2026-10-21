@@ -285,7 +285,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Primero riesgo alto, luego por ingresos en riesgo · ratón = contacto · clic derecho = ficha'"
+                  "Value": "'Primero riesgo alto, luego por ingresos en riesgo · clic derecho = ficha'"
                 }
               }
             }

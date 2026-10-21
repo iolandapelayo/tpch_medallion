@@ -285,7 +285,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Primer risc alt, després per ingressos en risc · ratolí = contacte · clic dret = fitxa'"
+                  "Value": "'Primer risc alt, després per ingressos en risc · clic dret = fitxa'"
                 }
               }
             }
