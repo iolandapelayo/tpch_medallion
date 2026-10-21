@@ -574,6 +574,22 @@ LAST_12_MONTHS = {"filters": [{
 }]}
 
 
+def button_objects(show, style):
+    """Formatting of an actionButton. Power BI reads 'show' without a selector (all states), while the
+    look (text, colours, icon) is per state: written for all states and again for the default state."""
+    objects = {}
+    for name in dict.fromkeys([*show, *style]):
+        entries = []
+        props = dict(style.get(name, {}))
+        if name in show:
+            props["show"] = lit("true" if show[name] else "false")
+        entries.append({"properties": props})
+        if name in style:
+            entries.append({"properties": dict(style[name]), "selector": {"id": "default"}})
+        objects[name] = entries
+    return objects
+
+
 def run(text, size, color_=TEXT, bold=False, font=FONT_TEXT):
     style = {"fontFamily": font, "fontSize": f"{size}pt", "color": color_}
     if bold:
@@ -821,13 +837,10 @@ def build_page(lang):
     # ---- "Log a call" button left of the call-status filter: opens the Streamlit form in the browser
     # (Ctrl+click in Desktop). After logging the call, Refresh brings the new status to the worklist.
     visual("logCall", 724, 118, 110, 50, "actionButton",
-           objects={"icon": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
-                    "outline": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
-                    "fill": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}],
-                    "text": [{"properties": {"show": lit("true"), "text": text_lit(t["log_call"]),
-                                             "fontColor": color(DARK), "fontSize": lit("9D"),
-                                             "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)},
-                              "selector": {"id": "default"}}]},
+           objects=button_objects(
+               show={"icon": False, "outline": False, "fill": False, "text": True},
+               style={"text": {"text": text_lit(t["log_call"]), "fontColor": color(DARK), "fontSize": lit("9D"),
+                               "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)}}),
            container={"title": [{"properties": {"show": lit("true"), "text": text_lit(t["call_form"]),
                                                  "fontSize": lit("8D"), "fontColor": color(ACCENT),
                                                  "bold": lit("true"), "fontFamily": text_lit(FONT_TEXT)}}],
@@ -924,9 +937,9 @@ def build_detail_page(lang):
     ], container={**box("#FFFFFF", 28),
                   "padding": [{"properties": {"top": lit("16D"), "left": lit("84D"), "right": lit("26D")}}]})
     visual("back", 26, 28, 44, 44, "actionButton",
-           objects={"icon": [{"properties": {"shapeType": lit("'back'"), "lineColor": color(ACCENT),
-                                             "lineWeight": lit("3D")}, "selector": {"id": "default"}}],
-                    "outline": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}]},
+           objects=button_objects(
+               show={"icon": True, "outline": False, "fill": False},
+               style={"icon": {"shapeType": lit("'back'"), "lineColor": color(ACCENT), "lineWeight": lit("3D")}}),
            container={**BARE, "visualLink": [{"properties": {"show": lit("true"), "type": lit("'Back'"),
                                                              "tooltip": text_lit(t["back"])}}]})
 
