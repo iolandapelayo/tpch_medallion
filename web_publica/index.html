@@ -278,19 +278,23 @@ a { color: var(--teal); }
 .shot figcaption b { color: var(--slate); }
 .shots.one { grid-template-columns: minmax(0, 1fr); }
 .cur-feats { margin-top: 16px; }
-.ops { display: grid; gap: 10px; }
-.ops-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: 18px; background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px; font-size: 14.5px; color: var(--ink-soft); }
+.ops { border-top: 1px solid var(--line); }
+.ops-row { display: grid; grid-template-columns: minmax(0, 1fr); padding: 12px 4px; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--slate); }
 .ops-row > div { min-width: 0; }
-.ops-row b { font-family: var(--f-display); font-size: 16.5px; color: var(--slate); }
-.ops-row .to { color: var(--teal); }
-.ops-row i { display: none; font-style: normal; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); font-weight: 600; }
-.ops-h { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: 18px; padding: 0 21px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); font-weight: 600; }
+.ops-row b { font-family: var(--f-display); font-size: 16px; color: var(--slate); font-weight: 500; }
+.ops-row::before { counter-increment: ops-count; content: "0" counter(ops-count); color: var(--teal); font: 600 12px var(--f-mono); }
+.ops { counter-reset: ops-count; }
+.ops-row .to, .ops-row i { display: none; }
+.ops-h { padding: 0 4px 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); font-weight: 600; }
+.ops-growth { margin-top: 26px; padding: 20px; border-radius: 18px; background: var(--slate); }
+.ops-growth-title { color: var(--turq); font: 600 12px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; margin: 0 0 14px; }
+.ops-growth-card { margin: 0; padding: 16px 18px; color: var(--slate); background: var(--white); border-left: 5px solid var(--turq); border-radius: 10px; font-size: 15px; line-height: 1.55; }
+.ops-growth-card + .ops-growth-card { margin-top: 10px; }
+.ops-growth-card b { color: var(--teal); font-family: var(--f-display); font-size: 17px; display: block; margin-bottom: 4px; }
 .ops-pitch { background: var(--slate); color: #D5DCE3; border-radius: 18px; padding: 24px 26px; font-size: 17px; margin-bottom: 14px; }
 .ops-pitch b { color: var(--turq); font-family: var(--f-display); font-size: clamp(20px, 2.4vw, 26px); display: block; line-height: 1.25; margin-bottom: 8px; font-weight: 700; }
 @media (max-width: 760px) {
-  .ops-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .ops-row i { display: block; margin-bottom: 2px; }
-  .ops-h { display: none; }
+  .ops-growth { padding: 16px; }
 }
 .dash-shot { padding: 6px; }
 .dash-shot img { display: block; width: 100%; height: auto; border-radius: 8px; }
@@ -704,9 +708,9 @@ footer .wrap { padding-block: 22px; display: flex; justify-content: space-betwee
       <h2 data-t="c7.title"></h2>
       <p class="intro" data-t="c7.intro"></p>
       <div class="block trust">
-        <div class="tcard"><span class="badge"><svg class="logo-s" aria-hidden="true" fill="#FF694B" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"/></svg>dbt build</span><h3>75 / 75</h3><p data-t="c7.t1"></p></div>
-        <div class="tcard"><span class="badge"><svg class="logo-s" aria-hidden="true" fill="#181717" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub Actions</span><h3>&lt; 1 min</h3><p data-t="c7.t2"></p></div>
-        <div class="tcard"><span class="badge"><svg class="logo-s" aria-hidden="true" fill="#FF694B" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.9004 9.3763a8.1488 8.1488 0 0 0-3.0421-3.1206l1.7708.8385a10.2874 10.2874 0 0 1 3.74 3.0007l3.234-5.9295a2.8546 2.8546 0 0 0-.0611-2.9604C22.7566.0371 21.2112-.3409 19.9754.3327l-5.8749 3.2101a4.3612 4.3612 0 0 1-4.1761 0L4.1769.408a2.8545 2.8545 0 0 0-2.9592.0632c-1.1673.7853-1.5452 2.33-.8723 3.5655L3.55 9.9106a4.3612 4.3612 0 0 1 0 4.1772l-3.1272 5.743a2.86 2.86 0 0 0 .085 2.9974c.794 1.1438 2.3225 1.5054 3.5448.8385l6.0581-3.3049a10.2877 10.2877 0 0 1-3.0051-3.7454l-.8374-1.7708a8.148 8.148 0 0 0 3.1206 3.0421l10.5832 5.779c1.2213.666 2.7481.3055 3.5426-.8363a2.8699 2.8699 0 0 0 .0796-3.0018L17.9004 9.3763zm3.3801-7.7351c.6022 0 1.0904.4882 1.0904 1.0904s-.4882 1.0904-1.0904 1.0904-1.0904-.4882-1.0904-1.0904.4882-1.0904 1.0904-1.0904zM2.7442 3.822c-.6022 0-1.0904-.4882-1.0904-1.0904s.4882-1.0904 1.0904-1.0904 1.0904.4882 1.0904 1.0904S3.3464 3.822 2.7442 3.822zm0 18.5363c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904zm10.3585-11.4489c-1.2008-.0035-2.177.9672-2.1805 2.1679a2.1738 2.1738 0 0 0 .7052 1.6091c-1.4872-.2091-2.5234-1.5843-2.3142-3.0716.2091-1.4872 1.5843-2.5234 3.0716-2.3142a2.7194 2.7194 0 0 1 2.3142 2.3142 2.1623 2.1623 0 0 0-1.5963-.7054zm8.1778 11.4489c-.6022 0-1.0904-.4882-1.0904-1.0904 0-.6022.4882-1.0904 1.0904-1.0904s1.0904.4882 1.0904 1.0904c0 .6022-.4882 1.0904-1.0904 1.0904z"/></svg>dbt docs</span><h3 data-t="c7.t3.h"></h3><p data-t="c7.t3"></p></div>
+        <article class="tcard"><span class="badge" data-t="c7.testing"></span><h3>75 / 75</h3><p data-t="c7.t1"></p></article>
+        <article class="tcard"><span class="badge" data-t="c7.changes"></span><h3>&lt; 1 min</h3><p data-t="c7.t2"></p></article>
+        <article class="tcard"><span class="badge" data-t="c7.docs"></span><h3 data-t="c7.t3.h"></h3><p data-t="c7.t3"></p></article>
       </div>
       <div class="block gov"><h3 data-t="gov.title"></h3><p data-t="gov.x"></p><a class="gov-link" href="https://claude.ai/artifact/CYDVZEGYLSviNYhDgPTCLt" target="_blank" rel="noopener"><span data-t="gov.link"></span> <span aria-hidden="true">↗</span></a></div>
       <div class="block faq"><div class="faq-ic"><svg class="bulb" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.8.6 1.1 1.4 1.1 2.2h5c0-.8.3-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></svg></div><div class="faq-b"><h3 data-t="q5"></h3><p data-t="a5"></p></div></div>
@@ -810,15 +814,19 @@ footer .wrap { padding-block: 22px; display: flex; justify-content: space-betwee
       <p class="intro" data-t="mo.intro"></p>
       <div class="block"><div class="sub-k" data-t="ops.k"></div>
         <div class="ops">
-          <div class="ops-h"><span data-t="ops.h1"></span><span data-t="ops.h2"></span><span data-t="ops.h3"></span></div>
-          <div class="ops-row"><div><b data-t="op1.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op1.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op1.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op2.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op2.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op2.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op3.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op3.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op3.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op4.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op4.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op4.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op5.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op5.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op5.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op6.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op6.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op6.b"></span></div></div>
-          <div class="ops-row"><div><b data-t="op7.t"></b></div><div><i data-t="ops.h2"></i><span data-t="op7.a"></span></div><div class="to"><i data-t="ops.h3"></i><span data-t="op7.b"></span></div></div>
+          <div class="ops-h"><span data-t="ops.h1"></span></div>
+          <div class="ops-row"><div><b data-t="op1.t"></b></div></div>
+          <div class="ops-row"><div><b data-t="op2.t"></b></div></div>
+          <div class="ops-row"><div><b data-t="op3.t"></b></div></div>
+          <div class="ops-row"><div><b data-t="op5.t"></b></div></div>
+          <div class="ops-row"><div><b data-t="op6.t"></b></div></div>
+          <div class="ops-row"><div><b data-t="op7.t"></b></div></div>
         </div>
+      </div>
+      <div class="ops-growth">
+        <h3 class="ops-growth-title" data-t="mo.growth"></h3>
+        <p class="ops-growth-card" data-t="mo.review"></p>
+        <p class="ops-growth-card" data-t="mo.compare"></p>
       </div>
       <p class="block tl-insight" style="margin-top:24px" data-t="mo.insight"></p>
     </div>
@@ -966,13 +974,16 @@ const T = {
   "n.inact": { en: "123", es: "123", ca: "123" },
   "n.service": { en: "130", es: "130", ca: "130" },
 
-  "c7.label": { en: "Trust", es: "Confianza", ca: "Confiança" },
-  "c7.title": { en: "Every change is checked before it reaches the KAM", es: "Cada cambio se comprueba antes de llegar al KAM", ca: "Cada canvi es comprova abans d'arribar al KAM" },
-  "c7.intro": { en: "The KAM needs to trust this list before acting on it. Automated checks run whenever the project changes, so problems are caught before the data reaches the dashboard.", es: "El KAM necesita confiar en esta lista antes de actuar. Por eso, cada cambio del proyecto activa comprobaciones automáticas que detectan problemas antes de que los datos lleguen al dashboard.", ca: "El KAM ha de poder confiar en aquesta llista abans d'actuar. Per això, cada canvi del projecte activa comprovacions automàtiques que detecten problemes abans que les dades arribin al dashboard." },
-  "c7.t1": { en: "Each rebuild runs 75 steps: 20 tables, 3 views and 52 tests. These include 48 tests configured on the models (unique, non-empty keys, allowed values, ranges and relationships), 3 project-specific SQL tests (reconciliation with the source and useful ranges for each risk signal) and 1 unit test with sample customers. All 75 steps passed.", es: "Cada reconstrucción ejecuta 75 pasos: 20 tablas, 3 vistas y 52 pruebas. Entre ellas hay 48 pruebas configuradas en los modelos (claves únicas y no vacías, valores permitidos, rangos y relaciones), 3 pruebas SQL propias del proyecto (conciliación con la fuente y rangos útiles para cada señal de riesgo) y 1 unit test con clientes de ejemplo. Los 75 pasos terminaron correctamente.", ca: "Cada reconstrucció executa 75 passos: 20 taules, 3 vistes i 52 proves. Inclouen 48 proves configurades als models (claus úniques i no buides, valors permesos, rangs i relacions), 3 proves SQL pròpies del projecte (conciliació amb la font i rangs útils per a cada senyal de risc) i 1 unit test amb clients d'exemple. Els 75 passos van acabar correctament." },
-  "c7.t2": { en: "This is CI/CD in practice. A proposed GitHub change runs against a separate test environment, leaving production data untouched. A failed check blocks the change; once all checks pass and the change is merged, production is updated. The first runs took 56, 50 and 49 seconds.", es: "Así funciona el CI/CD: cada cambio propuesto en GitHub se prueba en un entorno separado, sin tocar los datos de producción. Si falla una comprobación, el cambio queda bloqueado; cuando todas pasan y se integra, se actualizan los datos reales. Las primeras ejecuciones tardaron 56, 50 y 49 segundos.", ca: "Així funciona el CI/CD: cada canvi proposat a GitHub es prova en un entorn separat, sense tocar les dades de producció. Si falla una comprovació, el canvi queda bloquejat; quan totes passen i s'integra, s'actualitzen les dades reals. Les primeres execucions van trigar 56, 50 i 49 segons." },
-  "c7.t3.h": { en: "Data map", es: "Mapa de los datos", ca: "Mapa de les dades" },
-  "c7.t3": { en: "Lineage is the map of the data's journey. dbt draws it automatically: from each original table, through Bronze, Silver and Gold, to the dashboard. If a number looks wrong, the map shows where it comes from.", es: "El linaje es el mapa del recorrido de los datos. dbt lo dibuja solo: desde cada tabla original, pasando por Bronze, Silver y Gold, hasta el dashboard. Si un número parece raro, el mapa enseña de dónde viene.", ca: "El llinatge és el mapa del recorregut de les dades. dbt el dibuixa sol: des de cada taula original, passant per Bronze, Silver i Gold, fins al dashboard. Si un número sembla estrany, el mapa mostra d'on ve." },
+  "c7.label": { en: "Quality", es: "Calidad", ca: "Qualitat" },
+  "c7.title": { en: "Three ways to keep the data trustworthy", es: "Tres formas de cuidar la calidad del dato", ca: "Tres maneres de garantir la qualitat de les dades" },
+  "c7.intro": { en: "Before the KAM acts on the dashboard, I check the data, review every change and document how the numbers are built.", es: "Antes de que el KAM actúe con el dashboard, compruebo los datos, reviso cada cambio y documento cómo se construyen las cifras.", ca: "Abans que el KAM actuï amb el dashboard, comprovo les dades, reviso cada canvi i documento com es construeixen les xifres." },
+  "c7.testing": { en: "Testing", es: "Testing · pruebas", ca: "Testing · proves" },
+  "c7.changes": { en: "Change control", es: "Control de cambios", ca: "Control de canvis" },
+  "c7.docs": { en: "Documentation", es: "Documentación", ca: "Documentació" },
+  "c7.t1": { en: "75 checks passed: they catch missing or repeated data and confirm that the risk signals make sense.", es: "75 comprobaciones superadas: detectan datos ausentes o repetidos y confirman que las señales de riesgo tienen sentido.", ca: "75 comprovacions superades: detecten dades absents o repetides i confirmen que els senyals de risc tenen sentit." },
+  "c7.t2": { en: "Every proposed change is checked separately first. If something fails, it is fixed before the live data is updated. The first checks took under a minute.", es: "Cada cambio propuesto se comprueba primero por separado. Si algo falla, se corrige antes de actualizar los datos reales. Las primeras comprobaciones tardaron menos de un minuto.", ca: "Cada canvi proposat es comprova primer per separat. Si alguna cosa falla, es corregeix abans d'actualitzar les dades reals. Les primeres comprovacions van trigar menys d'un minut." },
+  "c7.t3.h": { en: "From source to dashboard", es: "Del origen al dashboard", ca: "De l'origen al dashboard" },
+  "c7.t3": { en: "The documentation explains what each figure means, where it comes from and how it was transformed, so someone else can trace and understand it.", es: "La documentación explica qué significa cada cifra, de dónde viene y cómo se ha transformado, para que otra persona pueda seguirla y entenderla.", ca: "La documentació explica què significa cada xifra, d'on ve i com s'ha transformat, perquè una altra persona la pugui seguir i entendre." },
 
   "c8.label": { en: "The bonus", es: "El bonus", ca: "El bonus" },
   "c8.title": { en: "And then, the dashboard", es: "Y al final, el dashboard", ca: "I al final, el dashboard" },
@@ -1162,6 +1173,9 @@ const T = {
   "mo.label": { en: "Projection", es: "Proyección", ca: "Projecció" },
   "mo.title": { en: "And in one month at Propelling Tech?", es: "¿Y en un mes en Propelling Tech?", ca: "I en un mes a Propelling Tech?" },
   "mo.intro": { en: "This challenge helped me think about how I would apply my knowledge at Propelling Tech:", es: "Este reto me permitió pensar cómo aplicaría mi conocimiento a Propelling Tech:", ca: "Aquest repte em va permetre pensar com aplicaria els meus coneixements a Propelling Tech:" },
+  "mo.growth": { en: "What I would keep developing", es: "Lo que seguiría desarrollando", ca: "El que continuaria desenvolupant" },
+  "mo.review": { en: "<b>Develop review skills</b>Detect errors, identify inefficiencies and assess alternatives, even when the result appears to work.", es: "<b>Desarrollar capacidad de revisión</b>Detectar errores, identificar ineficiencias y valorar alternativas, aunque el resultado aparentemente funcione.", ca: "<b>Desenvolupar la capacitat de revisió</b>Detectar errors, identificar ineficiències i valorar alternatives, encara que el resultat aparentment funcioni." },
+  "mo.compare": { en: "<b>Compare with sound judgement</b>Check whether AI follows Propelling Tech's practices and analyse the differences, without assuming that matching a human solution guarantees it is correct.", es: "<b>Comparar con criterio</b>Comprobar si la IA sigue las prácticas de Propelling Tech y analizar las diferencias, sin asumir que coincidir con una solución humana garantiza que sea correcta.", ca: "<b>Comparar amb criteri</b>Comprovar si la IA segueix les pràctiques de Propelling Tech i analitzar les diferències, sense assumir que coincidir amb una solució humana garanteix que sigui correcta." },
   "mo.done.k": { en: "What I've done", es: "Lo que he hecho", ca: "El que he fet" },
   "mo.d1": { en: "Medallion architecture", es: "Arquitectura Medallion", ca: "Arquitectura Medallion" },
   "mo.d1x": { en: "23 dbt models in Snowflake: 9 in Bronze, 9 in Silver and 5 in Gold.", es: "23 modelos dbt en Snowflake: 9 en Bronze, 9 en Silver y 5 en Gold.", ca: "23 models dbt a Snowflake: 9 a Bronze, 9 a Silver i 5 a Gold." },
